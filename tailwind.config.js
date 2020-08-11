@@ -7,7 +7,11 @@ module.exports = {
       lg: '1024px',
       xl: '1280px',
     },
-    extend: {},
+    extend: {
+      colors: {
+        purple: '#6C03AB',
+      },
+    },
   },
   variants: {},
   plugins: [],

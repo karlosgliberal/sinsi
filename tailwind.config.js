@@ -1,7 +1,9 @@
 module.exports = {
   purge: ['./components/**/*.js', './pages/**/*.js'],
   theme: {
-
+    fontFamily: {
+      'sinsimono': ['Space Mono', 'monospace'],
+    },
     spacing: {
       px: '1px',
       '0': '0',

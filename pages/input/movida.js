@@ -9,6 +9,7 @@ export default class NameForm extends React.Component {
 
   handleChange(event) {
     this.setState({ value: event.target.value });
+    console.log('movida');
   }
 
   handleSubmit(event) {
@@ -51,7 +52,14 @@ export default class NameForm extends React.Component {
                 placeholder="Escribe tu texto"
               ></input>
             </div>
-            <div className="border-l-2 border-gray-800 ">{/* Submit */}</div>
+            <div className="border-l-2 border-gray-800 ">
+              <button
+                onClick={this.handleChange}
+                className="bg-white hover:text-sinsipurple text-black font-bold py-2 px-4 rounded"
+              >
+                Button
+              </button>
+            </div>
           </div>
         </div>
       </div>

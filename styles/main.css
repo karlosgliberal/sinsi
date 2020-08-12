@@ -5,3 +5,11 @@
 @tailwind utilities;
 
 @import url("https://fonts.googleapis.com/css2?family=Space+Mono&display=swap");
+
+.bg-dots {
+    background-image: url("/images/bg-dots.svg");
+
+    @apply bg-right-bottom;
+
+    @apply bg-no-repeat;
+}

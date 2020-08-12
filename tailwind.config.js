@@ -36,6 +36,10 @@ module.exports = {
         purple: '#6C03AB',
         sinsiblue: '#16242D',
       },
+      gridTemplateColumns: {
+        // Complex site-specific column configuration
+        'submit': '1.9fr 0.2fr;',
+      },
     },
   },
   variants: {},

@@ -4,12 +4,4 @@
 
 @tailwind utilities;
 
-
-@import url('https://fonts.googleapis.com/css2?family=Space+Mono&display=swap');
-
-/* font-family: 'Space Mono', monospace; */
-
-.sinsi-wrap {
-   background-color: @apply bg-red;
-    color: @apply white;
-}
+@import url("https://fonts.googleapis.com/css2?family=Space+Mono&display=swap");

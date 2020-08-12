@@ -13,3 +13,7 @@
 
     @apply bg-no-repeat;
 }
+
+.text-decoration p::first-letter {
+    @apply bg-sinsipurple;
+}

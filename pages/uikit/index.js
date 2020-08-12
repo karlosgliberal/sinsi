@@ -13,16 +13,18 @@ export default () => (
       <div class="p-4">
         <h2 class="text-2xl text-white">TEXTOS</h2>
       </div>
-
-      <div>
-        <p class="text-white p-6">
-          VivamDus blandit arcu eget tempor ullamcorper. Integer
+      <p class="text-white p-6">
+        VivamDus blandit arcu eget tempor ullamcorper. Integer
         </p>
+      <div class="text-decoration">
         <p class="font-sinsimono p-6 text-white">
           Blandit arcu eget tempor ullamcorper. Integer porta nibh at condimentum tempus. Mauris interdum neque vitae est ultricies pretium. Proin in lectus vitae tellus auctor fermentum aliquam vel velit. Aliquam risus augue, finibus at volutpat malesuada, vestibulum eu mauris.
         </p>
-
       </div>
+
+      <p class="text-right font-sinsimono p-6 text-sinsipurple">
+        Morado
+        </p>
       <div class="border-t-2 border-b-2 border-gray-800 p-1 mb-3 mx-4 grid grid-cols-submit">
         <div class="">
           <input type="text" class="border-0 bg-transparent w-full focus:border-transparent py-3 px-2 rounded-none" placeholder="Escribe tu texto"></input>

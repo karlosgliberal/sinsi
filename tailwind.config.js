@@ -35,6 +35,7 @@ module.exports = {
       colors: {
         purple: '#6C03AB',
         sinsiblue: '#16242D',
+        sinsipurple: '#E204E6',
       },
       gridTemplateColumns: {
         // Complex site-specific column configuration

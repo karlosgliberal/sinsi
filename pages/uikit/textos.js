@@ -2,15 +2,7 @@ export default () => (
   <div className="bg-sinsiblue w-screen h-screen flex justify-center">
     <div className="sm:w-full md:w-1/2 border border-gray-700 flex flex-col justify-end bg-dots">
 
-      <div className="h-auto overflow-scroll Xflex Xflex-col Xjustify-end">
-
-        <div className="p-4">
-          <h1 className="text-3xl font-bold text-white">UIKIT</h1>
-        </div>
-
-        <div className="p-4">
-          <h2 className="text-2xl text-white">TEXTOS</h2>
-        </div>
+      <div className="h-auto overflow-scroll flex flex-col justify-end">
 
         <div className="text-decoration">
           <p className="font-sinsimono p-6 text-white">

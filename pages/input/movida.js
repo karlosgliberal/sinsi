@@ -20,8 +20,8 @@ export default class NameForm extends React.Component {
 
   render() {
     return (
-      <div className="p-4 bg-sinsiblue w-screen h-screen flex justify-center">
-        <div className="w-1/2 border border-gray-700 flex flex-col justify-end bg-dots">
+      <div className="bg-sinsiblue w-screen h-screen flex justify-center">
+        <div className="sm:w-full md:w-1/2 border border-gray-700 flex flex-col justify-end bg-dots">
           <div className="h-auto overflow-scroll flex flex-col justify-end">
             <div className="p-4">
               <h1 className="text-3xl font-bold text-white">UIKIT</h1>

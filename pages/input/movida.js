@@ -1,5 +1,6 @@
 import MessageList from '../../componets/messageList';
 import SendMessageForm from '../../componets/SendMessageForm';
+import ReactSlider from 'react-slider';
 
 export default class NameForm extends React.Component {
   constructor(props) {
@@ -42,6 +43,15 @@ export default class NameForm extends React.Component {
               </p>
               <MessageList messages={this.state.messages} />
             </div>
+
+            <ReactSlider
+              className="horizontal-slider"
+              thumbClassName="example-thumb"
+              trackClassName="example-track"
+              renderThumb={(props, state) => (
+                <div {...props}>{state.valueNow}</div>
+              )}
+            />
 
             <p className="text-right font-sinsimono p-6 text-sinsipurple">
               Morado

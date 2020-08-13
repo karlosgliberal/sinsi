@@ -21,3 +21,20 @@
 input:focus {
     outline: none;
 }
+
+.slider-track {
+    top: 8px;
+    height: 8px;
+    background-color: thistle;
+}
+
+.slider-track-1 {
+    top: 8px;
+    height: 8px;
+    background-color: rgb(252, 0, 252);
+}
+
+.slider-thumb {
+    background-color: white;
+    color: white;
+}

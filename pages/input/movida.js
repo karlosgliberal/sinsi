@@ -43,15 +43,17 @@ export default class NameForm extends React.Component {
               </p>
               <MessageList messages={this.state.messages} />
             </div>
+            <div className="p-6">
+              <ReactSlider
+                className="horizontal-slider"
+                thumbClassName="slider-thumb"
+                trackClassName="slider-track"
+                renderThumb={(props, state) => (
+                  <div {...props}>{state.valueNow}</div>
+                )}
+              />
+            </div>
 
-            <ReactSlider
-              className="horizontal-slider"
-              thumbClassName="example-thumb"
-              trackClassName="example-track"
-              renderThumb={(props, state) => (
-                <div {...props}>{state.valueNow}</div>
-              )}
-            />
 
             <p className="text-right font-sinsimono p-6 text-sinsipurple">
               Morado

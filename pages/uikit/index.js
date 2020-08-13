@@ -26,7 +26,7 @@ export default () => (
         <div className="">
           <input
             type="text"
-            className="border-0 bg-transparent w-full focus:border-transparent py-3 px-2 rounded-none"
+            className="border-0 bg-transparent w-full focus:border-transparent py-3 px-2 rounded-none text-white"
             placeholder="Escribe tu texto"
           ></input>
         </div>

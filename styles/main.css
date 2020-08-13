@@ -17,3 +17,7 @@
 .text-decoration p::first-letter {
     @apply bg-sinsipurple;
 }
+
+input:focus {
+    outline: none;
+}

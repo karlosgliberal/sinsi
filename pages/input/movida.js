@@ -1,20 +1,20 @@
+import MessageList from '../../componets/messageList';
+import SendMessageForm from '../../componets/SendMessageForm';
+
 export default class NameForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { value: '' };
 
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.state = {
+      messages: [],
+    };
+    this.sendMessage = this.sendMessage.bind(this);
   }
 
-  handleChange(event) {
-    this.setState({ value: event.target.value });
-    console.log('movida');
-  }
-
-  handleSubmit(event) {
-    alert('A name was submitted: ' + this.state.value);
-    event.preventDefault();
+  sendMessage(text) {
+    this.setState({
+      messages: [...this.state.messages, text],
+    });
   }
 
   render() {
@@ -39,28 +39,13 @@ export default class NameForm extends React.Component {
               velit. Aliquam risus augue, finibus at volutpat malesuada,
               vestibulum eu mauris.
             </p>
+            <MessageList messages={this.state.messages} />
           </div>
 
           <p className="text-right font-sinsimono p-6 text-sinsipurple">
             Morado
           </p>
-          <div className="border-t-2 border-b-2 border-gray-800 p-1 mb-3 mx-4 grid grid-cols-submit">
-            <div className="">
-              <input
-                type="text"
-                className="border-0 bg-transparent w-full focus:border-transparent py-3 px-2 rounded-none"
-                placeholder="Escribe tu texto"
-              ></input>
-            </div>
-            <div className="border-l-2 border-gray-800 ">
-              <button
-                onClick={this.handleChange}
-                className="bg-white hover:text-sinsipurple text-black font-bold py-2 px-4 rounded"
-              >
-                Button
-              </button>
-            </div>
-          </div>
+          <SendMessageForm sendMessage={this.sendMessage} />
         </div>
       </div>
     );

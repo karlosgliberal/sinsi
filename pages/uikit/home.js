@@ -22,9 +22,9 @@ export default () => (
                 </div>
 
 
-                <div className="flex flex-row justify-around px-4 mt-10 animate-pulse">
+                <div className="flex flex-row justify-around px-4 mt-10 ">
 
-                    <a href="" className="transition duration-500 ease-in-out py-3 px-8 mb-3 text-white border border-white hover:border-purple font-sinsimono">Empezar</a>
+                    <a href="" className="transition duration-500 ease-in-out py-3 px-8 mb-3 text-white border border-white hover:border-sinsipurple font-sinsimono animate-pulse hover:animate-none">Empezar</a>
 
 
                 </div>

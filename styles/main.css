@@ -35,6 +35,12 @@ input:focus {
 }
 
 .slider-thumb {
-    background-color: white;
-    color: white;
+    @apply border;
+
+    @apply border-white;
+
+    @apply py-3;
+
+    position: relative;
+    top: -9px;
 }

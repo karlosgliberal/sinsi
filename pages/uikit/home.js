@@ -16,16 +16,16 @@ export default () => (
                         condimentum tempus.    </p>
                     <p className="">
                         Mauris interdum neque vitae est ultricies pretium.
-                        Proin in <span class="bg-sinsipurple">lectus</span> vitae tellus auctor fermentum aliquam vel velit.</p>
+                        Proin in <span class="bg-purple">lectus</span> vitae tellus auctor fermentum aliquam vel velit.</p>
 
 
                 </div>
 
 
                 <div className="flex flex-row justify-around px-4 mt-10 animate-pulse">
-                    <a href="">
-                        <div className="py-3 px-8 mb-3 text-white border border-white font-sinsimono">Empezar</div>
-                    </a>
+
+                    <a href="" className="transition duration-500 ease-in-out py-3 px-8 mb-3 text-white border border-white hover:border-purple font-sinsimono">Empezar</a>
+
 
                 </div>
 

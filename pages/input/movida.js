@@ -8,6 +8,7 @@ export default class NameForm extends React.Component {
 
     this.state = {
       messages: [],
+      textoUsuario: [],
     };
     this.sendMessage = this.sendMessage.bind(this);
   }
@@ -53,7 +54,6 @@ export default class NameForm extends React.Component {
                 )}
               />
             </div>
-
 
             <p className="text-right font-sinsimono p-6 text-sinsipurple">
               Morado

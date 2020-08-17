@@ -10,7 +10,7 @@ export default () => (
 
 
 
-                <div className="sm:px-5 lg:px-10 font-sinsimono p-6 text-white">
+                <div className="sm:px-5 lg:px-10 font-sinsimono p-6 text-white ">
                     <p className="">
                         Blandit arcu eget tempor ullamcorper. Integer porta nibh at
                         condimentum tempus.    </p>
@@ -22,7 +22,7 @@ export default () => (
                 </div>
 
 
-                <div className="flex flex-row justify-around px-4 mt-10">
+                <div className="flex flex-row justify-around px-4 mt-10 animate-pulse">
                     <a href="">
                         <div className="py-3 px-8 mb-3 text-white border border-white font-sinsimono">Empezar</div>
                     </a>

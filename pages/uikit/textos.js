@@ -1,6 +1,6 @@
 export default () => (
   <div className="bg-sinsiblue w-screen h-screen flex justify-center">
-    <div className="sm:w-full md:w-1/2 border border-gray-700 flex flex-col justify-end bg-dots">
+    <div className="w-screen lg:w-1/2 border border-gray-700 flex flex-col justify-end bg-dots">
       <div className="p-4">
         <a className="text-white hover:text-sinsipurple transition duration-700" href="/uikit">&#8592;</a>
       </div>
@@ -15,39 +15,8 @@ export default () => (
             mauris.
         </p>
         </div>
-        <div className="text-decoration">
-          <p className="font-sinsimono p-6 text-white">
-            Blandit arcu eget tempor ullamcorper. Integer porta nibh at
-            condimentum tempus. Mauris interdum neque vitae est ultricies pretium.
-            Proin in lectus vitae tellus auctor fermentum aliquam vel velit.
-            Aliquam risus augue, finibus at volutpat malesuada, vestibulum eu
-            mauris.
-        </p>
-        </div>
-        <div className="text-decoration">
-          <p className="font-sinsimono p-6 text-white">
-            neque vitae est ultricies pretium.
-            Proin in lectus vitae tellus auctor fermentum aliquam vel velit.
-            Aliquam risus augue, finibus at volutpat malesuada, vestibulum eu
-            mauris.
-        </p>
-        </div>
-        <div className="text-decoration">
-          <p className="font-sinsimono p-6 text-white">
-            tum tempus. Mauris interdum neque vitae est ultricies pretium.
-            Proin in lectus vitae tellus auctor fermentum aliquam vel velit.
-            Aliquam risus augue, finibus at volutpat malesuada, vestibulum eu
-            mauris.
-        </p>
-        </div>
-        <div className="text-decoration">
-          <p className="font-sinsimono p-6 text-white">
-            tempus. Mauris interdum neque vitae est ultricies pretium.
-            Proin in lectus vitae tellus auctor fermentum aliquam vel velit.
-            Aliquam risus augue, finibus at volutpat malesuada, vestibulum eu
-            mauris.
-        </p>
-        </div>
+
+
 
         <div className="text-decoration">
           <p className="font-sinsimono p-6 text-white">
@@ -57,13 +26,7 @@ export default () => (
         </div>
 
 
-        <div className="flex flex-row justify-around px-4">
-          <div className="py-3 px-8 mb-3 text-white border border-white font-sinsimono">Azul</div>
-          <div className="py-3 px-8 mb-3 text-white border border-white font-sinsimono">Verde</div>
-          <div className="py-3 px-8 mb-3 text-white border border-white font-sinsimono">Amarillo</div>
-        </div>
 
-        <p className="text-right font-sinsimono p-6 text-sinsipurple">Morado</p>
 
       </div>
 

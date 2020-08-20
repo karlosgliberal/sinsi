@@ -1,6 +1,6 @@
 export default () => (
     <div className="bg-sinsiblue w-screen h-screen flex justify-center">
-        <div className="sm:w-full md:w-1/2 border border-gray-700 flex flex-col justify-end bg-dots">
+        <div className="w-screen lg:w-1/2 border border-gray-700 flex flex-col justify-end bg-dots">
 
             <div className="h-auto overflow-scroll">
 
@@ -13,9 +13,8 @@ export default () => (
 
                 <div className="text-decoration">
                     <p className="font-sinsimono p-6 text-white">
-
                         Buenas tardes, caballeros. Soy una computadora HAL 9000. Comencé a operar en el H.A.L. en Urbana, Illinois el 12 de enero de 1992. Mi instructor fue el Sr. Langley, y me enseñó a cantar una canción. Si quieres escucharlo, puedo cantarlo para ti.
-        </p>
+                    </p>
                 </div>
 
 

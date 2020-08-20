@@ -3,7 +3,7 @@ export default () => (
     <div className="bg-sinsiblue w-screen h-screen flex justify-center">
 
         <div className="sm:w-full md:w-1/2 border border-gray-700 flex flex-col justify-center bg-dots">
-            <div className=" p-4">
+            <div className="p-4">
                 <a className="text-white hover:text-sinsipurple transition duration-700" href="/uikit">&#8592;</a>
             </div>
 
@@ -11,17 +11,13 @@ export default () => (
 
 
                 <div className="p-4 text-center">
-                    <h2 className="text-2xl text-white">BOTONES</h2>
+                    <h2 className="text-3xl text-white">BOTONES</h2>
                 </div>
 
-
-
-
-
-                <div className="flex flex-row justify-around px-4 my-6">
-                    <div className="py-3 px-8 mb-3 text-white border border-white font-sinsimono">Azul</div>
-                    <div className="py-3 px-8 mb-3 text-white border border-white font-sinsimono">Verde</div>
-                    <div className="py-3 px-8 mb-3 text-white border border-white font-sinsimono">Amarillo</div>
+                <div className="flex flex-row justify-around my-10 border-b border-gray-600 py-5">
+                    <a href="" className="py-3 px-8 mb-3 text-white border border-white font-sinsimono hover:bg-sinsipurple transition duration-1000">Azul</a>
+                    <a href="" className="py-3 px-8 mb-3 text-white border border-white font-sinsimono hover:bg-sinsipurple transition duration-1000">Verde</a>
+                    <a href="" className="py-3 px-8 mb-3 text-white border border-white font-sinsimono hover:bg-sinsipurple transition duration-1000">Amarillo</a>
                 </div>
 
                 <div className="flex flex-col px-4 my-6">

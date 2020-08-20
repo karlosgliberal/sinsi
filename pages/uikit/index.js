@@ -9,14 +9,14 @@ export default () => (
           <h1 className="text-3xl font-bold text-white text-center">UIKIT</h1>
         </div>
         <div className="font-sinsimono text-white flex flex-col p-4">
-          <div className="my-3"><a href="/uikit/base">Textos</a></div>
-          <div className="my-3"><a href="/uikit/bg">Backgrounds</a></div>
-          <div className="my-3"><a href="/uikit/bg-dots">Dots Backgrounds</a></div>
-          <div className="my-3"><a href="/uikit/dots">Dots</a></div>
-          <div className="my-3"><a href="/uikit/btn">Botones</a></div>
-          <div className="my-3"><a href="/uikit/in">Slider</a></div>
-          <div className="my-3"><a href="/uikit/home">Intro</a></div>
-          <div className="my-3"><a href="/uikit/base">Base</a></div>
+          <div className="my-3"><a className="hover:text-sinsipurple transition duration-500" href="/uikit/base">Textos</a></div>
+          <div className="my-3"><a className="hover:text-sinsipurple transition duration-500" href="/uikit/bg">Backgrounds</a></div>
+          <div className="my-3"><a className="hover:text-sinsipurple transition duration-500" href="/uikit/bg-dots">Dots Backgrounds</a></div>
+          <div className="my-3"><a className="hover:text-sinsipurple transition duration-500" href="/uikit/dots">Dots</a></div>
+          <div className="my-3"><a className="hover:text-sinsipurple transition duration-500" href="/uikit/btn">Botones</a></div>
+          <div className="my-3"><a className="hover:text-sinsipurple transition duration-500" href="/uikit/slider">Slider</a></div>
+          <div className="my-3"><a className="hover:text-sinsipurple transition duration-500" href="/uikit/home">Intro</a></div>
+          <div className="my-3"><a className="hover:text-sinsipurple transition duration-500" href="/uikit/base">Base</a></div>
 
         </div>
 

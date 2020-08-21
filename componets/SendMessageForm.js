@@ -22,7 +22,7 @@ export default class SendMessageForm extends React.Component {
     });
     axios
       .post('https://us-central1-sinsi-vbvp.cloudfunctions.net/connectChat', {
-        text: 'Tienes nova?',
+        text: '¿Eres un chatbot?',
       })
       .then(res => {
         this.setState({

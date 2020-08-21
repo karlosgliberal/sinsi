@@ -9,9 +9,7 @@
 .bg-dots {
     background-image: url("/images/bg-dots.svg");
 
-    @apply bg-right-bottom;
-
-    @apply bg-no-repeat;
+    @apply bg-right-bottom bg-no-repeat;
 }
 
 .bg-type-1-dots {

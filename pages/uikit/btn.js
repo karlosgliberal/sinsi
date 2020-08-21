@@ -15,9 +15,9 @@ export default () => (
                 </div>
 
                 <div className="flex flex-row flex-wrap justify-around my-10 border-b border-gray-600 py-5">
-                    <a href="" className="py-3 px-8 my-3 text-white border border-white font-sinsimono hover:bg-sinsipurple transition duration-1000 hover:transition hover:translate-y-2">Azul</a>
+                    <a href="" className="py-3 px-8 my-3 text-white border border-white font-sinsimono hover:bg-sinsipurple transform  duration-1000 hover:transition hover:translate-y-2">Azul</a>
                     <a href="" className="py-3 px-8 my-3 text-white border border-white font-sinsimono hover:bg-sinsipurple transform duration-1000 hover:transition hover:translate-y-2">Morado</a>
-                    <a href="" className="py-3 px-8 my-3 text-white border border-white font-sinsimono hover:bg-sinsipurple transition duration-1000 hover:transition hover:translate-y-2">Amarillo</a>
+                    <a href="" className="py-3 px-8 my-3 text-white border border-white font-sinsimono hover:bg-sinsipurple transform  duration-1000 hover:transition hover:translate-y-2">Amarillo</a>
                 </div>
 
                 <div className="flex flex-col px-4 my-6">

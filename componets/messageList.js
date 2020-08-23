@@ -1,20 +1,22 @@
-import { loadGetInitialProps } from 'next/dist/next-server/lib/utils';
+import PropTypes from 'prop-types';
+import Message from './Message';
 
 export default class MessageList extends React.Component {
+  static propTypes = {
+    messages: PropTypes.arrayOf(PropTypes.object),
+  };
+  static defaultProps = {
+    messages: [],
+  };
+  componentDidUpdate = () => {
+    this.node.scrollTop = this.node.scrollHeight;
+  };
   render() {
     return (
-      <div className="message-list">
-        {this.props.messages.map((message, index) => {
-          console.log(message);
-          return (
-            <p
-              key={Math.random() * (12 - 2) + 2}
-              className="font-sinsimono p-6 text-white"
-            >
-              {message.txt}
-            </p>
-          );
-        })}
+      <div ref={node => (this.node = node)}>
+        {this.props.messages.map((message, i) => (
+          <Message key={i} {...message} />
+        ))}
       </div>
     );
   }

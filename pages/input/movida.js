@@ -15,7 +15,7 @@ export default class NameForm extends React.Component {
 
   sendMessage(text) {
     this.setState({
-      messages: [...this.state.messages, text],
+      messages: [...this.state.messages, { autor: 'karlos', mensaje: text }],
     });
   }
 

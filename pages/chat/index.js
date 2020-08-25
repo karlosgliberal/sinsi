@@ -1,12 +1,13 @@
 import MessageList from '../../componets/messageList';
 import MessageForm from '../../componets/MessageForm';
+import axios from 'axios';
 export default class NameForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       messages: [
         { body: 'Connecting...' },
-        { author: 'You', body: 'Hello!', me: true },
+        { author: 'You', body: 'Primeras pruebas', me: true },
         { author: 'Them', body: 'Hey there!' },
       ],
     };
@@ -15,9 +16,21 @@ export default class NameForm extends React.Component {
     this.setState({
       messages: [
         ...this.state.messages,
-        { me: true, author: 'Me', body: text },
+        { me: true, author: 'You', body: text },
       ],
     });
+    axios
+      .post('https://us-central1-sinsi-vbvp.cloudfunctions.net/connectChat', {
+        text: text,
+      })
+      .then(res => {
+        this.setState({
+          messages: [
+            ...this.state.messages,
+            { me: true, author: 'Me', body: res.data.fulfillmentText },
+          ],
+        });
+      });
   };
 
   render() {

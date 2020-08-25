@@ -18,6 +18,8 @@ export default () => (
           <div className="my-3"><a className="hover:text-sinsipurple transition duration-500" href="/uikit/slider">Slider</a></div>
           <div className="my-3"><a className="hover:text-sinsipurple transition duration-500" href="/uikit/home">Intro</a></div>
           <div className="my-3"><a className="hover:text-sinsipurple transition duration-500" href="/uikit/base">Base</a></div>
+          <div className="my-3"><a className="hover:text-sinsipurple transition duration-500" href="/uikit/logos">Logos</a></div>
+          <div className="my-3"><a className="hover:text-sinsipurple transition duration-500" href="/uikit/logo-sinsi">Logo Sinsi</a></div>
         </div>
 
       </div>

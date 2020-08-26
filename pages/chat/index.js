@@ -14,7 +14,6 @@ export default class Chat extends React.Component {
   }
 
   handleButtonClick = event => {
-    console.log(event);
     this.setState({
       messages: [
         ...this.state.messages,

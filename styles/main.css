@@ -42,7 +42,8 @@
     @apply bg-sinsipurple;
 }
 
-input:focus {
+input:focus,
+select:focus {
     outline: none;
 }
 
@@ -112,4 +113,12 @@ p {
     @apply border-gray-600;
 
     @apply transition duration-700;
+}
+
+.a {
+    background-image: linear-gradient(180deg, #16242D 0%, #314A59 68%);
+}
+
+.b {
+    background-image: radial-gradient(50% 99%, #314A59 52%, #16242E 99%, #16242D 99%);
 }

@@ -1,5 +1,3 @@
-import PropTypes from 'prop-types';
-
 export default class MessageForm extends React.Component {
   constructor(props) {
     super(props);

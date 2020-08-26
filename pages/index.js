@@ -12,7 +12,7 @@ export default () => (
           </div>
           <p>Si te atreves a conocer cómo será, estás en el lugar adecuado</p>
         </div>
-        <div class="">
+        <div>
           <div>
             <div className="border-b-2 submit-outline p-1 mb-5 mx-32 bg-sinsiblue ">
               <input

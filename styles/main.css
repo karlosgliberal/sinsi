@@ -42,7 +42,8 @@
     @apply bg-sinsipurple;
 }
 
-input:focus {
+input:focus,
+select:focus {
     outline: none;
 }
 

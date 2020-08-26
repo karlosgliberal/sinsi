@@ -77,8 +77,8 @@ p {
 .typewriter div {
     overflow: hidden;
     border-right: .15em solid  #E204E6;
-    white-space: nowrap; /* Keeps the content on a single line */
-    margin: 0 auto; /* Gives that scrolling effect as the typing happens */
+    white-space: nowrap;
+    margin: 0 auto;
     animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
 }
 
@@ -100,4 +100,16 @@ p {
     50% {
         border-color: #E204E6;
     }
+}
+
+.submit-outline {
+    @apply border-gray-800;
+
+    @apply transition duration-700;
+}
+
+.submit-outline-active {
+    @apply border-gray-600;
+
+    @apply transition duration-700;
 }

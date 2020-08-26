@@ -5,7 +5,7 @@ export default () => (
         <img className="w-32" src="/images/logosinsi.svg"></img>
       </div>
 
-      <div class="">
+      <div>
         <div className="sm:px-5 lg:px-10 p-6 my-12 text-sm text-gray-100 text-center">
           <div className="text-2xl text-bold text-gray-200 pb-2 ">
             ¿Buscas respuestas sobre el futuro?
@@ -24,7 +24,7 @@ export default () => (
           </div>
           <div className="flex flex-row justify-around px-4 mt-10 w-full ">
             <a
-              href=""
+              href="#"
               className="transition duration-500 ease-in-out py-3 px-48 mb-3 text-white border border-white hover:border-sinsipurple font-sinsimono animate-pulse hover:animate-none"
             >
               Empezar

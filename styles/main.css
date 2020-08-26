@@ -4,121 +4,134 @@
 
 @tailwind utilities;
 
-@import url("https://fonts.googleapis.com/css2?family=Space+Mono&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono&display=swap');
 
 .bg-dots {
-    background-image: url("/images/bg-dots.svg");
+  background-image: url('/images/bg-dots.svg');
 
-    @apply bg-right-bottom bg-no-repeat;
+  @apply bg-right-bottom bg-no-repeat;
 }
 
 .bg-type-1-dots {
-    background: url("/images/bg-dots.svg"), linear-gradient(135deg, #6C03AB 0%, #FE6F9A 69.09%, #F0A2E8 100%);
-    background-position: center, bottom;
-    background-repeat: no-repeat, no-repeat;
+  background: url('/images/bg-dots.svg'),
+    linear-gradient(135deg, #6c03ab 0%, #fe6f9a 69.09%, #f0a2e8 100%);
+  background-position: center, bottom;
+  background-repeat: no-repeat, no-repeat;
 }
 
 .bg-type-2-dots {
-    background: url("/images/bg-dots.svg"), linear-gradient(135.23deg, #1233C1 -4.07%, #38FFFE 78.99%, #A1FFDD 100%);
+  background: url('/images/bg-dots.svg'),
+    linear-gradient(135.23deg, #1233c1 -4.07%, #38fffe 78.99%, #a1ffdd 100%);
 }
 
 .bg-type-3-dots {
-    background: url("/images/bg-dots.svg"), linear-gradient(135.03deg, #FE72D4 -4.61%, #FF77FF 20.8%, #73CBFF 86.29%, #00EFF8 130.7%);
+  background: url('/images/bg-dots.svg'),
+    linear-gradient(
+      135.03deg,
+      #fe72d4 -4.61%,
+      #ff77ff 20.8%,
+      #73cbff 86.29%,
+      #00eff8 130.7%
+    );
 }
 
 .bg-type-1 {
-    background: linear-gradient(135deg, #6C03AB 0%, #FE6F9A 69.09%, #F0A2E8 100%);
+  background: linear-gradient(135deg, #6c03ab 0%, #fe6f9a 69.09%, #f0a2e8 100%);
 }
 
 .bg-type-2 {
-    background: linear-gradient(135.23deg, #1233C1 -4.07%, #38FFFE 78.99%, #A1FFDD 100%);
+  background: linear-gradient(
+    135.23deg,
+    #1233c1 -4.07%,
+    #38fffe 78.99%,
+    #a1ffdd 100%
+  );
 }
 
 .bg-type-3 {
-    background: linear-gradient(135.03deg, #FE72D4 -4.61%, #FF77FF 20.8%, #73CBFF 86.29%, #00EFF8 130.7%);
+  background: linear-gradient(
+    135.03deg,
+    #fe72d4 -4.61%,
+    #ff77ff 20.8%,
+    #73cbff 86.29%,
+    #00eff8 130.7%
+  );
 }
 
 .text-decoration p::first-letter {
-    @apply bg-sinsipurple;
+  @apply bg-sinsipurple;
 }
 
 input:focus,
 select:focus {
-    outline: none;
+  outline: none;
 }
 
 p {
-    @apply mb-3;
+  @apply mb-3;
 }
 
 .slider-track {
-    top: 8px;
-    height: 8px;
-    background-color: thistle;
+  top: 8px;
+  height: 8px;
+  background-color: thistle;
 }
 
 .slider-track-1 {
-    top: 8px;
-    height: 8px;
-    background-color: rgb(252, 0, 252);
+  top: 8px;
+  height: 8px;
+  background-color: rgb(252, 0, 252);
 }
 
 .slider-thumb {
-    @apply border;
+  @apply border;
 
-    @apply border-white;
+  @apply border-white;
 
-    @apply py-3;
+  @apply py-3;
 
-    @apply relative;
+  @apply relative;
 
-    top: -9px;
+  top: -9px;
 }
 
 .typewriter div {
-    overflow: hidden;
-    border-right: .15em solid  #E204E6;
-    white-space: nowrap;
-    margin: 0 auto;
-    animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+  overflow: hidden;
+  border-right: 0.15em solid #e204e6;
+  white-space: nowrap;
+  margin: 0 auto;
+  animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
 }
 
 @keyframes typing {
-    from {
-        width: 0;
-    }
+  from {
+    width: 0;
+  }
 
-    to {
-        width: 100%;
-    }
+  to {
+    width: 100%;
+  }
 }
 
 @keyframes blink-caret {
-    from, to {
-        border-color: transparent;
-    }
+  from,
+  to {
+    border-color: transparent;
+  }
 
-    50% {
-        border-color: #E204E6;
-    }
+  50% {
+    border-color: #e204e6;
+  }
 }
 
 .submit-outline {
-    @apply border-gray-800;
+  @apply border-gray-800;
 
-    @apply transition duration-700;
+  @apply transition duration-700;
 }
 
 .submit-outline-active {
-    @apply border-gray-600;
+  @apply border-gray-600;
 
-    @apply transition duration-700;
-}
-
-.a {
-    background-image: linear-gradient(180deg, #16242D 0%, #314A59 68%);
-}
-
-.b {
-    background-image: radial-gradient(50% 99%, #314A59 52%, #16242E 99%, #16242D 99%);
+  @apply transition duration-700;
 }

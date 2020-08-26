@@ -1,6 +1,9 @@
-import MessageList from '../../componets/messageList';
+import MessageList from '../../componets/MessageList';
 import MessageForm from '../../componets/MessageForm';
+import Buttonlist from '../../componets/ButtonList';
+
 import axios from 'axios';
+import ButtonList from '../../componets/ButtonList';
 export default class NameForm extends React.Component {
   constructor(props) {
     super(props);
@@ -10,8 +13,10 @@ export default class NameForm extends React.Component {
         { author: 'You', body: 'Primeras pruebas', me: true },
         { author: 'Them', body: 'Hey there!' },
       ],
+      fechas: ['dia', 'mes', 'años'],
     };
   }
+
   handleNewMessage = text => {
     this.setState({
       messages: [
@@ -38,6 +43,7 @@ export default class NameForm extends React.Component {
       <div className="bg-sinsiblue w-screen h-screen flex justify-center">
         <div className="w-screen lg:w-1/2 border border-gray-700 flex flex-col justify-end bg-dots">
           <div className="h-auto overflow-scroll">
+            <ButtonList buttons={this.state.fechas} />
             <MessageList messages={this.state.messages} />
             <MessageForm onMessageSend={this.handleNewMessage} />
             {/* <div className="p-6"></div> */}

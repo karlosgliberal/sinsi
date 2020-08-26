@@ -16,7 +16,7 @@ export default class NameForm extends React.Component {
     this.setState({
       messages: [
         ...this.state.messages,
-        { me: true, author: 'You', body: text },
+        { me: true, author: 'Me', body: text },
       ],
     });
     axios
@@ -27,7 +27,7 @@ export default class NameForm extends React.Component {
         this.setState({
           messages: [
             ...this.state.messages,
-            { me: true, author: 'Me', body: res.data.fulfillmentText },
+            { me: true, author: 'You', body: res.data.fulfillmentText },
           ],
         });
       });
@@ -38,7 +38,6 @@ export default class NameForm extends React.Component {
       <div className="bg-sinsiblue w-screen h-screen flex justify-center">
         <div className="w-screen lg:w-1/2 border border-gray-700 flex flex-col justify-end bg-dots">
           <div className="h-auto overflow-scroll">
-
             <MessageList messages={this.state.messages} />
             <MessageForm onMessageSend={this.handleNewMessage} />
             {/* <div className="p-6"></div> */}

@@ -17,6 +17,10 @@ export default class NameForm extends React.Component {
     };
   }
 
+  handleButtonClick = event => {
+    console.log(event);
+  };
+
   handleNewMessage = text => {
     this.setState({
       messages: [
@@ -43,7 +47,10 @@ export default class NameForm extends React.Component {
       <div className="bg-sinsiblue w-screen h-screen flex justify-center">
         <div className="w-screen lg:w-1/2 border border-gray-700 flex flex-col justify-end bg-dots">
           <div className="h-auto overflow-scroll">
-            <ButtonList buttons={this.state.fechas} />
+            <ButtonList
+              onButtonClick={this.handleButtonClick}
+              buttons={this.state.fechas}
+            />
             <MessageList messages={this.state.messages} />
             <MessageForm onMessageSend={this.handleNewMessage} />
             {/* <div className="p-6"></div> */}

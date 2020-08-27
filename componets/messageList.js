@@ -1,13 +1,10 @@
-import PropTypes from 'prop-types';
 import Message from './Message';
 
 export default class MessageList extends React.Component {
-  static propTypes = {
-    messages: PropTypes.arrayOf(PropTypes.object),
-  };
-  static defaultProps = {
-    messages: [],
-  };
+  constructor(props) {
+    super(props);
+  }
+
   componentDidUpdate = () => {
     this.node.scrollTop = this.node.scrollHeight;
   };

@@ -1,11 +1,7 @@
-import PropTypes from 'prop-types';
-
 export default class Message extends React.Component {
-  static propTypes = {
-    author: PropTypes.string,
-    body: PropTypes.string.isRequired,
-    me: PropTypes.bool,
-  };
+  constructor(props) {
+    super(props);
+  }
 
   render() {
     return (

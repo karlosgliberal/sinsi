@@ -6,15 +6,14 @@ export default () => (
         <img className=" lg:w-32" src="/images/logosinsi.svg"></img>
       </div>
 
-      <div class="">
+      <div>
         <div className="sm:px-5 lg:px-10 p-6 my-12 text-sm text-gray-100 text-center">
           <div className="text-2xl text-bold text-gray-200 pb-2 ">
             ¿Buscas respuestas sobre el futuro?
           </div>
           <p>Si te atreves a conocer cómo será, estás en el lugar adecuado</p>
         </div>
-        <div class="">
-
+        <div>
           <div>
             <div className="border-b-2 submit-outline p-1 mb-5 lg:mx-32 mx-6 bg-sinsiblue ">
               <input
@@ -22,7 +21,6 @@ export default () => (
                 type="text"
                 placeholder="Escribe Tu nombre"
               />
-
             </div>
           </div>
           <div className="flex flex-row justify-around px-4 mt-10 ">
@@ -30,7 +28,7 @@ export default () => (
               href="" className="transition duration-500 ease-in-out py-3 w-full lg:w-5/6 text-center mb-3 text-white border border-white hover:border-sinsipurple font-sinsimono animate-pulse hover:animate-none"
             >
               Empezar
-          </a>
+            </a>
           </div>
         </div>
 
@@ -42,5 +40,5 @@ export default () => (
 
       </div>
     </div>
-  </div >
+  </div>
 );

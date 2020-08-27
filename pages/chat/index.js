@@ -2,14 +2,15 @@ import MessageList from '../../componets/MessageList';
 import MessageForm from '../../componets/MessageForm';
 import ButtonList from '../../componets/ButtonList';
 import { getIntentionFromDialogflow } from '../../services/dialogflowResponse';
+import { sinsiText } from '../../core/sinsiText';
 
 export default class Chat extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      sinsiText,
       boton: true,
       messages: [{ author: 'Them', body: 'Hey there!' }],
-      fechas: ['dia', 'mes', 'años'],
     };
   }
 
@@ -55,7 +56,7 @@ export default class Chat extends React.Component {
             {this.state.boton == true && (
               <ButtonList
                 onButtonClick={this.handleButtonClick}
-                buttons={this.state.fechas}
+                buttons={this.state.sinsiText['desencadenante'].preguntas}
               />
             )}
             <MessageForm onMessageSend={this.handleNewMessage} />

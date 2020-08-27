@@ -1,7 +1,7 @@
 import MessageList from '../../componets/MessageList';
 import MessageForm from '../../componets/MessageForm';
 import ButtonList from '../../componets/ButtonList';
-import dialogflowResponse from '../../services/dialogflowResponse';
+import { getIntentionFromDialogflow } from '../../services/dialogflowResponse';
 
 export default class Chat extends React.Component {
   constructor(props) {
@@ -22,8 +22,18 @@ export default class Chat extends React.Component {
     });
   };
 
+  getIntention = async intention => {
+    const res = await getIntentionFromDialogflow(intention);
+    this.setState({
+      messages: [
+        ...this.state.messages,
+        { me: true, author: 'You', body: res.data.fulfillmentText },
+      ],
+    });
+  };
+
   componentDidMount() {
-    dialogflowResponse('dame la entrada', this);
+    this.getIntention('dame la entrada');
   }
 
   handleNewMessage = text => {
@@ -33,7 +43,7 @@ export default class Chat extends React.Component {
         { me: true, author: 'Me', body: text },
       ],
     });
-    dialogflowResponse(text, this);
+    this.getIntention(text);
   };
 
   render() {

@@ -1,13 +1,16 @@
 export default () => (
   <div className="bg-sinsiblue w-screen h-screen flex justify-center">
     <div className="w-screen lg:w-1/2 border border-gray-700 flex flex-col justify-around">
+      <div className="text-right pt-1 pr-4">
+        <a className="text-gray-700 text-sm hover:text-sinsipurple transition duration-500" href="/about">About</a>
 
-      <div className="flex flex-row justify-center">
+      </div>
+      <div className="flex flex-row justify-center flex-grow">
         <img className=" lg:w-32" src="/images/logosinsi.svg"></img>
       </div>
 
-      <div>
-        <div className="sm:px-5 lg:px-10 p-6 my-12 text-sm text-gray-100 text-center">
+      <div className="flex-grow">
+        <div className="sm:px-5 lg:px-10 p-6 text-sm text-gray-100 text-center">
           <div className="text-2xl text-bold text-gray-200 pb-2 ">
             ¿Buscas respuestas sobre el futuro?
           </div>
@@ -35,10 +38,7 @@ export default () => (
 
       </div>
 
-      <div className="text-right border border-red-700 p-6">
-        <p><a className="" href="">About</a></p>
 
-      </div>
     </div>
   </div>
 );

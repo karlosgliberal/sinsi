@@ -13,6 +13,7 @@ export default class Chat extends React.Component {
       messages: [{ author: 'Them', body: 'Hey there!' }],
     };
   }
+
   getIntention = async intention => {
     const res = await getIntentionFromDialogflow(intention);
     this.setState({

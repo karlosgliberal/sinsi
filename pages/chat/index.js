@@ -9,26 +9,24 @@ export default class Chat extends React.Component {
     super(props);
     this.state = {
       sinsiText,
-      boton: true,
+      boton: false,
       messages: [{ author: 'Them', body: 'Hey there!' }],
     };
   }
-
-  handleButtonClick = event => {
-    this.setState({
-      messages: [
-        ...this.state.messages,
-        { me: true, author: 'You', body: event },
-      ],
-    });
-  };
-
   getIntention = async intention => {
     const res = await getIntentionFromDialogflow(intention);
     this.setState({
       messages: [
         ...this.state.messages,
         { me: true, author: 'You', body: res.data.fulfillmentText },
+      ],
+    });
+  };
+  handleButtonClick = event => {
+    this.setState({
+      messages: [
+        ...this.state.messages,
+        { me: true, author: 'You', body: event },
       ],
     });
   };
@@ -56,7 +54,7 @@ export default class Chat extends React.Component {
             {this.state.boton == true && (
               <ButtonList
                 onButtonClick={this.handleButtonClick}
-                buttons={this.state.sinsiText['desencadenante'].preguntas}
+                buttons={this.state.sinsiText['saltoTemporal'].preguntas}
               />
             )}
             <MessageForm onMessageSend={this.handleNewMessage} />

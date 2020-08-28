@@ -9,7 +9,7 @@ export default class Chat extends React.Component {
     super(props);
     this.state = {
       sinsiText,
-      boton: false,
+      boton: true,
       messages: [{ author: 'Them', body: 'Hey there!' }],
     };
   }

@@ -7,6 +7,7 @@ import { sinsiText } from '../../core/sinsiText';
 
 export default function Chat(props) {
   const [menssagesLista, setMenssageList] = useState([]);
+  const [botonActivated, setBotonActivate] = useState(true);
 
   const getIntention = async intention => {
     const res = await getIntentionFromDialogflow(intention);
@@ -49,7 +50,7 @@ export default function Chat(props) {
       <div className="w-screen lg:w-1/2 border border-gray-700 flex flex-col justify-end bg-dots">
         <div className="h-auto overflow-scroll">
           <MessageList messages={menssagesLista} />
-          {true == true && (
+          {botonActivated == true && (
             <ButtonList
               onButtonClick={handleButtonClick}
               buttons={sinsiText['saltoTemporal'].preguntas}

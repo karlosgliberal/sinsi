@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 import MessageList from '../../componets/MessageList';
 import MessageForm from '../../componets/MessageForm';
 import ButtonList from '../../componets/ButtonList';
@@ -6,8 +7,10 @@ import { getIntentionFromDialogflow } from '../../services/dialogflowResponse';
 import { sinsiText } from '../../core/sinsiText';
 
 export default function Chat() {
+  const router = useRouter();
   const [menssagesLista, setMenssageList] = useState([]);
   const [botonActivated, setBotonActivate] = useState(false);
+  const [futurologistName, setFuturologist] = useState(router.query);
 
   const getIntention = async intention => {
     const res = await getIntentionFromDialogflow(intention);
@@ -20,6 +23,10 @@ export default function Chat() {
     ]);
   };
 
+  useEffect(() => {
+    getIntention(`El futurologist se llama ${futurologistName.name}`);
+  }, []);
+
   const handleButtonClick = event => {
     setMenssageList(menssagesLista => [
       ...menssagesLista,
@@ -29,10 +36,6 @@ export default function Chat() {
       },
     ]);
   };
-
-  useEffect(() => {
-    getIntention('dame la entrada');
-  }, []);
 
   const handleNewMessage = text => {
     setMenssageList(menssagesLista => [

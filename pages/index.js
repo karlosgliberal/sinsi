@@ -41,7 +41,7 @@ export default () => {
               </div>
             </div>
             <div className="flex flex-row justify-around px-4 mt-10 ">
-              <Link href={{ pathname: '/chat', query: { keyword: name } }}>
+              <Link href={{ pathname: '/chat', query: { name } }}>
                 <a className="transition duration-500 ease-in-out py-3 w-full lg:w-5/6 text-center mb-3 text-white border border-white hover:border-sinsipurple font-sinsimono animate-pulse hover:animate-none">
                   Empezar
                 </a>

@@ -5,9 +5,9 @@ import ButtonList from '../../componets/ButtonList';
 import { getIntentionFromDialogflow } from '../../services/dialogflowResponse';
 import { sinsiText } from '../../core/sinsiText';
 
-export default function Chat(props) {
+export default function Chat() {
   const [menssagesLista, setMenssageList] = useState([]);
-  const [botonActivated, setBotonActivate] = useState(true);
+  const [botonActivated, setBotonActivate] = useState(false);
 
   const getIntention = async intention => {
     const res = await getIntentionFromDialogflow(intention);
@@ -43,6 +43,7 @@ export default function Chat(props) {
       },
     ]);
     getIntention(text);
+    setBotonActivate(true);
   };
 
   return (

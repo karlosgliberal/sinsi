@@ -3,6 +3,7 @@ import Link from 'next/link';
 
 export default () => {
   const [name, setName] = useState('');
+
   const handleName = event => {
     setName(event.target.value);
   };

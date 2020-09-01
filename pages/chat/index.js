@@ -5,22 +5,29 @@ import MessageForm from '../../componets/MessageForm';
 import ButtonList from '../../componets/ButtonList';
 import { getIntentionFromDialogflow } from '../../services/dialogflowResponse';
 import { sinsiText } from '../../core/sinsiText';
+import { responseControl } from '../../core/responseControl';
 
 export default function Chat() {
   const router = useRouter();
+
   const [menssagesLista, setMenssageList] = useState([]);
   const [botonActivated, setBotonActivate] = useState(false);
   const [futurologistName, setFuturologist] = useState(router.query);
 
-  const getIntention = async intention => {
-    const res = await getIntentionFromDialogflow(intention);
+  const addMessage = (author, body) => {
     setMenssageList(menssagesLista => [
       ...menssagesLista,
       {
-        author: 'You',
-        body: res.data.fulfillmentText,
+        author,
+        body,
       },
     ]);
+  };
+
+  const getIntention = async intention => {
+    const res = await getIntentionFromDialogflow(intention);
+    console.log(res.data);
+    addMessage('You', res.data.fulfillmentText);
   };
 
   useEffect(() => {
@@ -46,7 +53,9 @@ export default function Chat() {
       },
     ]);
     getIntention(text);
-    setBotonActivate(true);
+    //const ss = responseControl(text);
+    // ss();
+    //setBotonActivate(true);
   };
 
   return (

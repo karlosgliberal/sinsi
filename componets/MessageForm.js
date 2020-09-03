@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 export default function MessageForm(props) {
   //useEffect(() => input.focus(), []);
   const [inputMessage, setInputMessage] = useState('');
-
   const handleInputChange = event => {
     setInputMessage(event.target.value);
   };
@@ -24,7 +23,7 @@ export default function MessageForm(props) {
           onChange={handleInputChange}
           value={inputMessage}
           /*ref={node => (input = node)}*/
-          placeholder="Escribe tu mensaje..."
+          placeholder={props.placeholder}
         />
 
         <div className="flex justify-center w-full border-l-2 border-gray-800 pl-2">

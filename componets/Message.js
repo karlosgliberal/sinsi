@@ -6,7 +6,8 @@ export default function Message(props) {
       {props.author === 'You' && (
         <div className="text-decoration">
           <ReactMarkdown
-            className="font-sinsimono p-6 text-white"
+            //className= {(prosp.puntos  ? 'active' : '')}
+            className="font-sinsimono p-3 text-white"
             source={props.body}
             escapeHtml={false}
           />

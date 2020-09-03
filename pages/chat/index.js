@@ -14,8 +14,12 @@ export default function Chat() {
   const [lastIntention, setLastIntention] = useState('');
   const [botonActivated, setBotonActivate] = useState(false);
   const [futurologistName, setFuturologist] = useState(router.query);
+  const [placeholder, setPlaceholder] = useState('Escribe tu mensaje...');
 
   const addMessage = (author, body) => {
+    if (author == 'You') {
+      setPlaceholder('Sinsi esta escribiendo...');
+    }
     setMenssageList(menssagesLista => [
       ...menssagesLista,
       {
@@ -28,18 +32,21 @@ export default function Chat() {
   const getIntention = async intention => {
     const res = await getIntentionFromDialogflow(intention);
     let resIntentName = res.data.intent.displayName;
-    if (resIntentName == 'sinsiSaludo') {
-      getIntention('dame la intro');
-    } else if (resIntentName == 'sinsiSinNombre') {
-      getIntention('es tu game over');
-    } else if (resIntentName == 'sinsiIntro') {
-      getIntention('dame segunda intro');
-    } else if (resIntentName == 'sinsiGameOver') {
-      setTimeout(() => {
-        window.location.href =
-          'https://i.pinimg.com/originals/df/98/0f/df980ffc2571fa604f2adcdbecddc016.gif';
-      }, 4000);
-    }
+    setTimeout(() => {
+      if (resIntentName == 'sinsiSaludo') {
+        getIntention('dame la intro');
+      } else if (resIntentName == 'sinsiSinNombre') {
+        getIntention('es tu game over');
+      } else if (resIntentName == 'sinsiIntro') {
+        getIntention('dame segunda intro');
+      } else if (resIntentName == 'sinsiGameOver') {
+        setTimeout(() => {
+          window.location.href =
+            'https://i.pinimg.com/originals/df/98/0f/df980ffc2571fa604f2adcdbecddc016.gif';
+        }, 4000);
+      }
+      setPlaceholder('Escribe tu mensaje...');
+    }, 2000);
     if (res) setLastIntention(res.data.intent.displayName);
 
     console.log(res.data.intent.displayName);
@@ -75,7 +82,10 @@ export default function Chat() {
               buttons={sinsiText['saltoTemporal'].preguntas}
             />
           )}
-          <MessageForm onMessageSend={handleNewMessage} />
+          <MessageForm
+            onMessageSend={handleNewMessage}
+            placeholder={placeholder}
+          />
           {/* <div className="p-6"></div> */}
         </div>
       </div>

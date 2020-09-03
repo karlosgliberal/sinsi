@@ -1,9 +1,15 @@
+const ReactMarkdown = require('react-markdown');
+
 export default function Message(props) {
   return (
     <div>
       {props.author === 'You' && (
         <div className="text-decoration">
-          <p className="font-sinsimono p-6 text-white">{props.body}</p>
+          <ReactMarkdown
+            className="font-sinsimono p-6 text-white"
+            source={props.body}
+            escapeHtml={false}
+          />
         </div>
       )}
       {props.author === 'Me' && (

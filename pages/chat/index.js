@@ -11,6 +11,7 @@ export default function Chat() {
   const router = useRouter();
 
   const [menssagesLista, setMenssageList] = useState([]);
+  const [lastIntention, setLastIntention] = useState('');
   const [botonActivated, setBotonActivate] = useState(false);
   const [futurologistName, setFuturologist] = useState(router.query);
 
@@ -26,12 +27,32 @@ export default function Chat() {
 
   const getIntention = async intention => {
     const res = await getIntentionFromDialogflow(intention);
-    console.log(res.data);
+    let resIntentName = res.data.intent.displayName;
+    if (resIntentName == 'sinsiSaludo') {
+      getIntention('dame la intro');
+    } else if (resIntentName == 'sinsiSinNombre') {
+      getIntention('es tu game over');
+    } else if (resIntentName == 'sinsiIntro') {
+      getIntention('dame segunda intro');
+    } else if (resIntentName == 'sinsiGameOver') {
+      setTimeout(() => {
+        window.location.href =
+          'https://i.pinimg.com/originals/df/98/0f/df980ffc2571fa604f2adcdbecddc016.gif';
+      }, 4000);
+    }
+    if (res) setLastIntention(res.data.intent.displayName);
+
+    console.log(res.data.intent.displayName);
+    console.log(lastIntention);
     addMessage('You', res.data.fulfillmentText);
   };
 
   useEffect(() => {
-    getIntention(`El futurologist se llama ${futurologistName.name}`);
+    if (!futurologistName.name) {
+      getIntention(`No has dado el nombre`);
+    } else {
+      getIntention(`El futurologist se llama ${futurologistName.name}`);
+    }
   }, []);
 
   const handleButtonClick = event => {

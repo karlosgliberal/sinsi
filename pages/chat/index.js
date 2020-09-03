@@ -5,7 +5,7 @@ import MessageForm from '../../componets/MessageForm';
 import ButtonList from '../../componets/ButtonList';
 import { getIntentionFromDialogflow } from '../../services/dialogflowResponse';
 import { sinsiText } from '../../core/sinsiText';
-import { responseControl } from '../../core/responseControl';
+// import { responseControl } from '../../core/responseControl';
 
 export default function Chat() {
   const router = useRouter();
@@ -35,27 +35,12 @@ export default function Chat() {
   }, []);
 
   const handleButtonClick = event => {
-    setMenssageList(menssagesLista => [
-      ...menssagesLista,
-      {
-        author: 'Me',
-        body: event,
-      },
-    ]);
+    console.log(event);
   };
 
   const handleNewMessage = text => {
-    setMenssageList(menssagesLista => [
-      ...menssagesLista,
-      {
-        author: 'Me',
-        body: text,
-      },
-    ]);
+    addMessage('Me', text);
     getIntention(text);
-    //const ss = responseControl(text);
-    // ss();
-    //setBotonActivate(true);
   };
 
   return (

@@ -1,6 +1,13 @@
+import React, { useEffect, useRef } from 'react';
+
 const ReactMarkdown = require('react-markdown');
 
 export default function Message(props) {
+  const messagesEndRef = useRef(null);
+  const scrollToBottom = () => {
+    messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+  };
+  useEffect(scrollToBottom, [props]);
   return (
     <div>
       {props.author === 'You' && (
@@ -18,6 +25,7 @@ export default function Message(props) {
           {props.body}
         </p>
       )}
+      <div ref={messagesEndRef} />
     </div>
   );
 }

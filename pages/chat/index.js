@@ -8,6 +8,7 @@ import { sinsiText } from '../../core/sinsiText';
 import p5Wrapper from '../../componets/P5Wrapper/';
 import { interaction } from '../../sketches/interaction';
 import { simbols } from '../../sketches/simbols';
+import { takawo } from '../../sketches/takawo';
 
 const P5Wrapper = p5Wrapper();
 
@@ -66,7 +67,7 @@ export default function Chat() {
   }, []);
 
   const handleButtonClick = event => {
-    console.log(event);
+    addMessage('Me', event);
   };
 
   const handleNewMessage = text => {
@@ -76,7 +77,11 @@ export default function Chat() {
 
   return (
     <div className="bg-sinsiblue w-screen h-screen flex justify-center">
-      <P5Wrapper sketch={simbols} dispatch={handleButtonClick} />
+      <P5Wrapper
+        sketch={takawo}
+        dispatch={handleButtonClick}
+        state={{ movida: menssagesLista }}
+      />
       <div className="w-screen lg:w-1/2 border border-gray-700 flex flex-col justify-end bg-dots">
         <div className="h-auto overflow-scroll">
           <MessageList messages={menssagesLista} />

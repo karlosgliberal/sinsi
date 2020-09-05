@@ -1,6 +1,5 @@
 import React, { memo, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import p5 from 'p5';
 
 export default function p5w() {
   let canvas = null;
@@ -11,6 +10,7 @@ export default function p5w() {
     const sketchContainer = useRef(null);
 
     useEffect(() => {
+      const p5 = require('p5');
       canvas = new p5(sketch, sketchContainer.current);
       canvas.state = state;
       canvas.dispatch = dispatch;
@@ -20,7 +20,12 @@ export default function p5w() {
       };
     }, [dispatch, sketch, state]);
 
-    return <div ref={sketchContainer} />;
+    return (
+      <div
+        className="p-2 m-t-2 fixed w-screen lg:w-1/2 flex flex-col justify-end bg-dots"
+        ref={sketchContainer}
+      />
+    );
   }
 
   P5Wrapper.propTypes = {

@@ -1,9 +1,7 @@
 export const simbols = p => {
   let colors = ['#e2e8f0', '#ffffff'];
-
-  const movida = hola => {
-    console.log(hola);
-  };
+  p.state = {};
+  p.dispatch = () => {};
 
   p.setup = () => {
     p.createCanvas(670, 200);
@@ -14,6 +12,11 @@ export const simbols = p => {
     p.scale(0.8);
     p.translate(-p.width / 2, -p.height / 2);
     grid();
+  };
+
+  p.mouseClicked = () => {
+    grid();
+    p.dispatch('p5');
   };
 
   const grid = () => {

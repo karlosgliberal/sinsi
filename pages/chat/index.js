@@ -5,20 +5,8 @@ import MessageForm from '../../componets/MessageForm';
 import ButtonList from '../../componets/ButtonList';
 import { getIntentionFromDialogflow } from '../../services/dialogflowResponse';
 import { sinsiText } from '../../core/sinsiText';
-import { useP5 } from '@gen/react-use-p5';
 import { interaction } from '../../sketches/interaction';
 import { simbols } from '../../sketches/simbols';
-
-const Component = ({ sketch }) => {
-  const [setRef] = useP5(sketch);
-
-  return (
-    <div
-      className="fixed w-screen lg:w-1/2 flex flex-col justify-end bg-dots"
-      ref={setRef}
-    ></div>
-  );
-};
 
 export default function Chat() {
   const router = useRouter();
@@ -85,7 +73,6 @@ export default function Chat() {
 
   return (
     <div className="bg-sinsiblue w-screen h-screen flex justify-center">
-      <Component sketch={simbols} rotation={placeholder} />
       <div className="w-screen lg:w-1/2 border border-gray-700 flex flex-col justify-end bg-dots">
         <div className="h-auto overflow-scroll">
           <MessageList messages={menssagesLista} />

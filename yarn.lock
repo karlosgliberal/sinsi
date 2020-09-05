@@ -1041,11 +1041,6 @@
     postcss "7.0.32"
     purgecss "^2.3.0"
 
-"@gen/react-use-p5@^0.3.0":
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/@gen/react-use-p5/-/react-use-p5-0.3.0.tgz#0e36f695f36be7e52d61f9d3a6f447fbad8d4291"
-  integrity sha512-GBQBL4pek8SGy6vXbfw8V/nrNfVDJo4z87vQtGzYlKk5jRI4I44X4TZtmEcr4NctHzRNQC4orlKns0OGtuFIFw==
-
 "@next/react-dev-overlay@9.5.2":
   version "9.5.2"
   resolved "https://registry.yarnpkg.com/@next/react-dev-overlay/-/react-dev-overlay-9.5.2.tgz#5d7878782e2819926b0dcd0f880c26ed527e9880"

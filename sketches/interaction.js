@@ -11,7 +11,6 @@ export const interaction = p => {
   };
 
   p.draw = () => {
-    p.background(127);
     // Draw a circle
     p.strokeWeight(2);
     p.stroke(r, g, b);

@@ -7,11 +7,17 @@ import { getIntentionFromDialogflow } from '../../services/dialogflowResponse';
 import { sinsiText } from '../../core/sinsiText';
 import { useP5 } from '@gen/react-use-p5';
 import { interaction } from '../../sketches/interaction';
-// import { responseControl } from '../../core/responseControl';
+import { simbols } from '../../sketches/simbols';
 
 const Component = ({ sketch }) => {
   const [setRef] = useP5(sketch);
-  return <div ref={setRef}></div>;
+
+  return (
+    <div
+      className="fixed w-screen lg:w-1/2 flex flex-col justify-end bg-dots"
+      ref={setRef}
+    ></div>
+  );
 };
 
 export default function Chat() {
@@ -24,9 +30,7 @@ export default function Chat() {
   const [placeholder, setPlaceholder] = useState('Escribe tu mensaje...');
 
   const addMessage = (author, body) => {
-    if (author == 'You') {
-      setPlaceholder('Sinsi esta escribiendo...');
-    }
+    setPlaceholder('Sinsi esta escribiendo...');
     setMenssageList(menssagesLista => [
       ...menssagesLista,
       {
@@ -59,9 +63,6 @@ export default function Chat() {
       setPlaceholder('Escribe tu mensaje...');
     }, 2000);
     if (res) setLastIntention(res.data.intent.displayName);
-
-    console.log(res.data.intent.displayName);
-    console.log(lastIntention);
     addMessage('You', res.data.fulfillmentText);
   };
 
@@ -74,7 +75,7 @@ export default function Chat() {
   }, []);
 
   const handleButtonClick = event => {
-    console.log(event);
+    // console.log(event);
   };
 
   const handleNewMessage = text => {
@@ -84,9 +85,9 @@ export default function Chat() {
 
   return (
     <div className="bg-sinsiblue w-screen h-screen flex justify-center">
+      <Component sketch={simbols} rotation={placeholder} />
       <div className="w-screen lg:w-1/2 border border-gray-700 flex flex-col justify-end bg-dots">
         <div className="h-auto overflow-scroll">
-          {/* <Component sketch={interaction} /> */}
           <MessageList messages={menssagesLista} />
           {botonActivated == true && (
             <ButtonList

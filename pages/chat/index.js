@@ -5,8 +5,11 @@ import MessageForm from '../../componets/MessageForm';
 import ButtonList from '../../componets/ButtonList';
 import { getIntentionFromDialogflow } from '../../services/dialogflowResponse';
 import { sinsiText } from '../../core/sinsiText';
+import p5Wrapper from '../../componets/P5Wrapper/';
 import { interaction } from '../../sketches/interaction';
 import { simbols } from '../../sketches/simbols';
+
+const P5Wrapper = p5Wrapper();
 
 export default function Chat() {
   const router = useRouter();
@@ -63,7 +66,7 @@ export default function Chat() {
   }, []);
 
   const handleButtonClick = event => {
-    // console.log(event);
+    console.log(event);
   };
 
   const handleNewMessage = text => {
@@ -73,6 +76,7 @@ export default function Chat() {
 
   return (
     <div className="bg-sinsiblue w-screen h-screen flex justify-center">
+      <P5Wrapper sketch={simbols} dispatch={handleButtonClick} />
       <div className="w-screen lg:w-1/2 border border-gray-700 flex flex-col justify-end bg-dots">
         <div className="h-auto overflow-scroll">
           <MessageList messages={menssagesLista} />

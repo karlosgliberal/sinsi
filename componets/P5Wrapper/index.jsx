@@ -1,56 +1,45 @@
-import React, { memo, useEffect, useRef } from 'react'
-import PropTypes from 'prop-types'
+import React, { memo, useEffect, useRef } from 'react';
+import PropTypes from 'prop-types';
+import p5 from 'p5';
 
-import { generate } from 'shortid'
+export default function p5w() {
+  let canvas = null;
 
-export default function (id = generate()) {
-    let canvas = null
+  function P5Wrapper({ sketch = () => {}, state = {}, dispatch = () => {} }) {
+    console.log(`::: P5Wrapper() component has been re-rendered`);
 
-    function P5Wrapper({
-        sketch = () => { },
-        state = {},
-        dispatch = () => { },
-    }) {
-        console.log(`::: P5Wrapper(${id}) component has been re-rendered`)
+    const sketchContainer = useRef(null);
 
-        const sketchContainer = useRef(null)
+    useEffect(() => {
+      canvas = new p5(sketch, sketchContainer.current);
+      canvas.state = state;
+      canvas.dispatch = dispatch;
 
-        useEffect(() => {
-            console.log(`::: P5Wrapper(${id})/useEffect()`)
-            canvas = new window.p5(sketch, sketchContainer.current)
-            canvas.state = state
-            canvas.dispatch = dispatch
+      return () => {
+        canvas.remove();
+      };
+    }, [dispatch, sketch, state]);
 
-            return () => {
-                console.log(`::: P5Wrapper(${id})/useEffect.return()`)
-                canvas.remove()
-            }
-        }, [dispatch, sketch, state])
+    return <div ref={sketchContainer} />;
+  }
 
-        return (
-            <div ref={sketchContainer} className="section">
-                <h5>{`P5Wrapper #${id}`}</h5>
-            </div>
-        )
-    }
+  P5Wrapper.propTypes = {
+    state: PropTypes.object,
 
-    P5Wrapper.propTypes = {
-        state: PropTypes.object,
+    dispatch: PropTypes.func,
+    sketch: PropTypes.func,
+  };
 
-        dispatch: PropTypes.func,
-        sketch: PropTypes.func,
-    }
+  P5Wrapper.defaultProps = {
+    state: {},
 
-    P5Wrapper.defaultProps = {
-        state: {},
+    dispatch: () => {},
+    sketch: () => {},
+  };
 
-        dispatch: () => { },
-        sketch: () => { },
-    }
+  return memo(P5Wrapper, (_, nextProps) => {
+    canvas.state = { ...nextProps.state };
 
-    return memo(P5Wrapper, (_, nextProps) => {
-        canvas.state = { ...nextProps.state }
-
-        return true
-    })
+    return true;
+  });
 }

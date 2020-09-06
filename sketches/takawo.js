@@ -1,3 +1,5 @@
+import { loadGetInitialProps } from 'next/dist/next-server/lib/utils';
+
 export const takawo = p => {
   let code, str;
   let ns = 1000,
@@ -8,7 +10,6 @@ export const takawo = p => {
   p.dispatch = () => {};
 
   p.setup = () => {
-    console.log(p.state);
     code = '+++..+++...+++++++++..+.++.+.+.+.+.+.+.+.+......++++++++';
     p.createCanvas(820, 130);
     p.colorMode(p.HSB, 360, 100, 100, 100);
@@ -23,6 +24,17 @@ export const takawo = p => {
   };
 
   p.draw = () => {
+    if (p.state.movida.length > 1) {
+      let texto = p.state.movida[p.state.movida.length - 1];
+      code = texto.body;
+      for (let s of code) {
+        str += s;
+        str += '\n';
+      }
+    }
+
+    //fcode = ;
+
     p.background('#16242D');
     p.randomSeed(rs);
     p.noiseSeed(ns);
@@ -34,7 +46,6 @@ export const takawo = p => {
     // rotate(int(random(8)) * 360 / 8);
     separateGrid(-w / 2, -w / 2, w);
     p.pop();
-
     if (p.frameCount % 100 == 0) {
       ns = p.random(500, 2000);
       rs = p.random(500, 2000);
@@ -53,8 +64,8 @@ export const takawo = p => {
         } else {
           p.push();
           p.translate(i + w / 2, j + w / 2);
-          p.rotate((p.int(p.random(8)) * 360) / 8);
-          p.textSize(w * 0.4);
+          //p.rotate((p.int(p.random(8)) * 360) / 8);
+          p.textSize(w * 0.5);
           p.textAlign(p.CENTER, p.CENTER);
           p.text(str.substr(m, 1), 0, 0);
           m = (m + 1) % str.length;

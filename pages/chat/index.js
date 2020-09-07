@@ -34,7 +34,9 @@ export default function Chat() {
 
   const getIntention = async intention => {
     const res = await getIntentionFromDialogflow(intention);
+    console.log(res);
     let resIntentName = res.data.intent.displayName;
+    //Sinmplificar con como sea no te preocupes
     setTimeout(() => {
       if (resIntentName == 'sinsiSaludo') {
         getIntention('sinsiIntroUno');
@@ -60,7 +62,9 @@ export default function Chat() {
 
   useEffect(() => {
     if (!futurologistName.name) {
-      getIntention(`No has dado el nombre`);
+      //Corregir nombre intención con frase intención ("sinsiSinNombre")
+      getIntention(`sinsiSinNombre`);
+      //getIntention(`sinsiGameOver`);
     } else {
       getIntention(`El futurologist se llama ${futurologistName.name}`);
     }

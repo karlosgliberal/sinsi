@@ -24,7 +24,6 @@ export const takawo = p => {
   };
 
   p.draw = () => {
-    console.log(p.state);
     if (p.state.movida.length > 1) {
       let texto = p.state.movida[p.state.movida.length - 1];
       code = texto.body;

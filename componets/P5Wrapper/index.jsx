@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useRef } from 'react';
+import React, { memo, useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 
 export default function p5w() {
@@ -6,10 +6,11 @@ export default function p5w() {
 
   function P5Wrapper({ sketch = () => {}, state = {}, dispatch = () => {} }) {
     console.log(`::: P5Wrapper() component has been re-rendered`);
-
+    const [width, setWidth] = useState(0);
     const sketchContainer = useRef(null);
 
     useEffect(() => {
+      setWidth(sketchContainer.current.clientWidth);
       const p5 = require('p5');
       canvas = new p5(sketch, sketchContainer.current);
       canvas.state = state;

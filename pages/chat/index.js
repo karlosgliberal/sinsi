@@ -34,11 +34,10 @@ export default function Chat() {
 
   const getIntention = async intention => {
     const res = await getIntentionFromDialogflow(intention);
-    console.log(res);
     let resIntentName = res.data.intent.displayName;
     //Sinmplificar con como sea no te preocupes
     setTimeout(() => {
-      if (resIntentName == 'sinsiSaludo') {
+      if (resIntentName == 'sinsiIntroNombre') {
         getIntention('sinsiIntroUno');
       } else if (resIntentName == 'sinsiIntroUno') {
         getIntention('sinsiIntroDos');
@@ -66,7 +65,7 @@ export default function Chat() {
       getIntention(`sinsiSinNombre`);
       //getIntention(`sinsiGameOver`);
     } else {
-      getIntention(`El futurologist se llama ${futurologistName.name}`);
+      getIntention(`sinsiIntroNombre ${futurologistName.name}`);
     }
   }, []);
 

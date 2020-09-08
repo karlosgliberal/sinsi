@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/router';
 import MessageList from '../../componets/MessageList';
 import MessageForm from '../../componets/MessageForm';
@@ -14,7 +14,9 @@ const P5Wrapper = p5Wrapper();
 
 export default function Chat() {
   const router = useRouter();
+  const ref = useRef(null);
 
+  const [widthCanvasWrapper, setWidthCanvasWrapper] = useState(0);
   const [menssagesLista, setMenssageList] = useState([]);
   const [lastIntention, setLastIntention] = useState('');
   const [botonActivated, setBotonActivate] = useState(false);
@@ -60,6 +62,12 @@ export default function Chat() {
   };
 
   useEffect(() => {
+    setWidthCanvasWrapper(ref.current ? ref.current.offsetWidth : 0);
+    const handleWindowResize = () => {
+      setWidthCanvasWrapper(ref.current ? ref.current.offsetWidth : 0);
+    };
+    window.addEventListener('resize', handleWindowResize);
+
     if (!futurologistName.name) {
       //Corregir nombre intención con frase intención ("sinsiSinNombre")
       getIntention(`sinsiSinNombre`);
@@ -67,6 +75,7 @@ export default function Chat() {
     } else {
       getIntention(`sinsiIntroNombre ${futurologistName.name}`);
     }
+    return () => window.removeEventListener('resize', handleWindowResize);
   }, []);
 
   const handleButtonClick = event => {
@@ -83,9 +92,12 @@ export default function Chat() {
       <P5Wrapper
         sketch={takawo}
         dispatch={handleButtonClick}
-        state={{ movida: menssagesLista }}
+        state={{ widthCanvasWrapper }}
       />
-      <div className="w-screen lg:w-1/2 border border-gray-700 flex flex-col justify-end bg-dots">
+      <div
+        className="w-screen lg:w-1/2 border border-gray-700 flex flex-col justify-end bg-dots"
+        ref={ref}
+      >
         <div className="h-auto overflow-scroll">
           <MessageList messages={menssagesLista} />
           {botonActivated == true && (

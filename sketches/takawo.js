@@ -11,7 +11,7 @@ export const takawo = p => {
 
   p.setup = () => {
     code = '+++..+++...+++++++++..+.++.+.+.+.+.+.+.+.+......++++++++';
-    p.createCanvas(820, 130);
+    p.createCanvas(p.state.widthCanvasWrapper - 20, 130);
     p.colorMode(p.HSB, 360, 100, 100, 100);
 
     p.angleMode(p.DEGREES);
@@ -24,7 +24,7 @@ export const takawo = p => {
   };
 
   p.draw = () => {
-    if (p.state.movida.length > 1) {
+    if (p.state.widthCanvasWrapper.length > 1) {
       let texto = p.state.movida[p.state.movida.length - 1];
       code = texto.body;
       for (let s of code) {
@@ -51,6 +51,10 @@ export const takawo = p => {
       rs = p.random(500, 2000);
     }
     // noLoop();
+  };
+
+  p.windowResized = () => {
+    p.resizeCanvas(p.state.widthCanvasWrapper - 20, 130);
   };
 
   const separateGrid = (x, y, d) => {

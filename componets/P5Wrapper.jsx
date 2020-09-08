@@ -5,12 +5,9 @@ export default function p5w() {
   let canvas = null;
 
   function P5Wrapper({ sketch = () => {}, state = {}, dispatch = () => {} }) {
-    console.log(`::: P5Wrapper() component has been re-rendered`);
-    const [width, setWidth] = useState(0);
     const sketchContainer = useRef(null);
 
     useEffect(() => {
-      setWidth(sketchContainer.current.clientWidth);
       const p5 = require('p5');
       canvas = new p5(sketch, sketchContainer.current);
       canvas.state = state;

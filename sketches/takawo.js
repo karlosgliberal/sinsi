@@ -24,6 +24,10 @@ export const takawo = p => {
   };
 
   p.draw = () => {
+    if (p.state.widthCanvasWrapper == 0) {
+      p.dispatch();
+      p.resizeCanvas(p.state.widthCanvasWrapper - 20, 130);
+    }
     if (p.state.widthCanvasWrapper.length > 1) {
       let texto = p.state.movida[p.state.movida.length - 1];
       code = texto.body;

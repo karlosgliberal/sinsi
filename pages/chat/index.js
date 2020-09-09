@@ -22,8 +22,13 @@ export default function Chat() {
   const [botonActivated, setBotonActivate] = useState(false);
   const futurologistName = router.query;
   const [placeholder, setPlaceholder] = useState('Escribe tu mensaje...');
-  const temasChachara = ['preguntaHobbies','preguntaOdias'];
-  const temasFuturo = ['futuroPoblacion','futuroSector','futuroTema','futuroDesencadenante'];
+  const temasChachara = ['preguntaHobbies', 'preguntaOdias'];
+  const temasFuturo = [
+    'futuroPoblacion',
+    'futuroSector',
+    'futuroTema',
+    'futuroDesencadenante',
+  ];
 
   const addMessage = (author, body) => {
     setPlaceholder('Sinsi esta escribiendo...');
@@ -42,33 +47,33 @@ export default function Chat() {
     let resIntentName = res.data.intent.displayName;
 
     if (resIntentName == 'sinsiGameOver') {
+      setTimeout(() => {
+        window.location.href =
+          'https://i.pinimg.com/originals/df/98/0f/df980ffc2571fa604f2adcdbecddc016.gif';
+      }, 1000);
+    } else {
+      if (res) setLastIntention(res.data.intent.displayName);
+      let fulfillmentText = res.data.fulfillmentText;
+      let parts = fulfillmentText.split('#');
+      let sentence = parts[0];
+      addMessage('You', sentence);
+      if (parts[1]) {
         setTimeout(() => {
-          window.location.href =
-            'https://i.pinimg.com/originals/df/98/0f/df980ffc2571fa604f2adcdbecddc016.gif';
+          getIntention(parts[1]);
         }, 1000);
-    }else{
-        if (res) setLastIntention(res.data.intent.displayName);
-        let fulfillmentText = res.data.fulfillmentText;
-        let parts = fulfillmentText.split("#");
-        let sentence = parts[0];
-        addMessage('You', sentence);
-        if(parts[1]){
-            setTimeout(() => {
-                getIntention(parts[1]);
-             }, 1000);
-        }else{
-            setPlaceholder('Escribe tu mensaje...');
-        }
+      } else {
+        setPlaceholder('Escribe tu mensaje...');
+      }
     }
   };
 
-  useEffect(() => {
-    setWidthCanvasWrapper(ref.current ? ref.current.offsetWidth : 0);
-    const handleWindowResize = () => {
-      setWidthCanvasWrapper(ref.current ? ref.current.offsetWidth : 0);
-    };
-    window.addEventListener('resize', handleWindowResize);
+  const handleWindowResize = () => {
+    console.log('resize');
+    setWidthCanvasWrapper(ref.current ? ref.current.offsetWidth : 588);
+  };
 
+  useEffect(() => {
+    window.addEventListener('resize', handleWindowResize);
     if (!futurologistName.name) {
       //Corregir nombre intención con frase intención ("sinsiSinNombre")
       getIntention(`sinsiSinNombre`);
@@ -79,10 +84,6 @@ export default function Chat() {
     return () => window.removeEventListener('resize', handleWindowResize);
   }, []);
 
-  const handleButtonClick = event => {
-    addMessage('Me', event);
-  };
-
   const handleNewMessage = text => {
     addMessage('Me', text);
     getIntention(text);
@@ -92,7 +93,7 @@ export default function Chat() {
     <div className="bg-sinsiblue w-screen h-screen flex justify-center">
       <P5Wrapper
         sketch={takawo}
-        dispatch={handleButtonClick}
+        dispatch={handleWindowResize}
         state={{ widthCanvasWrapper }}
       />
       <div

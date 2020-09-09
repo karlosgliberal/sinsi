@@ -8,6 +8,7 @@ export default function p5w() {
     const sketchContainer = useRef(null);
 
     useEffect(() => {
+      console.log('wr');
       const p5 = require('p5');
       canvas = new p5(sketch, sketchContainer.current);
       canvas.state = state;

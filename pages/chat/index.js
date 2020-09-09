@@ -20,6 +20,8 @@ export default function Chat() {
   const [botonActivated, setBotonActivate] = useState(false);
   const futurologistName = router.query;
   const [placeholder, setPlaceholder] = useState('Escribe tu mensaje...');
+  const temasChachara = ['preguntaHobbies','preguntaOdias'];
+  const temasFuturo = ['futuroPoblacion','futuroSector','futuroTema','futuroDesencadenante'];
 
   const addMessage = (author, body) => {
     setPlaceholder('Sinsi esta escribiendo...');
@@ -34,29 +36,28 @@ export default function Chat() {
 
   const getIntention = async intention => {
     const res = await getIntentionFromDialogflow(intention);
+    console.log(res);
     let resIntentName = res.data.intent.displayName;
-    //Sinmplificar con como sea no te preocupes
-    setTimeout(() => {
-      if (resIntentName == 'sinsiIntroNombre') {
-        getIntention('sinsiIntroUno');
-      } else if (resIntentName == 'sinsiIntroUno') {
-        getIntention('sinsiIntroDos');
-      } else if (resIntentName == 'sinsiIntroDos') {
-        getIntention('sinsiIntroTres');
-      } else if (resIntentName == 'sinsiIntroTres') {
-        getIntention('sinsiIntroCuatro');
-      } else if (resIntentName == 'sinsiIntroCuatro') {
-        getIntention('sinsiPreguntaEdad');
-      } else if (resIntentName == 'sinsiGameOver') {
+
+    if (resIntentName == 'sinsiGameOver') {
         setTimeout(() => {
           window.location.href =
             'https://i.pinimg.com/originals/df/98/0f/df980ffc2571fa604f2adcdbecddc016.gif';
-        }, 4000);
-      }
-      setPlaceholder('Escribe tu mensaje...');
-    }, 2000);
-    if (res) setLastIntention(res.data.intent.displayName);
-    addMessage('You', res.data.fulfillmentText);
+        }, 1000);
+    }else{
+        if (res) setLastIntention(res.data.intent.displayName);
+        let fulfillmentText = res.data.fulfillmentText;
+        let parts = fulfillmentText.split("#");
+        let sentence = parts[0];
+        addMessage('You', sentence);
+        if(parts[1]){
+            setTimeout(() => {
+                getIntention(parts[1]);
+             }, 1000);
+        }else{
+            setPlaceholder('Escribe tu mensaje...');
+        }
+    }
   };
 
   useEffect(() => {

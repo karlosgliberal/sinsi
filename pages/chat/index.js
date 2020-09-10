@@ -112,29 +112,45 @@ export default function Chat() {
           getIntention(parts[1]);
         }, 1000);
       } else {
-        console.log('preg');
-        console.log(resIntentName);
-        console.log('xx' + resIntentName.indexOf('estadistica'));
-        if (
-          resIntentName.indexOf('estadistica') === -1 &&
-          resIntentName.indexOf('futuro') === -1 &&
-          resIntentName.indexOf('corte') === -1
-        ) {
-          contPreguntas++;
-        }
-        console.log(contPreguntas);
-        if (contPreguntas > 3) {
-          console.log('preg futuro');
-          console.log(itemsFuturo);
-          contPreguntas = 0;
-          getIntention('corteConversacion');
+        if (res) setLastIntention(res.data.intent.displayName);
+        console.log();
+        let fulfillmentText = res.data.fulfillmentText;
+        let parts = fulfillmentText.split('#');
+        let sentence = parts[0];
+        addMessage('You', sentence);
+        if (parts[1]) {
+          setTimeout(() => {
+            getIntention(parts[1]);
+          }, 1000);
         } else {
-          if (resIntentName.indexOf('Reaccion') !== -1) {
-            let random = Math.floor(Math.random() * itemsChachara.length);
-            console.log('Tema chachara: ' + itemsChachara[random]);
-            getIntention(itemsChachara[random]);
+          console.log('preg');
+          console.log(resIntentName);
+          console.log('xx' + resIntentName.indexOf('estadistica'));
+          if (
+            resIntentName.indexOf('estadistica') === -1 &&
+            resIntentName.indexOf('futuro') === -1 &&
+            resIntentName.indexOf('corte') === -1
+          ) {
+            contPreguntas++;
           }
-          console.log('Espera usuario');
+
+          console.log(contPreguntas);
+          if (contPreguntas > 3) {
+            console.log('preg futuro');
+            console.log(itemsFuturo);
+
+            contPreguntas = 0;
+            getIntention('corteConversacion');
+          } else {
+            if (resIntentName.indexOf('Reaccion') !== -1) {
+              let random = Math.floor(Math.random() * itemsChachara.length);
+              console.log('Tema chachara: ' + itemsChachara[random]);
+              getIntention(itemsChachara[random]);
+            }
+
+            console.log('Espera usuario');
+          }
+          setPlaceholder('Escribe tu mensaje...');
         }
         setPlaceholder('Escribe tu mensaje...');
       }

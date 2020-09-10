@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/router';
 import MessageList from '../../componets/MessageList';
 import MessageForm from '../../componets/MessageForm';
@@ -20,7 +20,9 @@ let preguntaFuturo = false;
 
 export default function Chat() {
   const router = useRouter();
+  const ref = useRef(null);
 
+  const [widthCanvasWrapper, setWidthCanvasWrapper] = useState(0);
   const [menssagesLista, setMenssageList] = useState([]);
   const [lastIntention, setLastIntention] = useState('');
   const [botonActivated, setBotonActivate] = useState(false);
@@ -28,15 +30,8 @@ export default function Chat() {
   const [placeholder, setPlaceholder] = useState('Escribe tu mensaje...');
   //const itemsChachara = useState(['preguntaHobbies','preguntaOdias']);
   //const itemsFuturo = useState(['futuroPreguntaEdad','futuroPreguntaGenero','futuroPoblacion','futuroSector','futuroTema']);
-
-
-  function incContPreguntas() {
-        return contPreguntas++;
-  }
-
   //const [itemsChachara, setItemsChachara] = useState([]);
   //const [itemsFuturo, setItemsFuturo] = useState([]);
-
   //setItemsChachara(['preguntaHobbies','preguntaOdias']);
   //setItemsFuturo(['futuroPoblacion','futuroSector','futuroTema','futuroDesencadenante']);
 
@@ -132,7 +127,6 @@ export default function Chat() {
             if (resIntentName.indexOf('estadistica') === -1 && resIntentName.indexOf('futuro') === -1 && resIntentName.indexOf('corte') === -1) {
                 contPreguntas++;
             }
-            //contPreguntas = incContPreguntas();
 
             console.log(contPreguntas);
             if(contPreguntas>3){
@@ -157,7 +151,13 @@ export default function Chat() {
     }
   };
 
+  const handleWindowResize = () => {
+    console.log('resize');
+    setWidthCanvasWrapper(ref.current ? ref.current.offsetWidth : 588);
+  };
+
   useEffect(() => {
+    window.addEventListener('resize', handleWindowResize);
     if (!futurologistName.name) {
       //Corregir nombre intención con frase intención ("sinsiSinNombre")
       getIntention(`sinsiSinNombre`);
@@ -165,11 +165,8 @@ export default function Chat() {
     } else {
       getIntention(`sinsiIntroNombre ${futurologistName.name}`);
     }
+    return () => window.removeEventListener('resize', handleWindowResize);
   }, []);
-
-  const handleButtonClick = event => {
-    addMessage('Me', event);
-  };
 
   const handleNewMessage = text => {
     addMessage('Me', text);
@@ -180,10 +177,13 @@ export default function Chat() {
     <div className="bg-sinsiblue w-screen h-screen flex justify-center">
       <P5Wrapper
         sketch={takawo}
-        dispatch={handleButtonClick}
-        state={{ movida: menssagesLista }}
+        dispatch={handleWindowResize}
+        state={{ widthCanvasWrapper }}
       />
-      <div className="w-screen lg:w-1/2 border border-gray-700 flex flex-col justify-end bg-dots">
+      <div
+        className="w-screen lg:w-1/2 border border-gray-700 flex flex-col justify-end bg-dots"
+        ref={ref}
+      >
         <div className="h-auto overflow-scroll">
           <MessageList messages={menssagesLista} />
           {botonActivated == true && (

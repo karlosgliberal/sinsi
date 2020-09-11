@@ -16,6 +16,11 @@ let itemsChachara = [
   'preguntaOdias',
   'preguntaIntimidad1',
   'preguntaIntimidad2',
+  'preguntaIntimidad3',
+  'preguntaIntimidad4',
+  'preguntaIntimidad5',
+  'preguntaIntimidad6',
+  'preguntaIntimidad7'
 ];
 let itemsFuturo = [
   'futuroPreguntaSaltoTemporal',
@@ -27,6 +32,8 @@ let itemsFuturo = [
 let timer;
 let intentos = 0;
 let preguntaFuturo = false;
+let preguntaChachara = false;
+let preguntaProvoca = false;
 export default function Chat() {
   const router = useRouter();
   const ref = useRef(null);
@@ -53,22 +60,58 @@ export default function Chat() {
     ]);
   };
   const getIntention = async intention => {
-    /*
-      clearTimeout(timer);
-    timer = setTimeout(function(){
-        if(intentos>2){
-            getIntention('sinsiGameOver');
-        }else{
-            intentos++;
-            getIntention('corteTiempo');
-        }
-    }, 10000);
-*/
+
+
     const res = await getIntentionFromDialogflow(intention);
     console.log(res);
     let resIntentName = res.data.intent.displayName;
+
+    clearTimeout(timer);
+    timer = setTimeout(function(){
+      if (resIntentName.indexOf('pregunta') !== -1 || resIntentName.indexOf('Pregunta') !== -1) {
+        if(intentos>2){
+            getIntention('sinsiGameOver');
+            return;
+        }else{
+            intentos++;
+            getIntention('corteTiempo');
+            return;
+        }
+      }else{
+        if(preguntaProvoca){
+          getIntention('provocaUsuario');
+          return;
+        }else{
+          let random = Math.floor(Math.random() * itemsChachara.length);
+          console.log('Tema chachara: ' + itemsChachara[random]);
+          let item = itemsChachara.splice(random, 1);
+          getIntention(item);
+          return;
+        }
+      }
+    }, 15000);
+
+    if(resIntentName.indexOf('provocaUsuario') !== -1){
+      preguntaProvoca = false;
+    }else{
+      preguntaProvoca = true;
+    }
+
+
+
+    console.log('resIntentName');
+    console.log(resIntentName);
     if (res.data.intent.isFallback && preguntaFuturo) {
       getIntention('corteCentrate');
+      return;
+    }
+    console.log(preguntaChachara);
+    if(preguntaChachara){
+      preguntaChachara = false;
+      if(res.data.intent.isFallback){
+        getIntention('seguirAfirmacion');
+        return;
+      }
     }
     if (resIntentName != 'corteTiempo') {
       intentos = 0;
@@ -76,6 +119,7 @@ export default function Chat() {
     if (resIntentName.indexOf('corteConversacion') !== -1) {
       let firstItem = itemsFuturo.find(x => x !== undefined);
       getIntention(firstItem);
+      return;
     }
     if (resIntentName.indexOf('futuroPregunta') !== -1) {
       console.log('borramos');
@@ -87,13 +131,12 @@ export default function Chat() {
     if (resIntentName.indexOf('futuroReaccion') !== -1) {
       preguntaFuturo = false;
     }
-    if (resIntentName.indexOf('pregunta') !== -1) {
-      /*
-        //Borramos la pregunta de chachara
-                console.log('borramos');
-        console.log(itemsChachara);
-        itemsChachara.shift();
-        */
+
+
+
+    if (resIntentName.indexOf('pregunta') === 0) {
+      preguntaChachara = true;
+      console.log("es pregunta chachara");
     }
     if (resIntentName == 'sinsiGameOver') {
       setTimeout(() => {
@@ -110,6 +153,7 @@ export default function Chat() {
       if (parts[1]) {
         setTimeout(() => {
           getIntention(parts[1]);
+          return;
         }, 1000);
       } else {
         if (res) setLastIntention(res.data.intent.displayName);
@@ -117,10 +161,10 @@ export default function Chat() {
         let fulfillmentText = res.data.fulfillmentText;
         let parts = fulfillmentText.split('#');
         let sentence = parts[0];
-        addMessage('You', sentence);
         if (parts[1]) {
           setTimeout(() => {
             getIntention(parts[1]);
+            return;
           }, 1000);
         } else {
           console.log('preg');
@@ -129,7 +173,9 @@ export default function Chat() {
           if (
             resIntentName.indexOf('estadistica') === -1 &&
             resIntentName.indexOf('futuro') === -1 &&
-            resIntentName.indexOf('corte') === -1
+            resIntentName.indexOf('corte') === -1 &&
+            resIntentName.indexOf('seguirAfirmacion') === -1 &&
+            resIntentName.indexOf('provocaUsuario') === -1
           ) {
             contPreguntas++;
           }
@@ -141,20 +187,26 @@ export default function Chat() {
 
             contPreguntas = 0;
             getIntention('corteConversacion');
+            return;
           } else {
             if (resIntentName.indexOf('Reaccion') !== -1) {
               let random = Math.floor(Math.random() * itemsChachara.length);
               console.log('Tema chachara: ' + itemsChachara[random]);
               getIntention(itemsChachara[random]);
+              return;
             }
 
             console.log('Espera usuario');
           }
           setPlaceholder('Escribe tu mensaje...');
         }
-        setPlaceholder('Escribe tu mensaje...');
+
+        //setPlaceholder('Escribe tu mensaje...');
       }
+
     }
+
+
   };
   const handleWindowResize = () => {
     console.log('resize');

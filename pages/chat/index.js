@@ -70,6 +70,7 @@ export default function Chat() {
   const [menssagesLista, setMenssageList] = useState([]);
   const [lastIntention, setLastIntention] = useState('');
   const [botonColorActivated, setBotonColorActivate] = useState(false);
+  const [colorSelect, setColorSelect] = useState('defaut');
   const [botonSaltoTemporalActivated, setBotonSaltoTemporalActivate] = useState(
     false
   );
@@ -494,6 +495,7 @@ export default function Chat() {
   const handleButtonColorClick = value => {
     console.log('presionamos botón');
     console.log(value);
+    setColorSelect(value);
     setBotonColorActivate(false);
     handleNewMessage(value);
   };
@@ -506,6 +508,7 @@ export default function Chat() {
 
   const handleWindowResize = () => {
     console.log('resize');
+    setColorSelect('default');
     setWidthCanvasWrapper(ref.current ? ref.current.offsetWidth : 588);
   };
 
@@ -530,7 +533,11 @@ export default function Chat() {
       <P5Wrapper
         sketch={rosa}
         dispatch={handleWindowResize}
-        state={{ widthCanvasWrapper: widthCanvasWrapper, text: menssagesLista }}
+        state={{
+          widthCanvasWrapper: widthCanvasWrapper,
+          text: menssagesLista,
+          color: colorSelect,
+        }}
       />
       <div
         className="w-screen lg:w-1/2 border border-gray-700 flex flex-col justify-end bg-dots"

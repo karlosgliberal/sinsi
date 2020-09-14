@@ -1,12 +1,8 @@
 export const sinsiText = {
   color: {
     text:
-        'Vamos con una pregunta más "personal". ¿Con cuál de estos colores te identificas más?',
-    preguntas: [
-      'verdes',
-      'rojos',
-      'azules',
-    ],
+      'Vamos con una pregunta más "personal". ¿Con cuál de estos colores te identificas más?',
+    preguntas: ['rosa', 'azul', 'morado'],
   },
   saltoTemporal: {
     text:
@@ -35,17 +31,11 @@ export const sinsiText = {
     ],
   },
   tipoFuturo: {
-    text:
-        '',
-    preguntas: [
-      'utópico',
-      'distópico',
-      'continuista',
-    ],
+    text: '',
+    preguntas: ['utópico', 'distópico', 'continuista'],
   },
   poblacion: {
-    text:
-        '',
+    text: '',
     preguntas: [
       'las minorías',
       'los ancianos',
@@ -55,8 +45,7 @@ export const sinsiText = {
     ],
   },
   sector: {
-    text:
-        '',
+    text: '',
     preguntas: [
       'de la salud',
       'de la economía y las finanzas',
@@ -70,8 +59,7 @@ export const sinsiText = {
       'del arte y la cultura',
       'de la energía',
       'del medioambiente y el clima',
-      'de las relaciones internacionales' +
-      'del transporte',
+      'de las relaciones internacionales' + 'del transporte',
       'de la industria',
       'de la política',
       'de la religión',
@@ -90,12 +78,11 @@ export const sinsiText = {
       'del lenguaje',
       'de la robótica',
       'del comercio',
-      'del sexo'
+      'del sexo',
     ],
   },
   tema: {
-    text:
-        '',
+    text: '',
     preguntas: [
       'serán los sistemas de recomendación',
       'será el rastreo',
@@ -110,7 +97,7 @@ export const sinsiText = {
       'será el aumento de capacidades humanas',
       'será la realidad aumentada',
       'serán los asistentes por voz',
-      'será la introducción de la naturaleza en entornos sintéticos',//duda
+      'será la introducción de la naturaleza en entornos sintéticos', //duda
       'será la singularidad de la inteligencia artificial',
       'serán los sistemas de autocontrol personal',
       'serán las monodosis de información y formación para el desarrollo personal',
@@ -120,8 +107,7 @@ export const sinsiText = {
       'será la detección de sesgos en la inteligencia artificial y en los humanos',
       'será la trazabilidad de los datos',
       'será la credibilidad de la información',
-      'será el distanciamiento social'
+      'será el distanciamiento social',
     ],
   },
-
 };

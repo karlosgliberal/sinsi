@@ -21,7 +21,7 @@ export default function p5w() {
 
     return (
       <div
-        className="z-0 p-2 m-t-2 fixed w-screen lg:w-1/2 flex flex-col justify-end bg-dots"
+        className="z-0 px-2  fixed w-screen lg:w-1/2 flex flex-col justify-end bg-dots"
         ref={sketchContainer}
       />
     );

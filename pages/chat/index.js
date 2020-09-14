@@ -32,7 +32,10 @@ let itemsFuturo = [
   'futuroTema',
 ];
 const itemsEstadistica = [
-  { reaccion: 'estadisticaReaccionEdad', pregunta: 'estadisticaPreguntaEdad' },
+  {
+    reaccion: 'estadisticaReaccionEdad',
+    pregunta: 'estadisticaPreguntaEdad',
+  },
   {
     reaccion: 'estadisticaReaccionGenero',
     pregunta: 'estadisticaPreguntaGenero',
@@ -85,6 +88,11 @@ export default function Chat() {
     );
 
     if (resultado !== -1) {
+      console.log('movida');
+      console.log(resultado);
+      if (resultado == 2) {
+        setBotonActivate(true);
+      }
       itemsEstadistica.splice(resultado, 1);
     }
 
@@ -262,6 +270,7 @@ export default function Chat() {
     console.log('resize');
     setWidthCanvasWrapper(ref.current ? ref.current.offsetWidth : 588);
   };
+
   useEffect(() => {
     window.addEventListener('resize', handleWindowResize);
     if (!futurologistName.name) {
@@ -282,7 +291,7 @@ export default function Chat() {
       <P5Wrapper
         sketch={rosa}
         dispatch={handleWindowResize}
-        state={{ widthCanvasWrapper }}
+        state={{ widthCanvasWrapper: widthCanvasWrapper, text: menssagesLista }}
       />
       <div
         className="w-screen lg:w-1/2 border border-gray-700 flex flex-col justify-end bg-dots"

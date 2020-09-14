@@ -56,18 +56,19 @@ const itemsEstadistica = [
     pregunta: 'estadisticaPreguntaColor',
   },
 ];
+
 let timer;
 let preguntaFuturo = false;
 let reaccionFuturo = false;
 let preguntaChachara = false;
 let numAvisos = 0;
+
 export default function Chat() {
   const router = useRouter();
   const ref = useRef(null);
   const [widthCanvasWrapper, setWidthCanvasWrapper] = useState(0);
   const [menssagesLista, setMenssageList] = useState([]);
   const [lastIntention, setLastIntention] = useState('');
-  const [botonActivated, setBotonActivate] = useState(false);
   const [botonColorActivated, setBotonColorActivate] = useState(false);
   const [botonSaltoTemporalActivated, setBotonSaltoTemporalActivate] = useState(
     false
@@ -523,6 +524,7 @@ export default function Chat() {
     addMessage('Me', text);
     getIntention(text);
   };
+
   return (
     <div className="bg-sinsiblue w-screen h-screen flex justify-center">
       <P5Wrapper

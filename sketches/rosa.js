@@ -40,7 +40,7 @@ export const rosa = p => {
       p.rect(0, i * h, p.width, h);
     }
 
-    let s = 12 + p.state.text.length;
+    let s = 12 + p.state.text.length / 2;
 
     p.textSize(s);
     c += 2e-4;

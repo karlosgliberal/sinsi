@@ -5,8 +5,8 @@ export const rosa = p => {
   let c = 0;
 
   p.setup = () => {
-    from = p.color('#6C03AB');
-    to = p.color('#F0A2E8');
+    from = p.color('#16242D');
+    to = p.color('#16242D');
     steps = 30;
     w = 200 / steps;
     h = 200 / steps;
@@ -27,7 +27,7 @@ export const rosa = p => {
       p.fill(p.lerpColor(from, to, (1 / steps) * i));
       p.rect(0, i * h, p.width, h);
     }
-    console.log(p.state.text.length);
+    console.log(p.state.text.l);
     let s = 12 + p.state.text.length;
 
     p.textSize(s);

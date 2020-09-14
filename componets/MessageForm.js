@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 export default function MessageForm(props) {
   //useEffect(() => input.focus(), []);
   const [inputMessage, setInputMessage] = useState('');
+
   const handleInputChange = event => {
     setInputMessage(event.target.value);
   };
@@ -13,6 +14,10 @@ export default function MessageForm(props) {
     setInputMessage('');
   };
 
+  const handleKeyPress = (event) => {
+    props.onUserKeyPress();
+  }
+
   return (
     <form className="MessageForm" onSubmit={handleFormSubmit}>
       {/* cuando esta activo se añade la clase "submit-outline-active" y cuando no se quita: */}
@@ -21,6 +26,7 @@ export default function MessageForm(props) {
           className="border-0 bg-transparent w-full focus:border-transparent py-3 px-2 rounded-none text-white"
           type="text"
           onChange={handleInputChange}
+          onKeyPress={handleKeyPress}
           value={inputMessage}
           /*ref={node => (input = node)}*/
           placeholder={props.placeholder}

@@ -1,14 +1,23 @@
 export const sinsiText = {
+  color: {
+    text:
+        'Vamos con una pregunta más "personal". ¿Con cuál de estos colores te identificas más?',
+    preguntas: [
+      'verdes',
+      'rojos',
+      'azules',
+    ],
+  },
   saltoTemporal: {
     text:
       'Una cosa. Para que me sitúe. Cuando piensas en el futuro, ¿de qué salto en el tiempo estamos hablando? \n Date prisa en decidirlo o elegiré yo cómo de lejos vamos a viajar',
     preguntas: [
-      'Unos meses',
-      'Unos años',
-      'Una década',
-      'Una generación',
-      'Un siglo',
-      'Un milenio',
+      'unos meses',
+      'unos años',
+      'una década',
+      'una generación',
+      'un siglo',
+      'un milenio',
     ],
   },
   desencadenante: {
@@ -25,4 +34,94 @@ export const sinsiText = {
       'un acuerdo empresarial',
     ],
   },
+  tipoFuturo: {
+    text:
+        '',
+    preguntas: [
+      'utópico',
+      'distópico',
+      'continuista',
+    ],
+  },
+  poblacion: {
+    text:
+        '',
+    preguntas: [
+      'las minorías',
+      'los ancianos',
+      'los niños',
+      'los adolescentes',
+      'los adultos',
+    ],
+  },
+  sector: {
+    text:
+        '',
+    preguntas: [
+      'de la salud',
+      'de la economía y las finanzas',
+      'del tiempo libre y el ocio',
+      'del aprendizaje y la educación',
+      'de la identidad personal',
+      'de las relaciones personales y sociales',
+      'de la agricultura y la alimentación',
+      'del empleo',
+      'del urbanismo y la ciudadanía',
+      'del arte y la cultura',
+      'de la energía',
+      'del medioambiente y el clima',
+      'de las relaciones internacionales' +
+      'del transporte',
+      'de la industria',
+      'de la política',
+      'de la religión',
+      'de la seguridad',
+      'de la legislación y la justicia',
+      'del turismo',
+      'del deporte',
+      'de la información y el periodismo',
+      'de las comunicaciones',
+      'de las clases sociales',
+      'de la moda',
+      'del género',
+      'de la genética',
+      'de la naturaleza',
+      'de la memoria',
+      'del lenguaje',
+      'de la robótica',
+      'del comercio',
+      'del sexo'
+    ],
+  },
+  tema: {
+    text:
+        '',
+    preguntas: [
+      'serán los sistemas de recomendación',
+      'será el rastreo',
+      'serán los sistemas de scoring',
+      'serán las decisiones automatizadas',
+      'será el aumento de autoridad de los algoritmos',
+      'serán los datos y el perfilado personalizado por parte de los algoritmos',
+      'será la identificación facial',
+      'serán las plataformas que monopolizan Internet',
+      'serán las herramientas de autoría creativa y generativas',
+      'será la monitorización de hábitos y conductas',
+      'será el aumento de capacidades humanas',
+      'será la realidad aumentada',
+      'serán los asistentes por voz',
+      'será la introducción de la naturaleza en entornos sintéticos',//duda
+      'será la singularidad de la inteligencia artificial',
+      'serán los sistemas de autocontrol personal',
+      'serán las monodosis de información y formación para el desarrollo personal',
+      'será la realidad virtual',
+      'será el postureo extremo',
+      'será la inteligencia artificial explicable',
+      'será la detección de sesgos en la inteligencia artificial y en los humanos',
+      'será la trazabilidad de los datos',
+      'será la credibilidad de la información',
+      'será el distanciamiento social'
+    ],
+  },
+
 };

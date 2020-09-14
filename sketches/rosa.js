@@ -5,8 +5,8 @@ export const rosa = p => {
   let c = 0;
 
   p.setup = () => {
-    from = p.color('#16242D');
-    to = p.color('#16242D');
+    from = p.color('#6C03AB');
+    to = p.color('#F0A2E8');
     steps = 30;
     w = 200 / steps;
     h = 200 / steps;

@@ -545,7 +545,7 @@ export default function Chat() {
             color: colorSelect,
           }}
         />
-        <div className="h-auto overflow-scroll border border-red-300 mt-5">
+        <div className="h-auto overflow-scroll mt-5">
           <MessageList messages={menssagesLista} />
           {botonColorActivated == true && (
             <ButtonList

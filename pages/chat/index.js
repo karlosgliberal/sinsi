@@ -126,7 +126,7 @@ export default function Chat() {
           setTimeout(() => {
             getIntention(parts[1]);
             return;
-          }, 1000);
+          }, 2000);
         } else {
           console.log('controlpreguntas');
           controlPreguntas(resIntentName);
@@ -155,7 +155,7 @@ export default function Chat() {
     numAvisos = 0;
     timer = setInterval(function () {
       avisoInactividad('');
-    }, 50000);
+    }, 10000);
   };
 
   //Controla si el usuario no responde al lanzar la intención
@@ -167,7 +167,7 @@ export default function Chat() {
     }
     timer = setInterval(function () {
       avisoInactividad(resIntentName);
-    }, 150000);
+    }, 20000);
   };
 
   //Muestra avisos de inactividad

@@ -108,10 +108,10 @@ export default function Chat() {
 
     if (continuar) {
       if (resIntentName == 'sinsiGameOver') {
-        setTimeout(() => {
-          window.location.href =
-            'https://i.pinimg.com/originals/df/98/0f/df980ffc2571fa604f2adcdbecddc016.gif';
-        }, 1000);
+        // setTimeout(() => {
+        //   window.location.href =
+        //     'https://i.pinimg.com/originals/df/98/0f/df980ffc2571fa604f2adcdbecddc016.gif';
+        // }, 1000);
       } else {
         if (res) setLastIntention(res.data.intent.displayName);
         console.log();
@@ -532,7 +532,7 @@ export default function Chat() {
   return (
     <div className="bg-sinsiblue w-screen h-screen flex justify-center">
       <P5Wrapper
-        sketch={codigos}
+        sketch={rosa}
         dispatch={handleWindowResize}
         state={{
           widthCanvasWrapper: widthCanvasWrapper,

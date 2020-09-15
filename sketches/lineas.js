@@ -13,7 +13,7 @@ export const lineas = p => {
     p.rectMode(p.CENTER);
     p.angleMode(p.DEGREES);
     // 1 frame per second
-    p.frameRate(2);
+    // p.frameRate(2);
     rectPosX = 0;
     rectPosY = p.height / 2;
     //p.colorMode(p.HSL, 100);

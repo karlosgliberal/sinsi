@@ -3,27 +3,27 @@ export const lineas = p => {
   p.dispatch = () => {};
 
   let rectPosX, rectPosY;
-  let rectSize = 10;
+  let rectSize = 20;
   let strokeHue = 0;
   let rota = 90;
 
   p.setup = () => {
-    p.createCanvas(p.state.widthCanvasWrapper - 20, 80);
+    p.createCanvas(p.state.widthCanvasWrapper - 2, 100);
     p.textAlign(p.CENTER);
     p.rectMode(p.CENTER);
     p.angleMode(p.DEGREES);
     // 1 frame per second
-    p.frameRate(2);
+    //p.frameRate(8);
     rectPosX = 0;
     rectPosY = p.height / 2;
     //p.colorMode(p.HSL, 100);
-    p.background('#16242D');
+    //p.background('#16242D');
   };
 
   p.draw = () => {
     if (p.state.widthCanvasWrapper == 0) {
       p.dispatch();
-      p.resizeCanvas(p.state.widthCanvasWrapper - 20, 80);
+      p.resizeCanvas(p.state.widthCanvasWrapper - 2, 100);
       rectPosX = 0;
       rectPosY = p.height / 2;
     }
@@ -49,13 +49,17 @@ export const lineas = p => {
       rectPosY -= rectSize;
       rectPosX += rectSize;
     }
+
     p.translate(rectPosX, rectPosY);
     rota = rota + 90 * randomNum;
     p.rotate(rota);
-    if (p.frameCount % 10 == 1) {
-      p.stroke('#484848');
-    } else {
+
+    if (p.frameCount % 5 == 1) {
       p.stroke('#fff');
+    } else if (p.frameCount % 8 == 1) {
+      p.stroke('#E204E6');
+    } else {
+      p.stroke('#484848');
     }
 
     p.strokeWeight(1);
@@ -78,7 +82,6 @@ export const lineas = p => {
     if (strokeHue >= 100) {
       strokeHue = 0;
     }
-
     // noLoop();
   };
 

@@ -120,7 +120,7 @@ export default function Chat() {
         let sentence = parts[0];
 
         console.log('mensaje');
-        addMessage('You', sentence);
+        addMessage('Sinsi', sentence);
 
         if (parts[1]) {
           setTimeout(() => {
@@ -275,7 +275,7 @@ export default function Chat() {
 
     if (resIntentName.indexOf('corteConversacion') !== -1) {
       let firstItem = itemsFuturo.find(x => x !== undefined);
-      addMessage('You', fulfillmentText);
+      addMessage('Sinsi', fulfillmentText);
       getIntention(firstItem);
       return false;
     }
@@ -290,7 +290,7 @@ export default function Chat() {
       if (isFunctionDefined(resIntentName)) {
         let fn = resIntentName + '(fulfillmentText)';
         let res = eval(fn);
-        addMessage('You', res);
+        addMessage('Sinsi', res);
         return false;
       }
     }
@@ -303,14 +303,14 @@ export default function Chat() {
         let fn = resIntentName + '(fulfillmentText)';
         let res = eval(fn);
 
-        addMessage('You', res);
+        addMessage('Sinsi', res);
         return false;
       }
     }
 
     if (resIntentName.indexOf('estadisticaPreguntaColor') === 0) {
       let res = preguntaColor(fulfillmentText);
-      addMessage('You', res);
+      addMessage('Sinsi', res);
       return false;
     }
 
@@ -330,7 +330,7 @@ export default function Chat() {
       //Después de la charla inicial comprobamos si ha respondido a las preguntas de estadística, sino insistimos
       if(itemsEstadistica.length>0) {
         let firstItem = itemsEstadistica.find(x => x !== undefined);
-        addMessage('You', 'Voy a intentarlo otra vez...');
+        addMessage('Sinsi', 'Voy a intentarlo otra vez...');
         getIntention(firstItem.pregunta);
         return;
       }else{
@@ -525,6 +525,7 @@ export default function Chat() {
     }
     return () => window.removeEventListener('resize', handleWindowResize);
   }, []);
+
   const handleNewMessage = text => {
     addMessage('Me', text);
     getIntention(text);

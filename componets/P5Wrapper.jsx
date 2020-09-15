@@ -18,7 +18,7 @@ export default function p5w() {
       };
     }, [dispatch, sketch, state]);
 
-    return <div className="pt-2" ref={sketchContainer} />;
+    return <div className="py-4" ref={sketchContainer} />;
   }
 
   P5Wrapper.propTypes = {

@@ -10,7 +10,7 @@ export default function Message(props) {
   useEffect(scrollToBottom, [props]);
   return (
     <div>
-      {props.author === 'You' && (
+      {props.author === 'Sinsi' && (
         <div className="text-decoration">
           <ReactMarkdown
             //className= {(prosp.puntos  ? 'active' : '')}

@@ -155,7 +155,7 @@ export default function Chat() {
     numAvisos = 0;
     timer = setInterval(function () {
       avisoInactividad('');
-    }, 5000);
+    }, 50000);
   };
 
   //Controla si el usuario no responde al lanzar la intención
@@ -167,7 +167,7 @@ export default function Chat() {
     }
     timer = setInterval(function () {
       avisoInactividad(resIntentName);
-    }, 15000);
+    }, 150000);
   };
 
   //Muestra avisos de inactividad

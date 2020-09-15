@@ -533,7 +533,7 @@ export default function Chat() {
   return (
     <div className="bg-sinsiblue w-screen h-screen flex justify-center">
       <div
-        className="w-screen lg:w-1/2 border border-gray-700 flex flex-col justify-end bg-dots"
+        className="w-screen lg:w-1/2 border border-gray-700 flex flex-col justify-between bg-dots"
         ref={ref}
       >
         <P5Wrapper
@@ -545,7 +545,7 @@ export default function Chat() {
             color: colorSelect,
           }}
         />
-        <div className="h-auto overflow-scroll">
+        <div className="h-auto overflow-scroll border border-red-300 mt-5">
           <MessageList messages={menssagesLista} />
           {botonColorActivated == true && (
             <ButtonList

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 export default function p5w() {
   let canvas = null;
 
-  function P5Wrapper({ sketch = () => {}, state = {}, dispatch = () => {} }) {
+  function P5Wrapper({ sketch = () => { }, state = {}, dispatch = () => { } }) {
     const sketchContainer = useRef(null);
 
     useEffect(() => {
@@ -18,7 +18,7 @@ export default function p5w() {
       };
     }, [dispatch, sketch, state]);
 
-    return <div className="px-2 p-t-2 fixed" ref={sketchContainer} />;
+    return <div className="" ref={sketchContainer} />;
   }
 
   P5Wrapper.propTypes = {
@@ -31,8 +31,8 @@ export default function p5w() {
   P5Wrapper.defaultProps = {
     state: {},
 
-    dispatch: () => {},
-    sketch: () => {},
+    dispatch: () => { },
+    sketch: () => { },
   };
 
   return memo(P5Wrapper, (_, nextProps) => {

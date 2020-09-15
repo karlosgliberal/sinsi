@@ -1,6 +1,6 @@
 export const lineas = p => {
   p.state = {};
-  p.dispatch = () => {};
+  p.dispatch = () => { };
 
   let rectPosX, rectPosY;
   let rectSize = 10;

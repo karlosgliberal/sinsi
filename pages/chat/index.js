@@ -531,7 +531,7 @@ export default function Chat() {
 
   return (
     <div className="bg-sinsiblue w-screen h-screen flex justify-center">
-      <P5Wrapper
+      {/* <P5Wrapper
         sketch={codigos}
         dispatch={handleWindowResize}
         state={{
@@ -539,7 +539,7 @@ export default function Chat() {
           text: menssagesLista,
           color: colorSelect,
         }}
-      />
+      /> */}
       <div
         className="w-screen lg:w-1/2 border border-gray-700 flex flex-col justify-end bg-dots"
         ref={ref}

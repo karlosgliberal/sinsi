@@ -11,15 +11,17 @@ export const rosa = p => {
     w = 200 / steps;
     h = 200 / steps;
 
-    p.createCanvas(p.state.widthCanvasWrapper - 20, 200);
+    // p.createCanvas(p.state.widthCanvasWrapper - 20, 200);
+    p.createCanvas(100, 200);
     p.background(51);
     p.noStroke();
   };
 
   p.draw = () => {
     if (p.state.widthCanvasWrapper == 0) {
+      p.createCanvas(100, 200);
       p.dispatch();
-      p.resizeCanvas(p.state.widthCanvasWrapper - 20, 130);
+      // p.resizeCanvas(p.state.widthCanvasWrapper - 20, 130);
     }
     if (p.state.color == 'rosa') {
       from = p.color('#6C03AB');

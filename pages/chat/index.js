@@ -10,6 +10,7 @@ import { interaction } from '../../sketches/interaction';
 import { simbols } from '../../sketches/simbols';
 import { takawo } from '../../sketches/takawo';
 import { rosa } from '../../sketches/rosa';
+import { codigos } from '../../sketches/codigos';
 
 const P5Wrapper = p5Wrapper();
 let contPreguntas = 0;
@@ -531,7 +532,7 @@ export default function Chat() {
   return (
     <div className="bg-sinsiblue w-screen h-screen flex justify-center">
       <P5Wrapper
-        sketch={rosa}
+        sketch={codigos}
         dispatch={handleWindowResize}
         state={{
           widthCanvasWrapper: widthCanvasWrapper,

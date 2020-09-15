@@ -5,7 +5,7 @@ export const lineas = p => {
   let rectPosX, rectPosY;
   let rectSize = 10;
   let strokeHue = 0;
-  let rota = 45;
+  let rota = 90;
 
   p.setup = () => {
     p.createCanvas(p.state.widthCanvasWrapper - 20, 80);
@@ -13,7 +13,7 @@ export const lineas = p => {
     p.rectMode(p.CENTER);
     p.angleMode(p.DEGREES);
     // 1 frame per second
-    // p.frameRate(2);
+    p.frameRate(2);
     rectPosX = 0;
     rectPosY = p.height / 2;
     //p.colorMode(p.HSL, 100);
@@ -50,9 +50,14 @@ export const lineas = p => {
       rectPosX += rectSize;
     }
     p.translate(rectPosX, rectPosY);
-    rota = rota + 45 * randomNum;
+    rota = rota + 90 * randomNum;
     p.rotate(rota);
-    p.stroke('#484848');
+    if (p.frameCount % 10 == 1) {
+      p.stroke('#484848');
+    } else {
+      p.stroke('#fff');
+    }
+
     p.strokeWeight(1);
     p.rect(0, 0, rectSize, 0);
     // rect(0,0, 0, rectSize);

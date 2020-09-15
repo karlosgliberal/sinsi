@@ -3,7 +3,7 @@ export const lineas = p => {
   p.dispatch = () => {};
 
   let rectPosX, rectPosY;
-  let rectSize = 20;
+  let rectSize = 10;
   let strokeHue = 0;
   let rota = 45;
 

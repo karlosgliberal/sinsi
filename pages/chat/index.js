@@ -531,19 +531,19 @@ export default function Chat() {
 
   return (
     <div className="bg-sinsiblue w-screen h-screen flex justify-center">
-      {/* <P5Wrapper
-        sketch={codigos}
-        dispatch={handleWindowResize}
-        state={{
-          widthCanvasWrapper: widthCanvasWrapper,
-          text: menssagesLista,
-          color: colorSelect,
-        }}
-      /> */}
       <div
         className="w-screen lg:w-1/2 border border-gray-700 flex flex-col justify-end bg-dots"
         ref={ref}
       >
+        <P5Wrapper
+          sketch={codigos}
+          dispatch={handleWindowResize}
+          state={{
+            widthCanvasWrapper: widthCanvasWrapper,
+            text: menssagesLista,
+            color: colorSelect,
+          }}
+        />
         <div className="h-auto overflow-scroll">
           <MessageList messages={menssagesLista} />
           {botonColorActivated == true && (

@@ -19,12 +19,7 @@ export default function p5w() {
       };
     }, [dispatch, sketch, state]);
 
-    return (
-      <div
-        className="z-0 px-2  fixed w-screen lg:w-1/2 flex flex-col justify-end bg-dots"
-        ref={sketchContainer}
-      />
-    );
+    return <div className="px-2 fixed" ref={sketchContainer} />;
   }
 
   P5Wrapper.propTypes = {

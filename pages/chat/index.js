@@ -79,15 +79,20 @@ export default function Chat() {
   const futurologistName = router.query;
   const [placeholder, setPlaceholder] = useState('Escribe tu mensaje...');
 
-  const addMessage = (author, body) => {
+  const addMessage = (author, body, intent) => {
+    let dateMessage = new Date().getTime();
     setPlaceholder('Sinsi esta escribiendo...');
+
     setMenssageList(menssagesLista => [
       ...menssagesLista,
       {
         author,
         body,
+        intent,
+        dateMessage,
       },
     ]);
+    localStorage.setItem('futureTrip', menssagesLista);
   };
   const getIntention = async intention => {
     const res = await getIntentionFromDialogflow(intention);

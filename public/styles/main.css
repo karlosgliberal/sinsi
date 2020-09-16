@@ -115,3 +115,15 @@ p {
 
     @apply transition duration-700;
 }
+
+strong {
+    @apply font-bold;
+}
+
+.strong-purple strong {
+    @apply bg-sinsipurple;
+
+    @apply font-bold;
+
+    @apply text-white;
+}

@@ -9,6 +9,7 @@ export default () => (
           <h1 className="text-3xl font-bold text-white text-center">UIKIT</h1>
         </div>
         <div className="font-sinsimono text-white flex flex-col p-4">
+          <div className="my-3"><a className="hover:text-sinsipurple transition duration-500" href="/uikit/fonts">Fuentes y estilos</a></div>
           <div className="my-3"><a className="hover:text-sinsipurple transition duration-500" href="/uikit/base">Textos</a></div>
           <div className="my-3"><a className="hover:text-sinsipurple transition duration-500" href="/uikit/texto-effect">Texto Efectos</a></div>
           <div className="my-3"><a className="hover:text-sinsipurple transition duration-500" href="/uikit/bg">Backgrounds</a></div>

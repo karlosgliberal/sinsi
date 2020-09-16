@@ -78,6 +78,9 @@ export default function Chat() {
   const [botonSaltoTemporalActivated, setBotonSaltoTemporalActivate] = useState(
     false
   );
+  const [botonTipoFuturoActivated, setBotonTipoFuturoActivate] = useState(
+    false
+  );
   const futurologistName = router.query;
   const [placeholder, setPlaceholder] = useState('Escribe tu mensaje...');
 
@@ -267,12 +270,14 @@ export default function Chat() {
   const controlConversacion = (resIntentName, fulfillmentText, fallback) => {
     if (fallback && preguntaFuturo) {
       getIntention('corteCentrate');
+      setPlaceholder('Escribe tu mensaje...');
       return false;
     }
 
     if (fallback && reaccionFuturo) {
       let firstItem = itemsFuturo.find(x => x !== undefined);
       getIntention(firstItem);
+      setPlaceholder('Escribe tu mensaje...');
       return false;
     }
 
@@ -282,6 +287,7 @@ export default function Chat() {
       }
       if (fallback) {
         getIntention('seguirAfirmacion');
+        setPlaceholder('Escribe tu mensaje...');
         return false;
       }
     }
@@ -303,6 +309,7 @@ export default function Chat() {
     if (contPreguntas == 3) {
       contPreguntas = 4;
       getIntention('corteConversacion');
+      setPlaceholder('Escribe tu mensaje...');
       return false;
     }
 
@@ -324,6 +331,7 @@ export default function Chat() {
         let fn = resIntentName + '(fulfillmentText)';
         let res = eval(fn);
         addMessage('Sinsi', res, addMessage);
+        setPlaceholder('Escribe tu mensaje...');
         return false;
       }
     }
@@ -337,6 +345,7 @@ export default function Chat() {
         let res = eval(fn);
 
         addMessage('Sinsi', res, addMessage);
+        setPlaceholder('Escribe tu mensaje...');
         return false;
       }
     }
@@ -344,6 +353,7 @@ export default function Chat() {
     if (resIntentName.indexOf('estadisticaPreguntaColor') === 0) {
       let res = preguntaColor(fulfillmentText);
       addMessage('Sinsi', res, addMessage);
+      setPlaceholder('Selecciona una opción');
       return false;
     }
 
@@ -434,6 +444,7 @@ export default function Chat() {
   };
 
   const futuroPreguntaTipoFuturo = fulfillmentText => {
+    setBotonTipoFuturoActivate(true);
     let res = fulfillmentText.replace(
       '%futuroPreguntaTipoFuturo%',
       localStorage.getItem('futuroReaccionSaltoTemporal')
@@ -551,6 +562,13 @@ export default function Chat() {
     handleNewMessage(value);
   };
 
+  const handleButtonTipoFuturoClick = value => {
+    console.log('presionamos botón');
+    setBotonTipoFuturoActivate(false);
+    wait = true;
+    handleNewMessage(value);
+  };
+
   const handleWindowResize = () => {
     console.log('resize');
     setColorSelect('default');
@@ -601,6 +619,12 @@ export default function Chat() {
             <ButtonList
               onButtonClick={handleButtonSaltoTemporalClick}
               buttons={sinsiText['saltoTemporal'].preguntas}
+            />
+          )}
+          {botonTipoFuturoActivated == true && (
+            <ButtonList
+              onButtonClick={handleButtonTipoFuturoClick}
+              buttons={sinsiText['tipoFuturo'].preguntas}
             />
           )}
           <MessageForm

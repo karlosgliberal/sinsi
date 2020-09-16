@@ -1,12 +1,32 @@
 import { useState } from 'react';
-import Link from 'next/link';
+import Router from 'next/router'
+import React, { useEffect, useRef } from 'react';
 
 export default () => {
   const [name, setName] = useState('');
 
+  const textInput = useRef(null);
+
+  useEffect(() => {
+    textInput.current.focus();
+  }, []);
+
   const handleName = event => {
     setName(event.target.value);
   };
+
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      handleOnClick();
+    }
+  }
+
+  const handleOnClick = () => {
+    const {pathname} = Router
+    if(pathname == '/' ){
+      Router.push({ pathname: '/chat', query: { name: name } });
+    }
+  }
 
   return (
     <div className="bg-sinsiblue w-screen h-screen flex justify-center">
@@ -35,19 +55,18 @@ export default () => {
               <div className="border-b-2 submit-outline p-1 mb-5 lg:mx-32 mx-6 bg-sinsiblue ">
                 <input
                   onChange={handleName}
+                  onKeyDown={handleKeyDown}
                   className=" border-0 bg-transparent w-full focus:border-transparent py-3 px-2 rounded-none text-white text-center"
                   type="text"
-                  placeholder="Escribe Tu nombre"
+                  ref={textInput}
+                  placeholder="Escribe tu nombre"
                 />
               </div>
             </div>
             <div className="flex flex-row justify-around px-4 mt-10 ">
-              <Link href={{ pathname: '/chat', query: { name } }}>
-                <a className="transition duration-500 ease-in-out py-3 w-full lg:w-5/6 text-center mb-3 text-white border border-white hover:border-sinsipurple font-sinsimono animate-pulse hover:animate-none">
-                  Empezar
-                </a>
-              </Link>
+              <button className="transition duration-500 ease-in-out py-3 w-full lg:w-5/6 text-center mb-3 text-white border border-white hover:border-sinsipurple font-sinsimono animate-pulse hover:animate-none" onClick={handleOnClick} type="button">Empezar</button>
             </div>
+
           </div>
         </div>
       </div>

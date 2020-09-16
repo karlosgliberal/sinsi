@@ -78,6 +78,9 @@ export default function Chat() {
   const [botonSaltoTemporalActivated, setBotonSaltoTemporalActivate] = useState(
     false
   );
+  const [botonTipoFuturoActivated, setBotonTipoFuturoActivate] = useState(
+      false
+  );
   const futurologistName = router.query;
   const [placeholder, setPlaceholder] = useState('Escribe tu mensaje...');
 
@@ -430,6 +433,7 @@ export default function Chat() {
   };
 
   const futuroPreguntaTipoFuturo = fulfillmentText => {
+    setBotonTipoFuturoActivate(true);
     let res = fulfillmentText.replace(
       '%futuroPreguntaTipoFuturo%',
       localStorage.getItem('futuroReaccionSaltoTemporal')
@@ -547,6 +551,14 @@ export default function Chat() {
     handleNewMessage(value);
   };
 
+  const handleButtonTipoFuturoClick = value => {
+    console.log('presionamos botón');
+    setBotonTipoFuturoActivate(false);
+    wait = true;
+    handleNewMessage(value);
+  };
+
+
   const handleWindowResize = () => {
     console.log('resize');
     setColorSelect('default');
@@ -598,6 +610,12 @@ export default function Chat() {
               onButtonClick={handleButtonSaltoTemporalClick}
               buttons={sinsiText['saltoTemporal'].preguntas}
             />
+          )}
+          {botonTipoFuturoActivated == true && (
+              <ButtonList
+                  onButtonClick={handleButtonTipoFuturoClick}
+                  buttons={sinsiText['tipoFuturo'].preguntas}
+              />
           )}
           <MessageForm
             onMessageSend={handleNewMessage}

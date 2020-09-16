@@ -3,12 +3,12 @@ export const lineas = p => {
   p.dispatch = () => {};
 
   let rectPosX, rectPosY;
-  let rectSize = 20;
+  let rectSize = 10;
   let strokeHue = 0;
   let rota = 90;
 
   p.setup = () => {
-    p.createCanvas(p.state.widthCanvasWrapper - 2, 100);
+    p.createCanvas(p.state.widthCanvasWrapper - 10, 100);
     p.textAlign(p.CENTER);
     p.rectMode(p.CENTER);
     p.angleMode(p.DEGREES);
@@ -23,7 +23,7 @@ export const lineas = p => {
   p.draw = () => {
     if (p.state.widthCanvasWrapper == 0) {
       p.dispatch();
-      p.resizeCanvas(p.state.widthCanvasWrapper - 2, 100);
+      p.resizeCanvas(p.state.widthCanvasWrapper - 10, 100);
       rectPosX = 0;
       rectPosY = p.height / 2;
     }
@@ -56,14 +56,17 @@ export const lineas = p => {
 
     if (p.frameCount % 5 == 1) {
       p.stroke('#fff');
+      p.fill('#fff');
     } else if (p.frameCount % 8 == 1) {
       p.stroke('#E204E6');
+      p.fill('#e204e6');
     } else {
       p.stroke('#484848');
+      p.fill('#484848');
     }
-
     p.strokeWeight(1);
     p.rect(0, 0, rectSize, 0);
+    //p.ellipse(0, 0, rectSize);
     // rect(0,0, 0, rectSize);
 
     if (rectPosX >= p.width) {

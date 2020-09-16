@@ -94,18 +94,17 @@ export default function Chat() {
         dateMessage,
       },
     ]);
-    localStorage.setItem('futureTrip', menssagesLista);
+    localStorage.setItem('futureTrip', JSON.stringify(menssagesLista));
   };
   const getIntention = async intention => {
-
-    if(!intention){
-      if(nextIntention) {
+    if (!intention) {
+      if (nextIntention) {
         getIntention(nextIntention);
       }
       return false;
     }
 
-    if(wait){
+    if (wait) {
       setTimeout(() => {
         wait = false;
         getIntention(intention);
@@ -134,7 +133,7 @@ export default function Chat() {
     );
 
     if (continuar) {
-      console.log("log");
+      console.log('log');
       if (resIntentName == 'sinsiGameOver') {
         // setTimeout(() => {
         //   window.location.href =
@@ -147,12 +146,12 @@ export default function Chat() {
         let sentence = parts[0];
 
         console.log('mensaje');
-        addMessage('Sinsi', sentence);
+        addMessage('Sinsi', sentence, resIntentName);
 
         if (parts[1]) {
-          nextIntention = parts[1]
+          nextIntention = parts[1];
           let timeout = 2000;
-          if(nextIntention.indexOf('sinsi') !== -1){
+          if (nextIntention.indexOf('sinsi') !== -1) {
             timeout = 4000;
           }
           setTimeout(() => {
@@ -163,7 +162,7 @@ export default function Chat() {
           console.log('controlpreguntas');
           controlPreguntas(resIntentName);
           setPlaceholder('Escribe tu mensaje...');
-          const input = document.querySelector("input");
+          const input = document.querySelector('input');
           input.focus();
         }
       }
@@ -309,7 +308,7 @@ export default function Chat() {
 
     if (resIntentName.indexOf('corteConversacion') !== -1) {
       let firstItem = itemsFuturo.find(x => x !== undefined);
-      addMessage('Sinsi', fulfillmentText);
+      addMessage('Sinsi', fulfillmentText, addMessage);
       getIntention(firstItem);
       return false;
     }
@@ -324,7 +323,7 @@ export default function Chat() {
       if (isFunctionDefined(resIntentName)) {
         let fn = resIntentName + '(fulfillmentText)';
         let res = eval(fn);
-        addMessage('Sinsi', res);
+        addMessage('Sinsi', res, addMessage);
         return false;
       }
     }
@@ -337,14 +336,14 @@ export default function Chat() {
         let fn = resIntentName + '(fulfillmentText)';
         let res = eval(fn);
 
-        addMessage('Sinsi', res);
+        addMessage('Sinsi', res, addMessage);
         return false;
       }
     }
 
     if (resIntentName.indexOf('estadisticaPreguntaColor') === 0) {
       let res = preguntaColor(fulfillmentText);
-      addMessage('Sinsi', res);
+      addMessage('Sinsi', res, addMessage);
       return false;
     }
 
@@ -457,8 +456,8 @@ export default function Chat() {
 
   const futuroPreguntaPoblacion = fulfillmentText => {
     let res = fulfillmentText.replace(
-        '%futuroPreguntaPoblacion%',
-        localStorage.getItem('futuroReaccionSaltoTemporal')
+      '%futuroPreguntaPoblacion%',
+      localStorage.getItem('futuroReaccionSaltoTemporal')
     );
     return res;
   };

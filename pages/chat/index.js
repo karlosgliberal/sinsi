@@ -64,6 +64,8 @@ let preguntaFuturo = false;
 let reaccionFuturo = false;
 let preguntaChachara = false;
 let numAvisos = 0;
+let nextIntention;
+let wait = false;
 
 export default function Chat() {
   const router = useRouter();
@@ -90,6 +92,25 @@ export default function Chat() {
     ]);
   };
   const getIntention = async intention => {
+
+    if(!intention){
+      if(nextIntention) {
+        getIntention(nextIntention);
+      }
+      return false;
+    }
+
+    if(wait){
+      setTimeout(() => {
+        wait = false;
+        getIntention(intention);
+      }, 2000);
+      return;
+    }
+
+    wait = false;
+    nextIntention = null;
+
     const res = await getIntentionFromDialogflow(intention);
     let resIntentName = res.data.intent.displayName;
     let fallback = res.data.intent.isFallback;
@@ -108,6 +129,7 @@ export default function Chat() {
     );
 
     if (continuar) {
+      console.log("log");
       if (resIntentName == 'sinsiGameOver') {
         // setTimeout(() => {
         //   window.location.href =
@@ -123,14 +145,21 @@ export default function Chat() {
         addMessage('Sinsi', sentence);
 
         if (parts[1]) {
+          nextIntention = parts[1]
+          let timeout = 2000;
+          if(nextIntention.indexOf('sinsi') !== -1){
+            timeout = 4000;
+          }
           setTimeout(() => {
-            getIntention(parts[1]);
+            getIntention(nextIntention);
             return;
-          }, 2000);
+          }, timeout);
         } else {
           console.log('controlpreguntas');
           controlPreguntas(resIntentName);
           setPlaceholder('Escribe tu mensaje...');
+          const input = document.querySelector("input");
+          input.focus();
         }
       }
     }
@@ -421,6 +450,14 @@ export default function Chat() {
     return res;
   };
 
+  const futuroPreguntaPoblacion = fulfillmentText => {
+    let res = fulfillmentText.replace(
+        '%futuroPreguntaPoblacion%',
+        localStorage.getItem('futuroReaccionSaltoTemporal')
+    );
+    return res;
+  };
+
   const futuroReaccionPoblacion = fulfillmentText => {
     let opciones = sinsiText['poblacion'].preguntas;
     let random = Math.floor(Math.random() * opciones.length);
@@ -499,12 +536,14 @@ export default function Chat() {
     console.log(value);
     setColorSelect(value);
     setBotonColorActivate(false);
+    wait = true;
     handleNewMessage(value);
   };
 
   const handleButtonSaltoTemporalClick = value => {
     console.log('presionamos botón');
     setBotonSaltoTemporalActivate(false);
+    wait = true;
     handleNewMessage(value);
   };
 

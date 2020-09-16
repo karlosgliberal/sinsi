@@ -12,6 +12,7 @@ import { takawo } from '../../sketches/takawo';
 import { rosa } from '../../sketches/rosa';
 import { codigos } from '../../sketches/codigos';
 import { lineas } from '../../sketches/lineas';
+import Router from 'next/router';
 
 const P5Wrapper = p5Wrapper();
 let contPreguntas = 0;
@@ -68,6 +69,13 @@ let nextIntention;
 let wait = false;
 
 export default function Chat() {
+  //valoresde tiempo
+  const timeEntreInteciones = 2000;
+  const timeControlTecleando = 12000;
+  const timeControlNoRespuestaIntencion = 20000;
+  const timeGameOver = 1000;
+  let timeoutEntradaSinsi = 2500;
+
   const router = useRouter();
   const ref = useRef(null);
   const [widthCanvasWrapper, setWidthCanvasWrapper] = useState(0);
@@ -111,7 +119,7 @@ export default function Chat() {
       setTimeout(() => {
         wait = false;
         getIntention(intention);
-      }, 2000);
+      }, timeEntreInteciones);
       return;
     }
 
@@ -126,7 +134,6 @@ export default function Chat() {
     console.log('IntentName: ' + resIntentName);
 
     controlPreguntasEstadistica(resIntentName);
-
     controlInactividad(resIntentName);
 
     let continuar = controlConversacion(
@@ -138,13 +145,11 @@ export default function Chat() {
     if (continuar) {
       console.log('log');
       if (resIntentName == 'sinsiGameOver') {
-        // setTimeout(() => {
-        //   window.location.href =
-        //     'https://i.pinimg.com/originals/df/98/0f/df980ffc2571fa604f2adcdbecddc016.gif';
-        // }, 1000);
+        setTimeout(() => {
+          Router.push('/gameover');
+        }, timeGameOver);
       } else {
         if (res) setLastIntention(res.data.intent.displayName);
-        console.log();
         let parts = fulfillmentText.split('#');
         let sentence = parts[0];
 
@@ -153,14 +158,14 @@ export default function Chat() {
 
         if (parts[1]) {
           nextIntention = parts[1];
-          let timeout = 2000;
+
           if (nextIntention.indexOf('sinsi') !== -1) {
-            timeout = 4000;
+            timeoutEntradaSinsi = 4000;
           }
           setTimeout(() => {
             getIntention(nextIntention);
             return;
-          }, timeout);
+          }, timeoutEntradaSinsi);
         } else {
           console.log('controlpreguntas');
           controlPreguntas(resIntentName);
@@ -191,7 +196,7 @@ export default function Chat() {
     numAvisos = 0;
     timer = setInterval(function () {
       avisoInactividad('');
-    }, 10000);
+    }, timeControlTecleando);
   };
 
   //Controla si el usuario no responde al lanzar la intención
@@ -203,7 +208,7 @@ export default function Chat() {
     }
     timer = setInterval(function () {
       avisoInactividad(resIntentName);
-    }, 20000);
+    }, timeControlNoRespuestaIntencion);
   };
 
   //Muestra avisos de inactividad

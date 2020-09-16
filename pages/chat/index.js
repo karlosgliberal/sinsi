@@ -266,12 +266,14 @@ export default function Chat() {
   const controlConversacion = (resIntentName, fulfillmentText, fallback) => {
     if (fallback && preguntaFuturo) {
       getIntention('corteCentrate');
+      setPlaceholder('Escribe tu mensaje...');
       return false;
     }
 
     if (fallback && reaccionFuturo) {
       let firstItem = itemsFuturo.find(x => x !== undefined);
       getIntention(firstItem);
+      setPlaceholder('Escribe tu mensaje...');
       return false;
     }
 
@@ -281,6 +283,7 @@ export default function Chat() {
       }
       if (fallback) {
         getIntention('seguirAfirmacion');
+        setPlaceholder('Escribe tu mensaje...');
         return false;
       }
     }
@@ -302,6 +305,7 @@ export default function Chat() {
     if (contPreguntas == 3) {
       contPreguntas = 4;
       getIntention('corteConversacion');
+      setPlaceholder('Escribe tu mensaje...');
       return false;
     }
 
@@ -323,6 +327,7 @@ export default function Chat() {
         let fn = resIntentName + '(fulfillmentText)';
         let res = eval(fn);
         addMessage('Sinsi', res);
+        setPlaceholder('Escribe tu mensaje...');
         return false;
       }
     }
@@ -336,6 +341,7 @@ export default function Chat() {
         let res = eval(fn);
 
         addMessage('Sinsi', res);
+        setPlaceholder('Escribe tu mensaje...');
         return false;
       }
     }
@@ -343,6 +349,7 @@ export default function Chat() {
     if (resIntentName.indexOf('estadisticaPreguntaColor') === 0) {
       let res = preguntaColor(fulfillmentText);
       addMessage('Sinsi', res);
+      setPlaceholder('Selecciona una opción');
       return false;
     }
 

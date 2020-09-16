@@ -320,7 +320,7 @@ export default function Chat() {
 
     if (resIntentName.indexOf('corteConversacion') !== -1) {
       let firstItem = itemsFuturo.find(x => x !== undefined);
-      addMessage('Sinsi', fulfillmentText, addMessage);
+      addMessage('Sinsi', fulfillmentText, resIntentName);
       getIntention(firstItem);
       return false;
     }
@@ -335,7 +335,7 @@ export default function Chat() {
       if (isFunctionDefined(resIntentName)) {
         let fn = resIntentName + '(fulfillmentText)';
         let res = eval(fn);
-        addMessage('Sinsi', res, addMessage);
+        addMessage('Sinsi', res, resIntentName);
         setPlaceholder('Escribe tu mensaje...');
         return false;
       }
@@ -349,7 +349,7 @@ export default function Chat() {
         let fn = resIntentName + '(fulfillmentText)';
         let res = eval(fn);
 
-        addMessage('Sinsi', res, addMessage);
+        addMessage('Sinsi', res, resIntentName);
         setPlaceholder('Escribe tu mensaje...');
         return false;
       }
@@ -357,7 +357,7 @@ export default function Chat() {
 
     if (resIntentName.indexOf('estadisticaPreguntaColor') === 0) {
       let res = preguntaColor(fulfillmentText);
-      addMessage('Sinsi', res, addMessage);
+      addMessage('Sinsi', res, resIntentName);
       setPlaceholder('Selecciona una opción');
       return false;
     }

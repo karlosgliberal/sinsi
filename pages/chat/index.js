@@ -12,6 +12,7 @@ import { takawo } from '../../sketches/takawo';
 import { rosa } from '../../sketches/rosa';
 import { codigos } from '../../sketches/codigos';
 import { lineas } from '../../sketches/lineas';
+import Router from 'next/router';
 
 const P5Wrapper = p5Wrapper();
 let contPreguntas = 0;
@@ -64,8 +65,17 @@ let preguntaFuturo = false;
 let reaccionFuturo = false;
 let preguntaChachara = false;
 let numAvisos = 0;
+let nextIntention;
+let wait = false;
 
 export default function Chat() {
+  //valoresde tiempo
+  const timeEntreInteciones = 2000;
+  const timeControlTecleando = 12000;
+  const timeControlNoRespuestaIntencion = 20000;
+  const timeGameOver = 1000;
+  let timeoutEntradaSinsi = 2500;
+
   const router = useRouter();
   const ref = useRef(null);
   const [widthCanvasWrapper, setWidthCanvasWrapper] = useState(0);
@@ -76,20 +86,46 @@ export default function Chat() {
   const [botonSaltoTemporalActivated, setBotonSaltoTemporalActivate] = useState(
     false
   );
+  const [botonTipoFuturoActivated, setBotonTipoFuturoActivate] = useState(
+    false
+  );
   const futurologistName = router.query;
   const [placeholder, setPlaceholder] = useState('Escribe tu mensaje...');
 
-  const addMessage = (author, body) => {
+  const addMessage = (author, body, intent) => {
+    let dateMessage = new Date().getTime();
     setPlaceholder('Sinsi esta escribiendo...');
+
     setMenssageList(menssagesLista => [
       ...menssagesLista,
       {
         author,
         body,
+        intent,
+        dateMessage,
       },
     ]);
+    localStorage.setItem('futureTrip', JSON.stringify(menssagesLista));
   };
   const getIntention = async intention => {
+    if (!intention) {
+      if (nextIntention) {
+        getIntention(nextIntention);
+      }
+      return false;
+    }
+
+    if (wait) {
+      setTimeout(() => {
+        wait = false;
+        getIntention(intention);
+      }, timeEntreInteciones);
+      return;
+    }
+
+    wait = false;
+    nextIntention = null;
+
     const res = await getIntentionFromDialogflow(intention);
     let resIntentName = res.data.intent.displayName;
     let fallback = res.data.intent.isFallback;
@@ -98,7 +134,6 @@ export default function Chat() {
     console.log('IntentName: ' + resIntentName);
 
     controlPreguntasEstadistica(resIntentName);
-
     controlInactividad(resIntentName);
 
     let continuar = controlConversacion(
@@ -108,29 +143,35 @@ export default function Chat() {
     );
 
     if (continuar) {
+      console.log('log');
       if (resIntentName == 'sinsiGameOver') {
-        // setTimeout(() => {
-        //   window.location.href =
-        //     'https://i.pinimg.com/originals/df/98/0f/df980ffc2571fa604f2adcdbecddc016.gif';
-        // }, 1000);
+        setTimeout(() => {
+          Router.push('/gameover');
+        }, timeGameOver);
       } else {
         if (res) setLastIntention(res.data.intent.displayName);
-        console.log();
         let parts = fulfillmentText.split('#');
         let sentence = parts[0];
 
         console.log('mensaje');
-        addMessage('Sinsi', sentence);
+        addMessage('Sinsi', sentence, resIntentName);
 
         if (parts[1]) {
+          nextIntention = parts[1];
+
+          if (nextIntention.indexOf('sinsi') !== -1) {
+            timeoutEntradaSinsi = 4000;
+          }
           setTimeout(() => {
-            getIntention(parts[1]);
+            getIntention(nextIntention);
             return;
-          }, 2000);
+          }, timeoutEntradaSinsi);
         } else {
           console.log('controlpreguntas');
           controlPreguntas(resIntentName);
           setPlaceholder('Escribe tu mensaje...');
+          const input = document.querySelector('input');
+          input.focus();
         }
       }
     }
@@ -155,7 +196,7 @@ export default function Chat() {
     numAvisos = 0;
     timer = setInterval(function () {
       avisoInactividad('');
-    }, 10000);
+    }, timeControlTecleando);
   };
 
   //Controla si el usuario no responde al lanzar la intención
@@ -167,7 +208,7 @@ export default function Chat() {
     }
     timer = setInterval(function () {
       avisoInactividad(resIntentName);
-    }, 20000);
+    }, timeControlNoRespuestaIntencion);
   };
 
   //Muestra avisos de inactividad
@@ -234,12 +275,14 @@ export default function Chat() {
   const controlConversacion = (resIntentName, fulfillmentText, fallback) => {
     if (fallback && preguntaFuturo) {
       getIntention('corteCentrate');
+      setPlaceholder('Escribe tu mensaje...');
       return false;
     }
 
     if (fallback && reaccionFuturo) {
       let firstItem = itemsFuturo.find(x => x !== undefined);
       getIntention(firstItem);
+      setPlaceholder('Escribe tu mensaje...');
       return false;
     }
 
@@ -249,6 +292,7 @@ export default function Chat() {
       }
       if (fallback) {
         getIntention('seguirAfirmacion');
+        setPlaceholder('Escribe tu mensaje...');
         return false;
       }
     }
@@ -270,12 +314,13 @@ export default function Chat() {
     if (contPreguntas == 3) {
       contPreguntas = 4;
       getIntention('corteConversacion');
+      setPlaceholder('Escribe tu mensaje...');
       return false;
     }
 
     if (resIntentName.indexOf('corteConversacion') !== -1) {
       let firstItem = itemsFuturo.find(x => x !== undefined);
-      addMessage('Sinsi', fulfillmentText);
+      addMessage('Sinsi', fulfillmentText, addMessage);
       getIntention(firstItem);
       return false;
     }
@@ -290,7 +335,8 @@ export default function Chat() {
       if (isFunctionDefined(resIntentName)) {
         let fn = resIntentName + '(fulfillmentText)';
         let res = eval(fn);
-        addMessage('Sinsi', res);
+        addMessage('Sinsi', res, addMessage);
+        setPlaceholder('Escribe tu mensaje...');
         return false;
       }
     }
@@ -303,14 +349,16 @@ export default function Chat() {
         let fn = resIntentName + '(fulfillmentText)';
         let res = eval(fn);
 
-        addMessage('Sinsi', res);
+        addMessage('Sinsi', res, addMessage);
+        setPlaceholder('Escribe tu mensaje...');
         return false;
       }
     }
 
     if (resIntentName.indexOf('estadisticaPreguntaColor') === 0) {
       let res = preguntaColor(fulfillmentText);
-      addMessage('Sinsi', res);
+      addMessage('Sinsi', res, addMessage);
+      setPlaceholder('Selecciona una opción');
       return false;
     }
 
@@ -401,6 +449,7 @@ export default function Chat() {
   };
 
   const futuroPreguntaTipoFuturo = fulfillmentText => {
+    setBotonTipoFuturoActivate(true);
     let res = fulfillmentText.replace(
       '%futuroPreguntaTipoFuturo%',
       localStorage.getItem('futuroReaccionSaltoTemporal')
@@ -418,6 +467,14 @@ export default function Chat() {
 
     let res = fulfillmentText.replace('%futuroReaccionTipoFuturo%', opcionSel);
 
+    return res;
+  };
+
+  const futuroPreguntaPoblacion = fulfillmentText => {
+    let res = fulfillmentText.replace(
+      '%futuroPreguntaPoblacion%',
+      localStorage.getItem('futuroReaccionSaltoTemporal')
+    );
     return res;
   };
 
@@ -499,12 +556,21 @@ export default function Chat() {
     console.log(value);
     setColorSelect(value);
     setBotonColorActivate(false);
+    wait = true;
     handleNewMessage(value);
   };
 
   const handleButtonSaltoTemporalClick = value => {
     console.log('presionamos botón');
     setBotonSaltoTemporalActivate(false);
+    wait = true;
+    handleNewMessage(value);
+  };
+
+  const handleButtonTipoFuturoClick = value => {
+    console.log('presionamos botón');
+    setBotonTipoFuturoActivate(false);
+    wait = true;
     handleNewMessage(value);
   };
 
@@ -558,6 +624,12 @@ export default function Chat() {
             <ButtonList
               onButtonClick={handleButtonSaltoTemporalClick}
               buttons={sinsiText['saltoTemporal'].preguntas}
+            />
+          )}
+          {botonTipoFuturoActivated == true && (
+            <ButtonList
+              onButtonClick={handleButtonTipoFuturoClick}
+              buttons={sinsiText['tipoFuturo'].preguntas}
             />
           )}
           <MessageForm

@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState} from 'react';
 
 export default function MessageForm(props) {
-  //useEffect(() => input.focus(), []);
   const [inputMessage, setInputMessage] = useState('');
 
   const handleInputChange = event => {

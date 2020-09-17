@@ -33,13 +33,13 @@ let ultimaPreguntaLanzada = '';
 let timerActivo = true;
 
 export default function Chat() {
-
   //valoresde tiempo
-  const timeEntreInteciones = 5000;
+  const timeEntreInteciones = 1000;
   const timeControlTecleando = 12000;
   const timeControlNoRespuestaIntencion = 20000;
   const timeGameOver = 4000;
-  let timeoutEntradaSinsi = 4000;
+  let timeOutEntradaSinsi = 3000;
+  let timeOutEntradaPart = 1000;
 
   const router = useRouter();
   const ref = useRef(null);
@@ -120,12 +120,12 @@ export default function Chat() {
           nextIntention = parts[1];
 
           if (nextIntention.indexOf('sinsi') !== -1) {
-            timeoutEntradaSinsi = 2000;
+            timeOutEntradaPart = timeOutEntradaSinsi;
           }
           setTimeout(() => {
             getIntention(nextIntention);
             return;
-          }, timeoutEntradaSinsi);
+          }, timeOutEntradaPart);
         } else {
           controlPreguntas(resIntentName);
           setPlaceholder('Escribe tu mensaje...');

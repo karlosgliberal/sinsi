@@ -4,78 +4,41 @@ import MessageList from '../../componets/MessageList';
 import MessageForm from '../../componets/MessageForm';
 import ButtonList from '../../componets/ButtonList';
 import { getIntentionFromDialogflow } from '../../core/services/dialogflowResponse';
-import { sinsiText } from '../../core/sinsiText';
+import {
+  sinsiText,
+  itemsChachara,
+  itemsFuturo,
+  itemsReaccionFuturo,
+  itemsEstadistica,
+} from '../../core/sinsiText';
+
 import p5Wrapper from '../../componets/P5Wrapper';
 import { lineas } from '../../sketches/lineas';
 import Router from 'next/router';
 
 const P5Wrapper = p5Wrapper();
-let contPreguntas = 0;
-let itemsChachara = [
-  'preguntaHobbies',
-  'preguntaOdias',
-  'preguntaIntimidad1',
-  'preguntaIntimidad2',
-  'preguntaIntimidad3',
-  'preguntaIntimidad4',
-  'preguntaIntimidad5',
-  'preguntaIntimidad6',
-  'preguntaIntimidad7',
-];
-let itemsFuturo = [
-  'futuroPreguntaSaltoTemporal',
-  'futuroPreguntaDesencadenante',
-  'futuroPreguntaTipoFuturo',
-  'futuroPreguntaPoblacion',
-  'futuroPreguntaSector',
-  'futuroPreguntaTema',
-  'futuroPreguntaLugar',
-  'futuroPreguntaEscena',
-];
-let itemsReaccionFuturo = [
-  'futuroReaccionSaltoTemporal',
-  'futuroReaccionDesencadenante',
-  'futuroReaccionTipoFuturo',
-  'futuroReaccionPoblacion',
-  'futuroReaccionSector',
-  'futuroReaccionTema',
-  'futuroReaccionLugar',
-  'futuroReaccionEscena',
-];
-const itemsEstadistica = [
-  {
-    reaccion: 'estadisticaReaccionEdad',
-    pregunta: 'estadisticaPreguntaEdad',
-  },
-  {
-    reaccion: 'estadisticaReaccionGenero',
-    pregunta: 'estadisticaPreguntaGenero',
-  },
-  {
-    reaccion: 'estadisticaReaccionColor',
-    pregunta: 'estadisticaPreguntaColor',
-  },
-];
-
-let timer;
-let preguntaFuturo = false;
-let reaccionFuturo = false;
-let preguntaChachara = false;
-let numAvisos = 0;
-let nextIntention;
-let wait = false;
-let usuarioProvocado = false;
-let lanzarPregunta = false;
-let ultimaPreguntaLanzada = '';
-let timerActivo = true;
 
 export default function Chat() {
+  let contPreguntas = 0;
+
+  let timer;
+  let preguntaFuturo = false;
+  let reaccionFuturo = false;
+  let preguntaChachara = false;
+  let numAvisos = 0;
+  let nextIntention;
+  let wait = false;
+  let usuarioProvocado = false;
+  let lanzarPregunta = false;
+  let ultimaPreguntaLanzada = '';
+  let timerActivo = true;
+
   //valoresde tiempo
-  const timeEntreInteciones = 2000;
+  const timeEntreInteciones = 5000;
   const timeControlTecleando = 12000;
   const timeControlNoRespuestaIntencion = 20000;
-  const timeGameOver = 1000;
-  let timeoutEntradaSinsi = 2500;
+  const timeGameOver = 4000;
+  let timeoutEntradaSinsi = 4000;
 
   const router = useRouter();
   const ref = useRef(null);
@@ -102,6 +65,7 @@ export default function Chat() {
     ]);
     localStorage.setItem('futureTrip', JSON.stringify(menssagesLista));
   };
+
   const getIntention = async intention => {
     if (!intention) {
       if (nextIntention) {
@@ -155,7 +119,7 @@ export default function Chat() {
           nextIntention = parts[1];
 
           if (nextIntention.indexOf('sinsi') !== -1) {
-            timeoutEntradaSinsi = 4000;
+            timeoutEntradaSinsi = 1000;
           }
           setTimeout(() => {
             getIntention(nextIntention);
@@ -189,7 +153,7 @@ export default function Chat() {
   };
 
   //Controla si el usuario sigue teclando
-  const handleKeyPress = event => {
+  const handleKeyPress = () => {
     if (timerActivo) {
       clearTimeout(timer);
       numAvisos = 0;
@@ -484,7 +448,6 @@ export default function Chat() {
       '%futuroReaccionDesencadenante%',
       opcionSel
     );
-
     return res;
   };
 

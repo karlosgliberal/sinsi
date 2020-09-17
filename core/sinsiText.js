@@ -111,3 +111,51 @@ export const sinsiText = {
     ],
   },
 };
+
+export const itemsChachara = [
+  'preguntaHobbies',
+  'preguntaOdias',
+  'preguntaIntimidad1',
+  'preguntaIntimidad2',
+  'preguntaIntimidad3',
+  'preguntaIntimidad4',
+  'preguntaIntimidad5',
+  'preguntaIntimidad6',
+  'preguntaIntimidad7',
+];
+export const itemsFuturo = [
+  'futuroPreguntaSaltoTemporal',
+  'futuroPreguntaDesencadenante',
+  'futuroPreguntaTipoFuturo',
+  'futuroPreguntaPoblacion',
+  'futuroPreguntaSector',
+  'futuroPreguntaTema',
+  'futuroPreguntaLugar',
+  'futuroPreguntaEscena',
+];
+
+export const itemsReaccionFuturo = [
+  'futuroReaccionSaltoTemporal',
+  'futuroReaccionDesencadenante',
+  'futuroReaccionTipoFuturo',
+  'futuroReaccionPoblacion',
+  'futuroReaccionSector',
+  'futuroReaccionTema',
+  'futuroReaccionLugar',
+  'futuroReaccionEscena',
+];
+
+export const itemsEstadistica = [
+  {
+    reaccion: 'estadisticaReaccionEdad',
+    pregunta: 'estadisticaPreguntaEdad',
+  },
+  {
+    reaccion: 'estadisticaReaccionGenero',
+    pregunta: 'estadisticaPreguntaGenero',
+  },
+  {
+    reaccion: 'estadisticaReaccionColor',
+    pregunta: 'estadisticaPreguntaColor',
+  },
+];

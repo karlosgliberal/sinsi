@@ -119,7 +119,7 @@ export default function Chat() {
           nextIntention = parts[1];
 
           if (nextIntention.indexOf('sinsi') !== -1) {
-            timeoutEntradaSinsi = 1000;
+            timeoutEntradaSinsi = 2000;
           }
           setTimeout(() => {
             getIntention(nextIntention);

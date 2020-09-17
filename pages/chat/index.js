@@ -6,11 +6,6 @@ import ButtonList from '../../componets/ButtonList';
 import { getIntentionFromDialogflow } from '../../core/services/dialogflowResponse';
 import { sinsiText } from '../../core/sinsiText';
 import p5Wrapper from '../../componets/P5Wrapper';
-import { interaction } from '../../sketches/interaction';
-import { simbols } from '../../sketches/simbols';
-import { takawo } from '../../sketches/takawo';
-import { rosa } from '../../sketches/rosa';
-import { codigos } from '../../sketches/codigos';
 import { lineas } from '../../sketches/lineas';
 import Router from 'next/router';
 
@@ -45,7 +40,7 @@ let itemsReaccionFuturo = [
   'futuroReaccionSector',
   'futuroReaccionTema',
   'futuroReaccionLugar',
-  'futuroReaccionEscena'
+  'futuroReaccionEscena',
 ];
 const itemsEstadistica = [
   {
@@ -87,14 +82,8 @@ export default function Chat() {
   const [widthCanvasWrapper, setWidthCanvasWrapper] = useState(0);
   const [menssagesLista, setMenssageList] = useState([]);
   const [lastIntention, setLastIntention] = useState('');
-  const [botonColorActivated, setBotonColorActivate] = useState(false);
   const [colorSelect, setColorSelect] = useState('defaut');
-  const [botonSaltoTemporalActivated, setBotonSaltoTemporalActivate] = useState(
-    false
-  );
-  const [botonTipoFuturoActivated, setBotonTipoFuturoActivate] = useState(
-    false
-  );
+  const [botonActivated, setBotonActivate] = useState('hidden');
   const futurologistName = router.query;
   const [placeholder, setPlaceholder] = useState('Escribe tu mensaje...');
 
@@ -139,7 +128,7 @@ export default function Chat() {
 
     controlPreguntasEstadistica(resIntentName);
 
-    if(timerActivo) {
+    if (timerActivo) {
       controlInactividad(resIntentName);
     }
 
@@ -148,7 +137,6 @@ export default function Chat() {
       fulfillmentText,
       fallback
     );
-
 
     if (continuar) {
       if (resIntentName == 'sinsiGameOver') {
@@ -177,7 +165,7 @@ export default function Chat() {
           controlPreguntas(resIntentName);
           setPlaceholder('Escribe tu mensaje...');
           const input = document.querySelector('input');
-          if(input){
+          if (input) {
             input.focus();
           }
         }
@@ -194,7 +182,7 @@ export default function Chat() {
     ) {
       return 'pregunta';
     }
-    if(resIntentName.indexOf('provocaUsuario') !== -1){
+    if (resIntentName.indexOf('provocaUsuario') !== -1) {
       return 'provoca';
     }
     return 'respuesta';
@@ -202,7 +190,7 @@ export default function Chat() {
 
   //Controla si el usuario sigue teclando
   const handleKeyPress = event => {
-    if(timerActivo){
+    if (timerActivo) {
       clearTimeout(timer);
       numAvisos = 0;
       timer = setInterval(function () {
@@ -284,8 +272,10 @@ export default function Chat() {
 
   //Controla la conversación
   const controlConversacion = (resIntentName, fulfillmentText, fallback) => {
-
-    if (resIntentName.indexOf('pregunta') !== -1 || resIntentName.indexOf('Pregunta') !== -1){
+    if (
+      resIntentName.indexOf('pregunta') !== -1 ||
+      resIntentName.indexOf('Pregunta') !== -1
+    ) {
       ultimaPreguntaLanzada = resIntentName;
     }
 
@@ -375,8 +365,7 @@ export default function Chat() {
 
         let parts = res.split('#');
 
-        if(parts[1]){
-
+        if (parts[1]) {
           let sentence = parts[0];
 
           addMessage('Sinsi', sentence, resIntentName);
@@ -385,17 +374,12 @@ export default function Chat() {
             getIntention(parts[1]);
             return false;
           }
-
-        }else{
-
+        } else {
           addMessage('Sinsi', res, resIntentName);
           setPlaceholder('Escribe tu mensaje...');
 
           return false;
-
-
         }
-
       }
     }
 
@@ -453,13 +437,13 @@ export default function Chat() {
   };
 
   const preguntaColor = fulfillmentText => {
-    setBotonColorActivate(true);
+    setBotonActivate('color');
     setPlaceholder('Selecciona una opción');
     return fulfillmentText;
   };
 
   const futuroPreguntaSaltoTemporal = fulfillmentText => {
-    setBotonSaltoTemporalActivate(true);
+    setBotonActivate('saltoTemporal');
     setPlaceholder('Selecciona una opción');
     return fulfillmentText;
   };
@@ -506,6 +490,7 @@ export default function Chat() {
 
   const futuroPreguntaTipoFuturo = fulfillmentText => {
     setBotonTipoFuturoActivate(true);
+    setBotonActivate('tipoFuturo');
     let res = fulfillmentText.replace(
       '%futuroPreguntaTipoFuturo%',
       localStorage.getItem('futuroReaccionSaltoTemporal')
@@ -606,28 +591,35 @@ export default function Chat() {
 
   //Revisar, no se puede borrar
   const futuroReaccionLugar = fulfillmentText => {
-
     let res = fulfillmentText;
-
     return res;
   };
 
   const futuroReaccionEscena = fulfillmentText => {
-
     let resumen =
-        'Futurólogo: ' + localStorage.getItem('futuroReaccionSaltoTemporal') + "\n"+
-        'Salto temporal: ' + localStorage.getItem('futuroReaccionSaltoTemporal') + "\n"+
-        'Desencadenante: ' + localStorage.getItem('futuroReaccionDesencadenante') + "\n"+
-        'Tipo de futuro: ' + localStorage.getItem('futuroReaccionTipoFuturo') + "\n"+
-        'Población más afectada: ' + localStorage.getItem('futuroReaccionPoblacion') + "\n"+
-        'Área más afectada: ' + localStorage.getItem('futuroReaccionSector') + "\n"+
-        'Trending topic: ' + localStorage.getItem('futuroReaccionTema') + "\n"+
-        'Un día en ese futuro: ';
-
+      'Futurólogo: ' +
+      localStorage.getItem('futuroReaccionSaltoTemporal') +
+      '\n' +
+      'Salto temporal: ' +
+      localStorage.getItem('futuroReaccionSaltoTemporal') +
+      '\n' +
+      'Desencadenante: ' +
+      localStorage.getItem('futuroReaccionDesencadenante') +
+      '\n' +
+      'Tipo de futuro: ' +
+      localStorage.getItem('futuroReaccionTipoFuturo') +
+      '\n' +
+      'Población más afectada: ' +
+      localStorage.getItem('futuroReaccionPoblacion') +
+      '\n' +
+      'Área más afectada: ' +
+      localStorage.getItem('futuroReaccionSector') +
+      '\n' +
+      'Trending topic: ' +
+      localStorage.getItem('futuroReaccionTema') +
+      '\n' +
+      'Un día en ese futuro: ';
     let res = fulfillmentText.replace('%futuroReaccionEscena%', resumen);
-
-
-
     return res;
   };
 
@@ -637,21 +629,9 @@ export default function Chat() {
     }
   };
 
-  const handleButtonColorClick = value => {
+  const handleButtoClick = value => {
     setColorSelect(value);
-    setBotonColorActivate(false);
-    wait = true;
-    handleNewMessage(value);
-  };
-
-  const handleButtonSaltoTemporalClick = value => {
-    setBotonSaltoTemporalActivate(false);
-    wait = true;
-    handleNewMessage(value);
-  };
-
-  const handleButtonTipoFuturoClick = value => {
-    setBotonTipoFuturoActivate(false);
+    setBotonActivate('hidden');
     wait = true;
     handleNewMessage(value);
   };
@@ -695,22 +675,10 @@ export default function Chat() {
         />
         <div className="h-auto overflow-scroll mt-5">
           <MessageList messages={menssagesLista} />
-          {botonColorActivated == true && (
+          {botonActivated != 'hidden' && (
             <ButtonList
-              onButtonClick={handleButtonColorClick}
-              buttons={sinsiText['color'].preguntas}
-            />
-          )}
-          {botonSaltoTemporalActivated == true && (
-            <ButtonList
-              onButtonClick={handleButtonSaltoTemporalClick}
-              buttons={sinsiText['saltoTemporal'].preguntas}
-            />
-          )}
-          {botonTipoFuturoActivated == true && (
-            <ButtonList
-              onButtonClick={handleButtonTipoFuturoClick}
-              buttons={sinsiText['tipoFuturo'].preguntas}
+              onButtonClick={handleButtoClick}
+              buttons={sinsiText[botonActivated].preguntas}
             />
           )}
           <MessageForm

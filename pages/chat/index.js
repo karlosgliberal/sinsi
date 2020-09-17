@@ -35,6 +35,7 @@ let itemsFuturo = [
   'futuroPreguntaSector',
   'futuroPreguntaTema',
   'futuroPreguntaLugar',
+  'futuroPreguntaEscena',
 ];
 let itemsReaccionFuturo = [
   'futuroReaccionSaltoTemporal',
@@ -44,6 +45,7 @@ let itemsReaccionFuturo = [
   'futuroReaccionSector',
   'futuroReaccionTema',
   'futuroReaccionLugar',
+  'futuroReaccionEscena'
 ];
 const itemsEstadistica = [
   {
@@ -67,6 +69,10 @@ let preguntaChachara = false;
 let numAvisos = 0;
 let nextIntention;
 let wait = false;
+let usuarioProvocado = false;
+let lanzarPregunta = false;
+let ultimaPreguntaLanzada = '';
+let timerActivo = true;
 
 export default function Chat() {
   //valoresde tiempo
@@ -131,10 +137,11 @@ export default function Chat() {
     let fallback = res.data.intent.isFallback;
     let fulfillmentText = res.data.fulfillmentText;
 
-    console.log('IntentName: ' + resIntentName);
-
     controlPreguntasEstadistica(resIntentName);
-    controlInactividad(resIntentName);
+
+    if(timerActivo) {
+      controlInactividad(resIntentName);
+    }
 
     let continuar = controlConversacion(
       resIntentName,
@@ -142,8 +149,8 @@ export default function Chat() {
       fallback
     );
 
+
     if (continuar) {
-      console.log('log');
       if (resIntentName == 'sinsiGameOver') {
         setTimeout(() => {
           Router.push('/gameover');
@@ -167,11 +174,12 @@ export default function Chat() {
             return;
           }, timeoutEntradaSinsi);
         } else {
-          console.log('controlpreguntas');
           controlPreguntas(resIntentName);
           setPlaceholder('Escribe tu mensaje...');
           const input = document.querySelector('input');
-          input.focus();
+          if(input){
+            input.focus();
+          }
         }
       }
     }
@@ -186,22 +194,25 @@ export default function Chat() {
     ) {
       return 'pregunta';
     }
+    if(resIntentName.indexOf('provocaUsuario') !== -1){
+      return 'provoca';
+    }
     return 'respuesta';
   };
 
   //Controla si el usuario sigue teclando
   const handleKeyPress = event => {
-    console.log('--------- Pulsa tecla');
-    clearTimeout(timer);
-    numAvisos = 0;
-    timer = setInterval(function () {
-      avisoInactividad('');
-    }, timeControlTecleando);
+    if(timerActivo){
+      clearTimeout(timer);
+      numAvisos = 0;
+      timer = setInterval(function () {
+        avisoInactividad('');
+      }, timeControlTecleando);
+    }
   };
 
   //Controla si el usuario no responde al lanzar la intención
   const controlInactividad = resIntentName => {
-    console.log('--------- Lanza intención: ' + resIntentName);
     clearTimeout(timer);
     if (resIntentName.indexOf('corteTiempo')) {
       numAvisos = 0;
@@ -232,8 +243,8 @@ export default function Chat() {
     } else {
       //Si no hay intención de pregunta y el usuario no escribe lanzamos intención de provocar al usuario
       if (
-        resIntentName.indexOf('provocaUsuario') !== -1 ||
-        resIntentName.indexOf('corteTiempo') !== -1
+        resIntentName.indexOf('corteTiempo') !== -1 ||
+        resIntentName.indexOf('seguirAfirmacion') !== -1
       ) {
         getIntention('provocaUsuario');
         return;
@@ -273,7 +284,20 @@ export default function Chat() {
 
   //Controla la conversación
   const controlConversacion = (resIntentName, fulfillmentText, fallback) => {
+
+    if (resIntentName.indexOf('pregunta') !== -1 || resIntentName.indexOf('Pregunta') !== -1){
+      ultimaPreguntaLanzada = resIntentName;
+    }
+
     if (fallback && preguntaFuturo) {
+      if (ultimaPreguntaLanzada.indexOf('futuroPreguntaLugar') === 0) {
+        getIntention('futuroReaccionLugar');
+        return false;
+      }
+      if (ultimaPreguntaLanzada.indexOf('futuroPreguntaEscena') === 0) {
+        getIntention('futuroReaccionEscena');
+        return false;
+      }
       getIntention('corteCentrate');
       setPlaceholder('Escribe tu mensaje...');
       return false;
@@ -286,7 +310,7 @@ export default function Chat() {
       return false;
     }
 
-    if (preguntaChachara) {
+    if (preguntaChachara || usuarioProvocado) {
       if (resIntentName.indexOf('corteTiempo') === -1) {
         preguntaChachara = false;
       }
@@ -349,9 +373,29 @@ export default function Chat() {
         let fn = resIntentName + '(fulfillmentText)';
         let res = eval(fn);
 
-        addMessage('Sinsi', res, resIntentName);
-        setPlaceholder('Escribe tu mensaje...');
-        return false;
+        let parts = res.split('#');
+
+        if(parts[1]){
+
+          let sentence = parts[0];
+
+          addMessage('Sinsi', sentence, resIntentName);
+
+          if (parts[1]) {
+            getIntention(parts[1]);
+            return false;
+          }
+
+        }else{
+
+          addMessage('Sinsi', res, resIntentName);
+          setPlaceholder('Escribe tu mensaje...');
+
+          return false;
+
+
+        }
+
       }
     }
 
@@ -367,9 +411,19 @@ export default function Chat() {
       console.log('es pregunta chachara');
     }
 
+    if (resIntentName.indexOf('provocaUsuario') === 0) {
+      usuarioProvocado = true;
+    }
+
+    if (resIntentName.indexOf('seguirAfirmacion') === 0 && usuarioProvocado) {
+      lanzarPregunta = true;
+      console.log('lanza pregunta');
+    }
+
     return true;
   };
 
+  //Controla las preguntas
   //Controla las preguntas
   const controlPreguntas = resIntentName => {
     if (contPreguntas > 3) {
@@ -387,7 +441,9 @@ export default function Chat() {
       }
       */
     } else {
-      if (resIntentName.indexOf('Reaccion') !== -1) {
+      if (resIntentName.indexOf('Reaccion') !== -1 || lanzarPregunta) {
+        usuarioProvocado = false;
+        lanzarPregunta = false;
         //Lanzamos un tema de chachara
         let tema = escogerPreguntaCharla();
         getIntention(tema);
@@ -522,6 +578,8 @@ export default function Chat() {
 
     let res = fulfillmentText.replace('%futuroReaccionTema%', opcionSel);
 
+    timerActivo = false;
+
     return res;
   };
 
@@ -542,6 +600,34 @@ export default function Chat() {
       '.';
 
     let res = fulfillmentText.replace('%futuroPreguntaLugar%', resumen);
+
+    return res;
+  };
+
+  //Revisar, no se puede borrar
+  const futuroReaccionLugar = fulfillmentText => {
+
+    let res = fulfillmentText;
+
+    return res;
+  };
+
+  const futuroReaccionEscena = fulfillmentText => {
+
+    let resumen =
+        'Futurólogo: ' + localStorage.getItem('futuroReaccionSaltoTemporal') + "\n"+
+        'Salto temporal: ' + localStorage.getItem('futuroReaccionSaltoTemporal') + "\n"+
+        'Desencadenante: ' + localStorage.getItem('futuroReaccionDesencadenante') + "\n"+
+        'Tipo de futuro: ' + localStorage.getItem('futuroReaccionTipoFuturo') + "\n"+
+        'Población más afectada: ' + localStorage.getItem('futuroReaccionPoblacion') + "\n"+
+        'Área más afectada: ' + localStorage.getItem('futuroReaccionSector') + "\n"+
+        'Trending topic: ' + localStorage.getItem('futuroReaccionTema') + "\n"+
+        'Un día en ese futuro: ';
+
+    let res = fulfillmentText.replace('%futuroReaccionEscena%', resumen);
+
+
+
     return res;
   };
 
@@ -552,8 +638,6 @@ export default function Chat() {
   };
 
   const handleButtonColorClick = value => {
-    console.log('presionamos botón');
-    console.log(value);
     setColorSelect(value);
     setBotonColorActivate(false);
     wait = true;
@@ -561,21 +645,18 @@ export default function Chat() {
   };
 
   const handleButtonSaltoTemporalClick = value => {
-    console.log('presionamos botón');
     setBotonSaltoTemporalActivate(false);
     wait = true;
     handleNewMessage(value);
   };
 
   const handleButtonTipoFuturoClick = value => {
-    console.log('presionamos botón');
     setBotonTipoFuturoActivate(false);
     wait = true;
     handleNewMessage(value);
   };
 
   const handleWindowResize = () => {
-    console.log('resize');
     setColorSelect('default');
     setWidthCanvasWrapper(ref.current ? ref.current.offsetWidth : 588);
   };

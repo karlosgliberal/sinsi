@@ -18,20 +18,21 @@ import Router from 'next/router';
 
 const P5Wrapper = p5Wrapper();
 
-export default function Chat() {
-  let contPreguntas = 0;
+//Revisar (no funciona si están dentro de la función chat)
+let contPreguntas = 0;
+let timer;
+let preguntaFuturo = false;
+let reaccionFuturo = false;
+let preguntaChachara = false;
+let numAvisos = 0;
+let nextIntention;
+let wait = false;
+let usuarioProvocado = false;
+let lanzarPregunta = false;
+let ultimaPreguntaLanzada = '';
+let timerActivo = true;
 
-  let timer;
-  let preguntaFuturo = false;
-  let reaccionFuturo = false;
-  let preguntaChachara = false;
-  let numAvisos = 0;
-  let nextIntention;
-  let wait = false;
-  let usuarioProvocado = false;
-  let lanzarPregunta = false;
-  let ultimaPreguntaLanzada = '';
-  let timerActivo = true;
+export default function Chat() {
 
   //valoresde tiempo
   const timeEntreInteciones = 5000;
@@ -452,7 +453,6 @@ export default function Chat() {
   };
 
   const futuroPreguntaTipoFuturo = fulfillmentText => {
-    setBotonTipoFuturoActivate(true);
     setBotonActivate('tipoFuturo');
     let res = fulfillmentText.replace(
       '%futuroPreguntaTipoFuturo%',

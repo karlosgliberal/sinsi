@@ -38,7 +38,7 @@ export default function Chat() {
   const timeControlTecleando = 12000;
   const timeControlNoRespuestaIntencion = 20000;
   const timeGameOver = 4000;
-  let timeOutEntradaSinsi = 3000;
+  let timeOutEntradaSinsi = 2000;
   let timeOutEntradaPart = 1000;
 
   const router = useRouter();

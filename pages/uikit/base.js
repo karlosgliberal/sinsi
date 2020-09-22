@@ -14,8 +14,12 @@ export default () => (
           <h2 className="text-2xl text-white">TEXTOS</h2>
         </div>
 
-        <div className="text-decoration">
-          <p className="font-sinsimono p-6 text-white">
+        <div className="text-decoration ml-4 border-double border rounded-lg border-white">
+          <p className="font-ibmmono text-xs p-4 text-white ">hola</p>
+        </div>
+
+        <div className="text-decoration ml-2 mr-10 m4">
+          <p className="font-sinsimono p-4 text-white border-solid border-2 rounded border-white border-st">
             Buenas tardes, caballeros. Soy una computadora HAL 9000. Comencé a
             operar en el H.A.L. en Urbana, Illinois el 12 de enero de 1992. Mi
             instructor fue el Sr. Langley, y me enseñó a cantar una canción. Si

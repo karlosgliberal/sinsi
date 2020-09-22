@@ -69,7 +69,7 @@ select:focus {
 }
 
 p {
-  @apply mb-3;
+  @apply mb-1;
 }
 
 .slider-track {

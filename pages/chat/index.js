@@ -636,7 +636,7 @@ export default function Chat() {
             color: colorSelect,
           }}
         />
-        <div className="h-auto overflow-scroll mt-5">
+        <div className="h-auto overflow-scroll mt-2">
           <MessageList messages={menssagesLista} />
           {botonActivated != 'hidden' && (
             <ButtonList

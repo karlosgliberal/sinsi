@@ -14,7 +14,7 @@ export default function Message(props) {
         <div className="text-decoration">
           <ReactMarkdown
             //className= {(prosp.puntos  ? 'active' : '')}
-            className="font-sinsimono p-3 text-white"
+            className="font-ibmmono text-sm text-white pr-10"
             source={props.body}
             escapeHtml={false}
           />

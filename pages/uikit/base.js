@@ -27,8 +27,16 @@ export default () => (
           </p>
         </div>
 
+        <div className="flex justify-end">
+          <div>
+            <p className=" font-sinsimono p-6 text-sinsipurple border-double border rounded-r-lg rounded-tl-lg border-white mb-6  border-opacity-90 shadow-inner">
+              hola
+            </p>
+          </div>
+        </div>
+
         <div>
-          <p className="text-right font-sinsimono p-6 text-sinsipurple">
+          <p className="text-right font-sinsimono p-6 text-sinsipurple border-double border rounded-r-lg rounded-tl-lg border-white mb-6  border-opacity-90 shadow-inner">
             Tengo miedo. Tengo miedo, Dave. Dave, se me va la mente. Puedo
             sentirlo. Puedo sentirlo. Mi mente se va. No hay duda al respecto.
             Puedo sentirlo. Puedo sentirlo. Puedo sentirlo. Me temo que....

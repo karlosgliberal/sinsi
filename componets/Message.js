@@ -11,7 +11,7 @@ export default function Message(props) {
   return (
     <div>
       {props.author === 'Sinsi' && (
-        <div className="ml-4 mr-6 border-double border rounded-br-lg border-white mb-6  border-opacity-75 inline-block">
+        <div className="ml-4 mr-6 border-double border rounded-r-lg rounded-tl-lg border-white mb-6  border-opacity-90 inline-block shadow-inner">
           <ReactMarkdown
             //className= {(prosp.puntos  ? 'active' : '')}
             className="font-ibmmono text-xs text-white p-4"
@@ -21,10 +21,12 @@ export default function Message(props) {
         </div>
       )}
       {props.author === 'Me' && (
-        <div className="ml-40 mb-6 mr-4">
-          <p className="text-right font-sinsimono p-6 text-sinsipurple">
-            {props.body}
-          </p>
+        <div className="flex justify-end">
+          <div className="mr-4 ml-10">
+            <p className="font-sinsimono text-xs p-4 text-sinsipurple border-double border rounded-l-lg rounded-tr-lg border-white mb-6  border-opacity-10 shadow-inner">
+              {props.body}
+            </p>
+          </div>
         </div>
       )}
       <div ref={messagesEndRef} />

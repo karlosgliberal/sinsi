@@ -29,7 +29,7 @@ export default () => (
 
         <div className="flex justify-end">
           <div>
-            <p className=" font-sinsimono p-6 text-sinsipurple border-double border rounded-r-lg rounded-tl-lg border-white mb-6  border-opacity-90 shadow-inner">
+            <p className="font-sinsimono p-6 text-sinsipurple border-double border rounded-r-lg rounded-tl-lg border-white mb-6  border-opacity-90 shadow-inner">
               hola
             </p>
           </div>

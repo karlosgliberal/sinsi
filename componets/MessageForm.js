@@ -1,7 +1,8 @@
-import React, { useState} from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 
 export default function MessageForm(props) {
   const [inputMessage, setInputMessage] = useState('');
+  const inputRef = useRef();
 
   const handleInputChange = event => {
     setInputMessage(event.target.value);
@@ -13,9 +14,14 @@ export default function MessageForm(props) {
     setInputMessage('');
   };
 
-  const handleKeyPress = (event) => {
+  const handleKeyPress = event => {
     props.onUserKeyPress();
-  }
+  };
+
+  useEffect(() => {
+    console.log('movida');
+    inputRef.current.focus();
+  }, [props]);
 
   return (
     <form className="MessageForm" onSubmit={handleFormSubmit}>
@@ -29,6 +35,7 @@ export default function MessageForm(props) {
           value={inputMessage}
           /*ref={node => (input = node)}*/
           placeholder={props.placeholder}
+          ref={inputRef}
         />
 
         <div className="flex justify-center w-full border-l-2 border-gray-800 pl-2">

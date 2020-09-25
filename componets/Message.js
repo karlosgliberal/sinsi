@@ -7,7 +7,9 @@ export default function Message(props) {
   const scrollToBottom = () => {
     messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
   };
-  useEffect(scrollToBottom, [props]);
+  useEffect(() => {
+    scrollToBottom();
+  }, [props]);
   return (
     <div>
       {props.author === 'Sinsi' && (

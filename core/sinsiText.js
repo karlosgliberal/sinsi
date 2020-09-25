@@ -112,6 +112,8 @@ export const sinsiText = {
   },
 };
 
+export const tiposIntention = ['intro', 'estadistica', 'chachara', 'futuro'];
+
 export const itemsChachara = [
   'preguntaHobbies',
   'preguntaOdias',

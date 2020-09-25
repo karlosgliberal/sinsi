@@ -39,7 +39,7 @@ export default function Chat() {
   const timeControlNoRespuestaIntencion = 20000;
   const timeGameOver = 4000;
   let timeOutEntradaSinsi = 2000;
-  let timeOutEntradaPart = 1000;
+  let timeOutEntradaPart = 2000;
 
   const router = useRouter();
   const ref = useRef(null);
@@ -54,18 +54,15 @@ export default function Chat() {
   const addMessage = (author, body, intent, time) => {
     let dateMessage = new Date().getTime();
     setPlaceholder('Sinsi esta escribiendo...');
-
-    setTimeout(() => {
-      setMenssageList(menssagesLista => [
-        ...menssagesLista,
-        {
-          author,
-          body,
-          intent,
-          dateMessage,
-        },
-      ]);
-    }, time);
+    setMenssageList(menssagesLista => [
+      ...menssagesLista,
+      {
+        author,
+        body,
+        intent,
+        dateMessage,
+      },
+    ]);
     localStorage.setItem('futureTrip', JSON.stringify(menssagesLista));
   };
 
@@ -74,28 +71,50 @@ export default function Chat() {
     return parts;
   };
 
+  //Escogemos pregunta aleatoria de charla y la eliminamos para no repetirla
+  const escogerPreguntaCharla = () => {
+    let random = Math.floor(Math.random() * itemsChachara.length);
+    let item = itemsChachara.splice(random, 1);
+    return item;
+  };
+
+  const preguntaColor = (fulfillmentText, intention) => {
+    setBotonActivate('color');
+    addMessage('Sinsi', fulfillmentText, resIntentName);
+    setPlaceholder('Selecciona una opción');
+    return fulfillmentText;
+  };
+
+  const actionIntention = (fulfillmentText, intention) => {
+    switch (intention) {
+      case 'sinsiGameOver':
+        return setTimeout(() => {
+          Router.push('/gameover');
+        }, timeGameOver);
+      case 'estadisticaPreguntaColor':
+        return preguntaColor(fulfillmentText, intention);
+    }
+  };
+
   const getIntention = async intention => {
     const res = await getIntentionFromDialogflow(intention);
     let resIntentName = res.data.intent.displayName;
     let fallback = res.data.intent.isFallback;
     let fulfillmentText = res.data.fulfillmentText;
     let sentence, intentionInSentece;
+
     setLastIntention(resIntentName);
     [sentence, intentionInSentece] = splitIntention(fulfillmentText);
-
     addMessage('Sinsi', sentence, resIntentName, timeOutEntradaPart);
+    actionIntention(fulfillmentText, resIntentName);
 
     if (intentionInSentece) {
-      nextIntention = intentionInSentece;
-      if (nextIntention.indexOf('sinsi') !== -1) {
-        timeOutEntradaPart = timeOutEntradaSinsi;
-      }
-      getIntention(nextIntention);
-      return;
-    } else {
-      //controlPreguntas(resIntentName);
-      setPlaceholder('Escribe tu mensaje...');
+      return setTimeout(() => {
+        getIntention(intentionInSentece);
+      }, timeOutEntradaPart);
     }
+    setPlaceholder('Escribe tu mensaje...');
+    console.log(escogerPreguntaCharla());
   };
 
   // const fergetIntention = async intention => {
@@ -192,7 +211,7 @@ export default function Chat() {
       clearTimeout(timer);
       numAvisos = 0;
       timer = setInterval(function () {
-        avisoInactividad('');
+        //avisoInactividad('');
       }, timeControlTecleando);
     }
   };
@@ -204,7 +223,7 @@ export default function Chat() {
       numAvisos = 0;
     }
     timer = setInterval(function () {
-      avisoInactividad(resIntentName);
+      //avisoInactividad(resIntentName);
     }, timeControlNoRespuestaIntencion);
   };
 
@@ -247,14 +266,6 @@ export default function Chat() {
   //       }
   //     }
   //   }
-  // };
-
-  // //Escogemos pregunta aleatoria de charla y la eliminamos para no repetirla
-  // const escogerPreguntaCharla = () => {
-  //   let random = Math.floor(Math.random() * itemsChachara.length);
-  //   let item = itemsChachara.splice(random, 1);
-  //   //contPreguntas++;
-  //   return item;
   // };
 
   // //Controla si se efectuán las preguntas de estadística
@@ -321,7 +332,7 @@ export default function Chat() {
   //     contPreguntas++;
   //   }
 
-  //   console.log('Cont preguntas: ' + contPreguntas);
+  //   console.log('Cont preguntas ' + contPreguntas);
 
   //   if (contPreguntas == 3) {
   //     contPreguntas = 4;
@@ -434,11 +445,11 @@ export default function Chat() {
   //   }
   // };
 
-  const preguntaColor = fulfillmentText => {
-    setBotonActivate('color');
-    setPlaceholder('Selecciona una opción');
-    return fulfillmentText;
-  };
+  // const preguntaColor = fulfillmentText => {
+  //   setBotonActivate('color');
+  //   setPlaceholder('Selecciona una opción');
+  //   return fulfillmentText;
+  // };
 
   const futuroPreguntaSaltoTemporal = fulfillmentText => {
     setBotonActivate('saltoTemporal');

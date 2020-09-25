@@ -66,6 +66,18 @@ export default function Chat() {
     localStorage.setItem('futureTrip', JSON.stringify(menssagesLista));
   };
 
+  const handleButtoClick = value => {
+    setColorSelect(value);
+    setBotonActivate('hidden');
+    wait = true;
+    handleNewMessage(value);
+  };
+
+  const handleNewMessage = text => {
+    addMessage('Me', text);
+    getIntention(text);
+  };
+
   const splitIntention = fulfillmentText => {
     let parts = fulfillmentText.split('#');
     return parts;
@@ -80,10 +92,12 @@ export default function Chat() {
 
   const preguntaColor = (fulfillmentText, intention) => {
     setBotonActivate('color');
-    addMessage('Sinsi', fulfillmentText, resIntentName);
+    addMessage('Sinsi', fulfillmentText, intention);
     setPlaceholder('Selecciona una opción');
     return fulfillmentText;
   };
+
+  const initChachara = (fulfillmentText, intention) => {};
 
   const actionIntention = (fulfillmentText, intention) => {
     switch (intention) {
@@ -93,6 +107,11 @@ export default function Chat() {
         }, timeGameOver);
       case 'estadisticaPreguntaColor':
         return preguntaColor(fulfillmentText, intention);
+      case 'estadisticaReaccionColor':
+        return initChachara(fulfillmentText, intention);
+
+      default:
+        console.log('defuult');
     }
   };
 
@@ -102,17 +121,20 @@ export default function Chat() {
     let fallback = res.data.intent.isFallback;
     let fulfillmentText = res.data.fulfillmentText;
     let sentence, intentionInSentece;
+    console.log(resIntentName);
 
     setLastIntention(resIntentName);
     [sentence, intentionInSentece] = splitIntention(fulfillmentText);
     addMessage('Sinsi', sentence, resIntentName, timeOutEntradaPart);
     actionIntention(fulfillmentText, resIntentName);
+    console.log();
 
     if (intentionInSentece) {
       return setTimeout(() => {
         getIntention(intentionInSentece);
       }, timeOutEntradaPart);
     }
+
     setPlaceholder('Escribe tu mensaje...');
     console.log(escogerPreguntaCharla());
   };
@@ -636,13 +658,6 @@ export default function Chat() {
   //   }
   // };
 
-  const handleButtoClick = value => {
-    setColorSelect(value);
-    setBotonActivate('hidden');
-    wait = true;
-    handleNewMessage(value);
-  };
-
   const handleWindowResize = () => {
     setColorSelect('default');
     setWidthCanvasWrapper(ref.current ? ref.current.offsetWidth : 588);
@@ -659,11 +674,6 @@ export default function Chat() {
     }
     return () => window.removeEventListener('resize', handleWindowResize);
   }, []);
-
-  const handleNewMessage = text => {
-    addMessage('Me', text);
-    getIntention(text);
-  };
 
   return (
     <div className="bg-sinsiblue w-screen h-screen flex justify-center">

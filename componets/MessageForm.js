@@ -19,7 +19,6 @@ export default function MessageForm(props) {
   };
 
   useEffect(() => {
-    console.log('movida');
     inputRef.current.focus();
   }, [props]);
 

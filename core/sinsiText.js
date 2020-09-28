@@ -118,12 +118,12 @@ export const itemsChachara = [
   'preguntaHobbies',
   'preguntaOdias',
   'preguntaIntimidad1',
-  'preguntaIntimidad2',
-  'preguntaIntimidad3',
-  'preguntaIntimidad4',
+  'preguntaIntimidad2', //Que me preguntarias
+  // 'preguntaIntimidad3',
+  // 'preguntaIntimidad4', //recuerdo valioso
   'preguntaIntimidad5',
   'preguntaIntimidad6',
-  'preguntaIntimidad7',
+  // 'preguntaIntimidad7', //educación
 ];
 export const itemsFuturo = [
   'futuroPreguntaSaltoTemporal',
@@ -134,6 +134,23 @@ export const itemsFuturo = [
   'futuroPreguntaTema',
   'futuroPreguntaLugar',
   'futuroPreguntaEscena',
+];
+
+export const itemsReaccion = [
+  'reaccionChistes',
+  'reaccionDesahogo',
+  'reaccionHobbies',
+  'reaccionInsultos',
+  'reaccionIntimidad1',
+  'reaccionIntimidad2',
+  'reaccionIntimidad5',
+  'reaccionIntimidad6',
+  'reaccionLigando',
+  'reaccionOdias',
+  'reaccionPreferencias',
+  'reaccionRobot',
+  'reaccionSexismos',
+  'reaccionTrascendental',
 ];
 
 export const itemsReaccionFuturo = [

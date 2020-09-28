@@ -10,6 +10,7 @@ import {
   itemsFuturo,
   itemsReaccionFuturo,
   itemsEstadistica,
+  itemsReaccion,
 } from '../../core/sinsiText';
 
 import p5Wrapper from '../../componets/P5Wrapper';
@@ -39,7 +40,7 @@ export default function Chat() {
   const timeControlNoRespuestaIntencion = 20000;
   const timeGameOver = 4000;
   let timeOutEntradaSinsi = 2000;
-  let timeOutEntradaPart = 2000;
+  let timeOutEntradaPart = 200;
 
   const router = useRouter();
   const ref = useRef(null);
@@ -86,18 +87,32 @@ export default function Chat() {
   //Escogemos pregunta aleatoria de charla y la eliminamos para no repetirla
   const escogerPreguntaCharla = () => {
     let random = Math.floor(Math.random() * itemsChachara.length);
+    console.log(itemsChachara.length);
     let item = itemsChachara.splice(random, 1);
+    console.log(itemsChachara.length);
+    if (itemsChachara.length == 0) {
+      preguntaChachara = false;
+    }
     return item;
   };
 
   const preguntaColor = (fulfillmentText, intention) => {
     setBotonActivate('color');
-    addMessage('Sinsi', fulfillmentText, intention);
     setPlaceholder('Selecciona una opción');
     return fulfillmentText;
   };
 
-  const initChachara = (fulfillmentText, intention) => {};
+  const initChachara = (fulfillmentText, intention) => {
+    addMessage(
+      'Sinsi',
+      'Démonos un tiempo de chachara. *El tiempo avanzara de acuerdo la calidad de la conversación: *si es estimulante corre lentamente.*',
+      intention
+    );
+    setTimeout(() => {
+      getIntention(escogerPreguntaCharla());
+    }, timeOutEntradaPart);
+    preguntaChachara = true;
+  };
 
   const actionIntention = (fulfillmentText, intention) => {
     switch (intention) {
@@ -109,7 +124,6 @@ export default function Chat() {
         return preguntaColor(fulfillmentText, intention);
       case 'estadisticaReaccionColor':
         return initChachara(fulfillmentText, intention);
-
       default:
         console.log('defuult');
     }
@@ -122,21 +136,22 @@ export default function Chat() {
     let fulfillmentText = res.data.fulfillmentText;
     let sentence, intentionInSentece;
     console.log(resIntentName);
-
     setLastIntention(resIntentName);
     [sentence, intentionInSentece] = splitIntention(fulfillmentText);
     addMessage('Sinsi', sentence, resIntentName, timeOutEntradaPart);
-    actionIntention(fulfillmentText, resIntentName);
-    console.log();
 
     if (intentionInSentece) {
       return setTimeout(() => {
         getIntention(intentionInSentece);
       }, timeOutEntradaPart);
     }
+    actionIntention(fulfillmentText, resIntentName);
 
+    if (preguntaChachara) {
+      getIntention(escogerPreguntaCharla());
+    }
     setPlaceholder('Escribe tu mensaje...');
-    console.log(escogerPreguntaCharla());
+    // console.log(escogerPreguntaCharla());
   };
 
   // const fergetIntention = async intention => {

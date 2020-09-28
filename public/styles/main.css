@@ -95,6 +95,9 @@ p {
 
   top: -9px;
 }
+em {
+  @apply bg-sinsipurple;
+}
 
 .typewriter div {
   overflow: hidden;

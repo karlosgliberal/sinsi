@@ -70,7 +70,6 @@ export default function Chat() {
   const handleButtoClick = value => {
     setColorSelect(value);
     setBotonActivate('hidden');
-    wait = true;
     handleNewMessage(value);
   };
 
@@ -84,6 +83,12 @@ export default function Chat() {
     return parts;
   };
 
+  const preguntaColor = (fulfillmentText, intention) => {
+    setBotonActivate('color');
+    setPlaceholder('Selecciona una opción');
+    return fulfillmentText;
+  };
+
   //Escogemos pregunta aleatoria de charla y la eliminamos para no repetirla
   const escogerPreguntaCharla = () => {
     let random = Math.floor(Math.random() * itemsChachara.length);
@@ -94,12 +99,6 @@ export default function Chat() {
       preguntaChachara = false;
     }
     return item;
-  };
-
-  const preguntaColor = (fulfillmentText, intention) => {
-    setBotonActivate('color');
-    setPlaceholder('Selecciona una opción');
-    return fulfillmentText;
   };
 
   const initChachara = (fulfillmentText, intention) => {
@@ -129,6 +128,12 @@ export default function Chat() {
     }
   };
 
+  const wait = async ms => {
+    return new Promise(resolve => {
+      setTimeout(resolve, ms);
+    });
+  };
+
   const getIntention = async intention => {
     const res = await getIntentionFromDialogflow(intention);
     let resIntentName = res.data.intent.displayName;
@@ -139,11 +144,10 @@ export default function Chat() {
     setLastIntention(resIntentName);
     [sentence, intentionInSentece] = splitIntention(fulfillmentText);
     addMessage('Sinsi', sentence, resIntentName, timeOutEntradaPart);
-
+    await wait(timeOutEntradaPart);
     if (intentionInSentece) {
-      return setTimeout(() => {
-        getIntention(intentionInSentece);
-      }, timeOutEntradaPart);
+      getIntention(intentionInSentece);
+      //return setTimeout(getIntention, timeOutEntradaPart, intentionInSentece);
     }
     actionIntention(fulfillmentText, resIntentName);
 

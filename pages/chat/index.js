@@ -52,6 +52,18 @@ export default function Chat() {
   const futurologistName = router.query;
   const [placeholder, setPlaceholder] = useState('Escribe tu mensaje...');
 
+  const wait = async ms => {
+    return new Promise(resolve => {
+      setTimeout(resolve, ms);
+    });
+  };
+
+  const countDown = async ms => {
+    return new Promise(resolve => {
+      setInterval(resolve, ms);
+    });
+  };
+
   const addMessage = (author, body, intent, time) => {
     let dateMessage = new Date().getTime();
     setPlaceholder('Sinsi esta escribiendo...');
@@ -107,9 +119,7 @@ export default function Chat() {
       'Démonos un tiempo de chachara. *El tiempo avanzara de acuerdo la calidad de la conversación: *si es estimulante corre lentamente.*',
       intention
     );
-    setTimeout(() => {
-      getIntention(escogerPreguntaCharla());
-    }, timeOutEntradaPart);
+    getIntention(escogerPreguntaCharla());
     preguntaChachara = true;
   };
 
@@ -124,18 +134,14 @@ export default function Chat() {
       case 'estadisticaReaccionColor':
         return initChachara(fulfillmentText, intention);
       default:
-        console.log('defuult');
+        console.log('default');
     }
-  };
-
-  const wait = async ms => {
-    return new Promise(resolve => {
-      setTimeout(resolve, ms);
-    });
   };
 
   const getIntention = async intention => {
     const res = await getIntentionFromDialogflow(intention);
+    if (!res) return;
+    await wait(300);
     let resIntentName = res.data.intent.displayName;
     let fallback = res.data.intent.isFallback;
     let fulfillmentText = res.data.fulfillmentText;
@@ -145,17 +151,16 @@ export default function Chat() {
     [sentence, intentionInSentece] = splitIntention(fulfillmentText);
     addMessage('Sinsi', sentence, resIntentName, timeOutEntradaPart);
     await wait(timeOutEntradaPart);
+
     if (intentionInSentece) {
       getIntention(intentionInSentece);
-      //return setTimeout(getIntention, timeOutEntradaPart, intentionInSentece);
     }
-    actionIntention(fulfillmentText, resIntentName);
-
     if (preguntaChachara) {
+      await wait(20000);
       getIntention(escogerPreguntaCharla());
     }
+    actionIntention(fulfillmentText, resIntentName);
     setPlaceholder('Escribe tu mensaje...');
-    // console.log(escogerPreguntaCharla());
   };
 
   // const fergetIntention = async intention => {

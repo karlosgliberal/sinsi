@@ -7,7 +7,7 @@ import { getIntentionFromDialogflow } from '../../core/services/dialogflowRespon
 import {
   sinsiText,
   itemsChachara,
-  itemsFuturo,
+  itemsPreguntaFuturo,
   itemsReaccionFuturo,
   itemsEstadistica,
   itemsReaccion,
@@ -50,6 +50,7 @@ export default function Chat() {
   const [colorSelect, setColorSelect] = useState('defaut');
   const [botonActivated, setBotonActivate] = useState('hidden');
   const futurologistName = router.query;
+  const [countPreguntasFrecuntes, setCountPreguntasFrecuntes] = useState(0);
   const [placeholder, setPlaceholder] = useState('Escribe tu mensaje...');
 
   const wait = async ms => {
@@ -106,9 +107,22 @@ export default function Chat() {
     let random = Math.floor(Math.random() * itemsChachara.length);
     console.log(itemsChachara.length);
     let item = itemsChachara.splice(random, 1);
-    console.log(itemsChachara.length);
     if (itemsChachara.length == 0) {
       preguntaChachara = false;
+      preguntaFuturo = true;
+      console.log(itemsChachara.length);
+      //addMessage('Sinsi', 'movida', lastIntention);
+    }
+    return item;
+  };
+
+  const escogerPreguntaFuturo = () => {
+    let firstItem = itemsPreguntaFuturo.length[0];
+    console.log(itemsPreguntaFuturo.length);
+    let item = itemsPreguntaFuturo.splice(firstItem, 1);
+    if (itemsPreguntaFuturo.length == 0) {
+      preguntaFuturo = false;
+      console.log(itemsPreguntaFuturo.length);
     }
     return item;
   };
@@ -116,7 +130,7 @@ export default function Chat() {
   const initChachara = (fulfillmentText, intention) => {
     addMessage(
       'Sinsi',
-      'Démonos un tiempo de chachara. *El tiempo avanzara de acuerdo la calidad de la conversación: *si es estimulante corre lentamente.*',
+      'Démonos un tiempo de chachara. El tiempo avanzara de acuerdo la calidad de la conversación: *si es estimulante corre lentamente.*',
       intention
     );
     getIntention(escogerPreguntaCharla());
@@ -140,7 +154,7 @@ export default function Chat() {
 
   const getIntention = async intention => {
     const res = await getIntentionFromDialogflow(intention);
-    if (!res) return;
+
     await wait(300);
     let resIntentName = res.data.intent.displayName;
     let fallback = res.data.intent.isFallback;
@@ -150,14 +164,20 @@ export default function Chat() {
     setLastIntention(resIntentName);
     [sentence, intentionInSentece] = splitIntention(fulfillmentText);
     addMessage('Sinsi', sentence, resIntentName, timeOutEntradaPart);
-    await wait(timeOutEntradaPart);
 
+    await wait(timeOutEntradaPart);
     if (intentionInSentece) {
       getIntention(intentionInSentece);
     }
     if (preguntaChachara) {
-      await wait(20000);
-      getIntention(escogerPreguntaCharla());
+      // await wait(20000);
+      clearTimeout(timer);
+      timer = setTimeout(getIntention, 1000, escogerPreguntaCharla());
+    }
+
+    if (preguntaFuturo) {
+      clearTimeout(timer);
+      timer = setTimeout(getIntention, 1000, escogerPreguntaFuturo());
     }
     actionIntention(fulfillmentText, resIntentName);
     setPlaceholder('Escribe tu mensaje...');
@@ -253,13 +273,13 @@ export default function Chat() {
 
   //Controla si el usuario sigue teclando
   const handleKeyPress = () => {
-    if (timerActivo) {
-      clearTimeout(timer);
-      numAvisos = 0;
-      timer = setInterval(function () {
-        //avisoInactividad('');
-      }, timeControlTecleando);
-    }
+    // if (timerActivo) {
+    //   clearTimeout(timer);
+    //   numAvisos = 0;
+    //   timer = setInterval(function () {
+    //     //avisoInactividad('');
+    //   }, timeControlTecleando);
+    // }
   };
 
   //Controla si el usuario no responde al lanzar la intención

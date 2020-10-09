@@ -125,7 +125,7 @@ export const itemsChachara = [
   'preguntaIntimidad6',
   // 'preguntaIntimidad7', //educación
 ];
-export const itemsFuturo = [
+export const itemsPreguntaFuturo = [
   'futuroPreguntaSaltoTemporal',
   'futuroPreguntaDesencadenante',
   'futuroPreguntaTipoFuturo',

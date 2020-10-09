@@ -77,7 +77,7 @@ export default function Chat() {
   const handleButtoClick = value => {
     setColorSelect(value);
     setBotonActivate('hidden');
-    console.log('mmm', value);
+    localStorage.setItem(lastIntention, value);
     handleNewMessage(value);
   };
 
@@ -109,7 +109,6 @@ export default function Chat() {
   };
 
   const isItemReaccion = intention => {
-    console.log(itemsReaccionFuturo.includes(intention));
     if (itemsReaccionFuturo.includes(intention)) {
       preguntaFuturo = true;
     }

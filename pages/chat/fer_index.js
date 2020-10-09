@@ -7,7 +7,6 @@ import { getIntentionFromDialogflow } from '../../core/services/dialogflowRespon
 import {
   sinsiText,
   itemsChachara,
-  itemsFuturo,
   itemsReaccionFuturo,
   itemsEstadistica,
 } from '../../core/sinsiText';

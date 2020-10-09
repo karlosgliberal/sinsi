@@ -59,12 +59,6 @@ export default function Chat() {
     });
   };
 
-  const countDown = async ms => {
-    return new Promise(resolve => {
-      setInterval(resolve, ms);
-    });
-  };
-
   const addMessage = (author, body, intent, time) => {
     let dateMessage = new Date().getTime();
     setPlaceholder('Sinsi esta escribiendo...');
@@ -83,6 +77,7 @@ export default function Chat() {
   const handleButtoClick = value => {
     setColorSelect(value);
     setBotonActivate('hidden');
+    console.log('mmm', value);
     handleNewMessage(value);
   };
 
@@ -105,25 +100,28 @@ export default function Chat() {
   //Escogemos pregunta aleatoria de charla y la eliminamos para no repetirla
   const escogerPreguntaCharla = () => {
     let random = Math.floor(Math.random() * itemsChachara.length);
-    console.log(itemsChachara.length);
     let item = itemsChachara.splice(random, 1);
     if (itemsChachara.length == 0) {
       preguntaChachara = false;
       preguntaFuturo = true;
-      console.log(itemsChachara.length);
-      //addMessage('Sinsi', 'movida', lastIntention);
     }
     return item;
   };
 
+  const isItemReaccion = intention => {
+    console.log(itemsReaccionFuturo.includes(intention));
+    if (itemsReaccionFuturo.includes(intention)) {
+      preguntaFuturo = true;
+    }
+  };
+
   const escogerPreguntaFuturo = () => {
-    let firstItem = itemsPreguntaFuturo.length[0];
-    console.log(itemsPreguntaFuturo.length);
+    let firstItem = itemsPreguntaFuturo[0];
     let item = itemsPreguntaFuturo.splice(firstItem, 1);
     if (itemsPreguntaFuturo.length == 0) {
-      preguntaFuturo = false;
-      console.log(itemsPreguntaFuturo.length);
     }
+    setBotonActivate(firstItem);
+    preguntaFuturo = false;
     return item;
   };
 
@@ -174,7 +172,7 @@ export default function Chat() {
       clearTimeout(timer);
       timer = setTimeout(getIntention, 1000, escogerPreguntaCharla());
     }
-
+    isItemReaccion(resIntentName);
     if (preguntaFuturo) {
       clearTimeout(timer);
       timer = setTimeout(getIntention, 1000, escogerPreguntaFuturo());
@@ -182,94 +180,6 @@ export default function Chat() {
     actionIntention(fulfillmentText, resIntentName);
     setPlaceholder('Escribe tu mensaje...');
   };
-
-  // const fergetIntention = async intention => {
-  //   if (!intention) {
-  //     if (nextIntention) {
-  //       console.log('next');
-  //       getIntention(nextIntention);
-  //     }
-  //     return false;
-  //   }
-
-  //   if (wait) {
-  //     console.log('movida');
-  //     setTimeout(() => {
-  //       wait = false;
-  //       getIntention(intention);
-  //     }, timeEntreInteciones);
-  //     return;
-  //   }
-
-  //   wait = false;
-  //   nextIntention = null;
-
-  //   const res = await getIntentionFromDialogflow(intention);
-  //   let resIntentName = res.data.intent.displayName;
-  //   let fallback = res.data.intent.isFallback;
-  //   let fulfillmentText = res.data.fulfillmentText;
-
-  //   controlPreguntasEstadistica(resIntentName);
-
-  //   if (timerActivo) {
-  //     controlInactividad(resIntentName);
-  //   }
-
-  //   let continuar = controlConversacion(
-  //     resIntentName,
-  //     fulfillmentText,
-  //     fallback
-  //   );
-
-  //   if (continuar) {
-  //     if (resIntentName == 'sinsiGameOver') {
-  //       setTimeout(() => {
-  //         Router.push('/gameover');
-  //       }, timeGameOver);
-  //     } else {
-  //       if (res) setLastIntention(res.data.intent.displayName);
-  //       let parts = fulfillmentText.split('#');
-  //       let sentence = parts[0];
-
-  //       console.log('mensaje');
-  //       addMessage('Sinsi', sentence, resIntentName);
-
-  //       if (parts[1]) {
-  //         nextIntention = parts[1];
-
-  //         if (nextIntention.indexOf('sinsi') !== -1) {
-  //           timeOutEntradaPart = timeOutEntradaSinsi;
-  //         }
-  //         setTimeout(() => {
-  //           getIntention(nextIntention);
-  //           return;
-  //         }, timeOutEntradaPart);
-  //       } else {
-  //         controlPreguntas(resIntentName);
-  //         setPlaceholder('Escribe tu mensaje...');
-  //         const input = document.querySelector('input');
-  //         if (input) {
-  //           input.focus();
-  //         }
-  //       }
-  //     }
-  //   }
-  // };
-
-  // //Controla el tipo de Intención lanzado
-  // const getTipoIntencion = resIntentName => {
-  //   if (
-  //     resIntentName.indexOf('pregunta') !== -1 ||
-  //     resIntentName.indexOf('Pregunta') !== -1 ||
-  //     resIntentName.indexOf('corte') !== -1
-  //   ) {
-  //     return 'pregunta';
-  //   }
-  //   if (resIntentName.indexOf('provocaUsuario') !== -1) {
-  //     return 'provoca';
-  //   }
-  //   return 'respuesta';
-  // };
 
   //Controla si el usuario sigue teclando
   const handleKeyPress = () => {
@@ -292,230 +202,6 @@ export default function Chat() {
       //avisoInactividad(resIntentName);
     }, timeControlNoRespuestaIntencion);
   };
-
-  // //Muestra avisos de inactividad
-  // const avisoInactividad = resIntentName => {
-  //   numAvisos++;
-
-  //   let tipoIntencion = 'pregunta';
-
-  //   if (resIntentName) {
-  //     tipoIntencion = getTipoIntencion(resIntentName);
-  //   }
-
-  //   if (tipoIntencion == 'pregunta') {
-  //     if (numAvisos > 2) {
-  //       getIntention('sinsiGameOver');
-  //       return;
-  //     } else {
-  //       getIntention('corteTiempo');
-  //       return;
-  //     }
-  //   } else {
-  //     //Si no hay intención de pregunta y el usuario no escribe lanzamos intención de provocar al usuario
-  //     if (
-  //       resIntentName.indexOf('corteTiempo') !== -1 ||
-  //       resIntentName.indexOf('seguirAfirmacion') !== -1
-  //     ) {
-  //       getIntention('provocaUsuario');
-  //       return;
-  //     } else {
-  //       //Lanzamos un tema de chachara
-  //       if (contPreguntas < 4) {
-  //         let tema = escogerPreguntaCharla();
-  //         getIntention(tema);
-  //         return;
-  //       } else {
-  //         let firstItem = itemsFuturo.find(x => x !== undefined);
-  //         getIntention(firstItem);
-  //         return;
-  //       }
-  //     }
-  //   }
-  // };
-
-  // //Controla si se efectuán las preguntas de estadística
-  // const controlPreguntasEstadistica = resIntentName => {
-  //   let resultado = itemsEstadistica.findIndex(
-  //     estadistica => estadistica.reaccion === resIntentName
-  //   );
-
-  //   if (resultado !== -1) {
-  //     itemsEstadistica.splice(resultado, 1);
-  //   }
-  // };
-
-  // //Controla la conversación
-  // const controlConversacion = (resIntentName, fulfillmentText, fallback) => {
-  //   if (
-  //     resIntentName.indexOf('pregunta') !== -1 ||
-  //     resIntentName.indexOf('Pregunta') !== -1
-  //   ) {
-  //     ultimaPreguntaLanzada = resIntentName;
-  //   }
-
-  //   if (fallback && preguntaFuturo) {
-  //     if (ultimaPreguntaLanzada.indexOf('futuroPreguntaLugar') === 0) {
-  //       getIntention('futuroReaccionLugar');
-  //       return false;
-  //     }
-  //     if (ultimaPreguntaLanzada.indexOf('futuroPreguntaEscena') === 0) {
-  //       getIntention('futuroReaccionEscena');
-  //       return false;
-  //     }
-  //     getIntention('corteCentrate');
-  //     setPlaceholder('Escribe tu mensaje...');
-  //     return false;
-  //   }
-
-  //   if (fallback && reaccionFuturo) {
-  //     let firstItem = itemsFuturo.find(x => x !== undefined);
-  //     getIntention(firstItem);
-  //     setPlaceholder('Escribe tu mensaje...');
-  //     return false;
-  //   }
-
-  //   if (preguntaChachara || usuarioProvocado) {
-  //     if (resIntentName.indexOf('corteTiempo') === -1) {
-  //       preguntaChachara = false;
-  //     }
-  //     if (fallback) {
-  //       getIntention('seguirAfirmacion');
-  //       setPlaceholder('Escribe tu mensaje...');
-  //       return false;
-  //     }
-  //   }
-
-  //   if (
-  //     resIntentName.indexOf('estadistica') === -1 &&
-  //     resIntentName.indexOf('futuro') === -1 &&
-  //     resIntentName.indexOf('corte') === -1 &&
-  //     resIntentName.indexOf('seguirAfirmacion') === -1 &&
-  //     resIntentName.indexOf('provocaUsuario') === -1 &&
-  //     resIntentName.indexOf('sinsiIntro') === -1
-  //     //resIntentName.indexOf('pregunta') === -1
-  //   ) {
-  //     contPreguntas++;
-  //   }
-
-  //   console.log('Cont preguntas ' + contPreguntas);
-
-  //   if (contPreguntas == 3) {
-  //     contPreguntas = 4;
-  //     getIntention('corteConversacion');
-  //     setPlaceholder('Escribe tu mensaje...');
-  //     return false;
-  //   }
-
-  //   if (resIntentName.indexOf('corteConversacion') !== -1) {
-  //     let firstItem = itemsFuturo.find(x => x !== undefined);
-  //     addMessage('Sinsi', fulfillmentText, resIntentName);
-  //     getIntention(firstItem);
-  //     return false;
-  //   }
-
-  //   if (resIntentName.indexOf('futuroPregunta') !== -1) {
-  //     preguntaFuturo = true;
-  //     reaccionFuturo = false;
-
-  //     //Eliminamos la pregunta
-  //     itemsFuturo.shift();
-
-  //     if (isFunctionDefined(resIntentName)) {
-  //       let fn = resIntentName + '(fulfillmentText)';
-  //       let res = eval(fn);
-  //       addMessage('Sinsi', res, resIntentName);
-  //       setPlaceholder('Escribe tu mensaje...');
-  //       return false;
-  //     }
-  //   }
-
-  //   if (resIntentName.indexOf('futuroReaccion') !== -1) {
-  //     preguntaFuturo = false;
-  //     reaccionFuturo = true;
-
-  //     if (isFunctionDefined(resIntentName)) {
-  //       let fn = resIntentName + '(fulfillmentText)';
-  //       let res = eval(fn);
-
-  //       let parts = res.split('#');
-
-  //       if (parts[1]) {
-  //         let sentence = parts[0];
-
-  //         addMessage('Sinsi', sentence, resIntentName);
-
-  //         if (parts[1]) {
-  //           getIntention(parts[1]);
-  //           return false;
-  //         }
-  //       } else {
-  //         addMessage('Sinsi', res, resIntentName);
-  //         setPlaceholder('Escribe tu mensaje...');
-
-  //         return false;
-  //       }
-  //     }
-  //   }
-
-  //   if (resIntentName.indexOf('estadisticaPreguntaColor') === 0) {
-  //     let res = preguntaColor(fulfillmentText);
-  //     addMessage('Sinsi', res, resIntentName);
-  //     setPlaceholder('Selecciona una opción');
-  //     return false;
-  //   }
-
-  //   if (resIntentName.indexOf('pregunta') === 0) {
-  //     preguntaChachara = true;
-  //     console.log('es pregunta chachara');
-  //   }
-
-  //   if (resIntentName.indexOf('provocaUsuario') === 0) {
-  //     usuarioProvocado = true;
-  //   }
-
-  //   if (resIntentName.indexOf('seguirAfirmacion') === 0 && usuarioProvocado) {
-  //     lanzarPregunta = true;
-  //     console.log('lanza pregunta');
-  //   }
-
-  //   return true;
-  // };
-
-  //Controla las preguntas
-  //Controla las preguntas
-  // const controlPreguntas = resIntentName => {
-  //   if (contPreguntas > 3) {
-  //     /*
-  //     contPreguntas = 2;
-  //     //Después de la charla inicial comprobamos si ha respondido a las preguntas de estadística, sino insistimos
-  //     if(itemsEstadistica.length>0) {
-  //       let firstItem = itemsEstadistica.find(x => x !== undefined);
-  //       addMessage('Sinsi', 'Voy a intentarlo otra vez...');
-  //       getIntention(firstItem.pregunta);
-  //       return;
-  //     }else{
-  //       getIntention('corteConversacion');
-  //       return;
-  //     }
-  //     */
-  //   } else {
-  //     if (resIntentName.indexOf('Reaccion') !== -1 || lanzarPregunta) {
-  //       usuarioProvocado = false;
-  //       lanzarPregunta = false;
-  //       //Lanzamos un tema de chachara
-  //       let tema = escogerPreguntaCharla();
-  //       getIntention(tema);
-  //       return;
-  //     }
-  //   }
-  // };
-
-  // const preguntaColor = fulfillmentText => {
-  //   setBotonActivate('color');
-  //   setPlaceholder('Selecciona una opción');
-  //   return fulfillmentText;
-  // };
 
   const futuroPreguntaSaltoTemporal = fulfillmentText => {
     setBotonActivate('saltoTemporal');

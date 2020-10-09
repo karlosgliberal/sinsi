@@ -4,7 +4,7 @@ export const sinsiText = {
       'Vamos con una pregunta más "personal". ¿Con cuál de estos colores te identificas más?',
     preguntas: ['rosa', 'azul', 'morado'],
   },
-  saltoTemporal: {
+  futuroPreguntaSaltoTemporal: {
     text:
       'Una cosa. Para que me sitúe. Cuando piensas en el futuro, ¿de qué salto en el tiempo estamos hablando? \n Date prisa en decidirlo o elegiré yo cómo de lejos vamos a viajar',
     preguntas: [
@@ -16,7 +16,7 @@ export const sinsiText = {
       'un milenio',
     ],
   },
-  desencadenante: {
+  futuroPreguntaDesencadenante: {
     text:
       'Volvamos al tema. El futuro en salto elegido se verá condicionado por un detonante que, aunque se intuía, no se podrá evitar. \n Volvamos al tema. El futuro en salto elegido se verá condicionado por un detonante que, aunque se intuía, no se podrá evitar. \n ',
     preguntas: [
@@ -30,11 +30,11 @@ export const sinsiText = {
       'un acuerdo empresarial',
     ],
   },
-  tipoFuturo: {
+  futuroPreguntaTipoFuturo: {
     text: '',
     preguntas: ['utópico', 'distópico', 'continuista'],
   },
-  poblacion: {
+  futuroPreguntaPoblacion: {
     text: '',
     preguntas: [
       'las minorías',
@@ -44,7 +44,7 @@ export const sinsiText = {
       'los adultos',
     ],
   },
-  sector: {
+  futuroPreguntaSector: {
     text: '',
     preguntas: [
       'de la salud',
@@ -81,7 +81,7 @@ export const sinsiText = {
       'del sexo',
     ],
   },
-  tema: {
+  futuroPreguntaTema: {
     text: '',
     preguntas: [
       'serán los sistemas de recomendación',

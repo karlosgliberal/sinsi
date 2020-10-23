@@ -91,7 +91,7 @@ export default function Chat() {
     return parts;
   };
 
-  const preguntaColor = (fulfillmentText, intention) => {
+  const preguntaColor = fulfillmentText => {
     setBotonActivate('color');
     setPlaceholder('Selecciona una opción');
     return fulfillmentText;
@@ -171,10 +171,13 @@ export default function Chat() {
       clearTimeout(timer);
       timer = setTimeout(getIntention, 1000, escogerPreguntaCharla());
     }
+
     isItemReaccion(resIntentName);
     if (preguntaFuturo) {
-      clearTimeout(timer);
-      timer = setTimeout(getIntention, 1000, escogerPreguntaFuturo());
+      await wait(300);
+      getIntention(escogerPreguntaCharla());
+      // clearTimeout(timer);
+      // timer = setTimeout(getIntention, 1000, escogerPreguntaFuturo());
     }
     actionIntention(fulfillmentText, resIntentName);
     setPlaceholder('Escribe tu mensaje...');
@@ -202,130 +205,6 @@ export default function Chat() {
     }, timeControlNoRespuestaIntencion);
   };
 
-  const futuroPreguntaSaltoTemporal = fulfillmentText => {
-    setBotonActivate('saltoTemporal');
-    setPlaceholder('Selecciona una opción');
-    return fulfillmentText;
-  };
-
-  const futuroReaccionSaltoTemporal = fulfillmentText => {
-    let opciones = sinsiText['saltoTemporal'].preguntas;
-    let random = Math.floor(Math.random() * opciones.length);
-
-    let opcionSel = opciones[random];
-
-    localStorage.setItem('futuroReaccionSaltoTemporal', opcionSel);
-
-    let res = fulfillmentText.replace(
-      '%futuroReaccionSaltoTemporal%',
-      opcionSel
-    );
-
-    return res;
-  };
-
-  const futuroPreguntaDesencadenante = fulfillmentText => {
-    let res = fulfillmentText.replace(
-      '%futuroPreguntaDesencadenante%',
-      localStorage.getItem('futuroReaccionSaltoTemporal')
-    );
-    return res;
-  };
-
-  const futuroReaccionDesencadenante = fulfillmentText => {
-    let opciones = sinsiText['desencadenante'].preguntas;
-    let random = Math.floor(Math.random() * opciones.length);
-
-    let opcionSel = opciones[random];
-
-    localStorage.setItem('futuroReaccionDesencadenante', opcionSel);
-
-    let res = fulfillmentText.replace(
-      '%futuroReaccionDesencadenante%',
-      opcionSel
-    );
-    return res;
-  };
-
-  const futuroPreguntaTipoFuturo = fulfillmentText => {
-    setBotonActivate('tipoFuturo');
-    let res = fulfillmentText.replace(
-      '%futuroPreguntaTipoFuturo%',
-      localStorage.getItem('futuroReaccionSaltoTemporal')
-    );
-    return res;
-  };
-
-  const futuroReaccionTipoFuturo = fulfillmentText => {
-    let opciones = sinsiText['tipoFuturo'].preguntas;
-    let random = Math.floor(Math.random() * opciones.length);
-
-    let opcionSel = opciones[random];
-
-    localStorage.setItem('futuroReaccionTipoFuturo', opcionSel);
-
-    let res = fulfillmentText.replace('%futuroReaccionTipoFuturo%', opcionSel);
-
-    return res;
-  };
-
-  const futuroPreguntaPoblacion = fulfillmentText => {
-    let res = fulfillmentText.replace(
-      '%futuroPreguntaPoblacion%',
-      localStorage.getItem('futuroReaccionSaltoTemporal')
-    );
-    return res;
-  };
-
-  const futuroReaccionPoblacion = fulfillmentText => {
-    let opciones = sinsiText['poblacion'].preguntas;
-    let random = Math.floor(Math.random() * opciones.length);
-
-    let opcionSel = opciones[random];
-
-    localStorage.setItem('futuroReaccionPoblacion', opcionSel);
-
-    let res = fulfillmentText.replace('%futuroReaccionPoblacion%', opcionSel);
-
-    return res;
-  };
-
-  const futuroReaccionSector = fulfillmentText => {
-    let opciones = sinsiText['sector'].preguntas;
-    let random = Math.floor(Math.random() * opciones.length);
-
-    let opcionSel = opciones[random];
-
-    localStorage.setItem('futuroReaccionSector', opcionSel);
-
-    let res = fulfillmentText.replace('%futuroReaccionSector%', opcionSel);
-
-    return res;
-  };
-
-  const futuroPreguntaTema = fulfillmentText => {
-    let res = fulfillmentText.replace(
-      '%futuroPreguntaTema%',
-      localStorage.getItem('futuroReaccionSaltoTemporal')
-    );
-    return res;
-  };
-
-  const futuroReaccionTema = fulfillmentText => {
-    let opciones = sinsiText['tema'].preguntas;
-    let random = Math.floor(Math.random() * opciones.length);
-
-    let opcionSel = opciones[random];
-
-    localStorage.setItem('futuroReaccionTema', opcionSel);
-
-    let res = fulfillmentText.replace('%futuroReaccionTema%', opcionSel);
-
-    timerActivo = false;
-
-    return res;
-  };
-
   const futuroPreguntaLugar = fulfillmentText => {
     let resumen =
       'Hemos dado un salto temporal de ' +
@@ -347,46 +226,6 @@ export default function Chat() {
     return res;
   };
 
-  //Revisar, no se puede borrar
-  const futuroReaccionLugar = fulfillmentText => {
-    let res = fulfillmentText;
-    return res;
-  };
-
-  const futuroReaccionEscena = fulfillmentText => {
-    let resumen =
-      'Futurólogo: ' +
-      localStorage.getItem('futuroReaccionSaltoTemporal') +
-      '\n' +
-      'Salto temporal: ' +
-      localStorage.getItem('futuroReaccionSaltoTemporal') +
-      '\n' +
-      'Desencadenante: ' +
-      localStorage.getItem('futuroReaccionDesencadenante') +
-      '\n' +
-      'Tipo de futuro: ' +
-      localStorage.getItem('futuroReaccionTipoFuturo') +
-      '\n' +
-      'Población más afectada: ' +
-      localStorage.getItem('futuroReaccionPoblacion') +
-      '\n' +
-      'Área más afectada: ' +
-      localStorage.getItem('futuroReaccionSector') +
-      '\n' +
-      'Trending topic: ' +
-      localStorage.getItem('futuroReaccionTema') +
-      '\n' +
-      'Un día en ese futuro: ';
-    let res = fulfillmentText.replace('%futuroReaccionEscena%', resumen);
-    return res;
-  };
-
-  // const isFunctionDefined = functionName => {
-  //   if (eval('typeof(' + functionName + ') == typeof(Function)')) {
-  //     return true;
-  //   }
-  // };
-
   const handleWindowResize = () => {
     setColorSelect('default');
     setWidthCanvasWrapper(ref.current ? ref.current.offsetWidth : 588);
@@ -395,9 +234,7 @@ export default function Chat() {
   useEffect(() => {
     window.addEventListener('resize', handleWindowResize);
     if (!futurologistName.name) {
-      //Corregir nombre intención con frase intención ("sinsiSinNombre")
       getIntention(`sinsiSinNombre`);
-      //getIntention(`sinsiGameOver`);
     } else {
       getIntention(`sinsiIntroNombre ${futurologistName.name}`);
     }

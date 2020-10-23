@@ -136,6 +136,17 @@ export const itemsPreguntaFuturo = [
   'futuroPreguntaEscena',
 ];
 
+export const itemsReaccionFuturo = [
+  'futuroReaccionSaltoTemporal',
+  'futuroReaccionDesencadenante',
+  'futuroReaccionTipoFuturo',
+  'futuroReaccionPoblacion',
+  'futuroReaccionSector',
+  'futuroReaccionTema',
+  'futuroReaccionLugar',
+  'futuroReaccionEscena',
+];
+
 export const itemsReaccion = [
   'reaccionChistes',
   'reaccionDesahogo',
@@ -151,17 +162,6 @@ export const itemsReaccion = [
   'reaccionRobot',
   'reaccionSexismos',
   'reaccionTrascendental',
-];
-
-export const itemsReaccionFuturo = [
-  'futuroReaccionSaltoTemporal',
-  'futuroReaccionDesencadenante',
-  'futuroReaccionTipoFuturo',
-  'futuroReaccionPoblacion',
-  'futuroReaccionSector',
-  'futuroReaccionTema',
-  'futuroReaccionLugar',
-  'futuroReaccionEscena',
 ];
 
 export const itemsEstadistica = [

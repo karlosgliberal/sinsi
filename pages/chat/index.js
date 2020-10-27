@@ -19,29 +19,13 @@ import { lineas } from '../../sketches/lineas';
 import Router from 'next/router';
 
 const P5Wrapper = p5Wrapper();
-
-//Revisar (no funciona si están dentro de la función chat)
-let contPreguntas = 0;
 let timer;
 let preguntaFuturo = false;
 let preguntaFuturoEscena = false;
-let reaccionFuturo = false;
 let preguntaChachara = false;
-let numAvisos = 0;
-let nextIntention;
-let wait = false;
-let usuarioProvocado = false;
-let lanzarPregunta = false;
-let ultimaPreguntaLanzada = '';
-let timerActivo = true;
 
 export default function Chat() {
-  //valoresde tiempo
-  const timeEntreInteciones = 1000;
-  const timeControlTecleando = 1200;
-  const timeControlNoRespuestaIntencion = 20000;
   const timeGameOver = 4000;
-  let timeOutEntradaSinsi = 2000;
   let timeOutEntradaPart = 200;
 
   const router = useRouter();
@@ -52,7 +36,6 @@ export default function Chat() {
   const [colorSelect, setColorSelect] = useState('defaut');
   const [botonActivated, setBotonActivate] = useState('hidden');
   const futurologistName = router.query;
-  const [countPreguntasFrecuntes, setCountPreguntasFrecuntes] = useState(0);
   const [placeholder, setPlaceholder] = useState('Escribe tu mensaje...');
 
   const wait = async ms => {
@@ -88,6 +71,16 @@ export default function Chat() {
     getIntention(text);
   };
 
+  const handleKeyPress = () => {
+    // if (timerActivo) {
+    //   clearTimeout(timer);
+    //   numAvisos = 0;
+    //   timer = setInterval(function () {
+    //     //avisoInactividad('');
+    //   }, timeControlTecleando);
+    // }
+  };
+
   const splitIntention = fulfillmentText => {
     let parts = fulfillmentText.split('#');
     return parts;
@@ -99,7 +92,6 @@ export default function Chat() {
     return fulfillmentText;
   };
 
-  //Escogemos pregunta aleatoria de charla y la eliminamos para no repetirla
   const escogerPreguntaCharla = () => {
     let random = Math.floor(Math.random() * itemsChachara.length);
     let item = itemsChachara.splice(random, 1);
@@ -126,7 +118,6 @@ export default function Chat() {
       let data = { text: futureTrip };
       const res = addSinsiResponseFirestore(data);
     }
-    //setBotonActivate(firstItem);
     preguntaFuturo = false;
     return item;
   };
@@ -239,8 +230,8 @@ export default function Chat() {
     if (!futurologistName.name) {
       getIntention(`sinsiSinNombre`);
     } else {
-      getIntention('azul');
-      // getIntention(`sinsiIntroNombre ${futurologistName.name}`);
+      // getIntention('azul');
+      getIntention(`sinsiIntroNombre ${futurologistName.name}`);
     }
     return () => window.removeEventListener('resize', handleWindowResize);
   }, []);
@@ -270,6 +261,7 @@ export default function Chat() {
           )}
           <MessageForm
             onMessageSend={handleNewMessage}
+            onUserKeyPress={handleKeyPress}
             placeholder={placeholder}
           />
           {/* <div className="p-6"></div> */}

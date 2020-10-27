@@ -4,6 +4,7 @@ import MessageList from '../../componets/MessageList';
 import MessageForm from '../../componets/MessageForm';
 import ButtonList from '../../componets/ButtonList';
 import { getIntentionFromDialogflow } from '../../core/services/dialogflowResponse';
+import { addSinsiResponseFirestore } from '../../core/services/addSinsiResponse';
 import {
   sinsiText,
   itemsChachara,
@@ -120,6 +121,9 @@ export default function Chat() {
     let firstItem = itemsPreguntaFuturo[0];
     let item = itemsPreguntaFuturo.splice(firstItem, 1);
     if (itemsPreguntaFuturo.length == 0) {
+      let futureTrip = localStorage.getItem('futureTrip');
+      let data = { text: futureTrip };
+      const res = addSinsiResponseFirestore(data);
     }
     //setBotonActivate(firstItem);
     preguntaFuturo = false;
@@ -136,6 +140,11 @@ export default function Chat() {
     preguntaChachara = true;
   };
 
+  const initEscena = async (fulfillmentText, intention) => {
+    await wait(2000);
+    getIntention('futuroPreguntaEscena');
+  };
+
   const actionIntention = (fulfillmentText, intention) => {
     switch (intention) {
       case 'sinsiGameOver':
@@ -146,6 +155,8 @@ export default function Chat() {
         return preguntaColor(fulfillmentText, intention);
       case 'estadisticaReaccionColor':
         return initChachara(fulfillmentText, intention);
+      case 'futuroReaccionLugar':
+        return initEscena(fulfillmentText, intention);
       default:
         console.log('default');
     }
@@ -173,6 +184,9 @@ export default function Chat() {
     }
 
     isItemReaccion(resIntentName);
+    if (itemsPreguntaFuturo.length == 0) {
+      preguntaFuturo = false;
+    }
     if (preguntaFuturo) {
       clearTimeout(timer);
       let preguntaFuturo = escogerPreguntaFuturo();

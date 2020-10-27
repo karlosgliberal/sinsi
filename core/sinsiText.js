@@ -110,6 +110,15 @@ export const sinsiText = {
       'será el distanciamiento social',
     ],
   },
+  futuroPreguntaLugar: {
+    text: '',
+    preguntas: [
+      'estoy en la calle',
+      'estoy en una nave industrial',
+      'estoy en una oficina',
+      'estoy en mi casa',
+    ],
+  },
 };
 
 export const tiposIntention = ['intro', 'estadistica', 'chachara', 'futuro'];
@@ -134,7 +143,7 @@ export const itemsPreguntaFuturo = [
   'futuroPreguntaSector',
   'futuroPreguntaTema',
   'futuroPreguntaLugar',
-  'futuroPreguntaEscena',
+  // 'futuroPreguntaEscena',
 ];
 
 export const itemsReaccionFuturo = [
@@ -145,7 +154,7 @@ export const itemsReaccionFuturo = [
   'futuroReaccionSector',
   'futuroReaccionTema',
   'futuroReaccionLugar',
-  'futuroReaccionEscena',
+  // 'futuroReaccionEscena',
 ];
 
 export const itemsReaccion = [

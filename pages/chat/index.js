@@ -208,28 +208,6 @@ export default function Chat() {
     setPlaceholder('Escribe tu mensaje...');
   };
 
-  //Controla si el usuario sigue teclando
-  const handleKeyPress = () => {
-    // if (timerActivo) {
-    //   clearTimeout(timer);
-    //   numAvisos = 0;
-    //   timer = setInterval(function () {
-    //     //avisoInactividad('');
-    //   }, timeControlTecleando);
-    // }
-  };
-
-  //Controla si el usuario no responde al lanzar la intención
-  const controlInactividad = resIntentName => {
-    clearTimeout(timer);
-    if (resIntentName.indexOf('corteTiempo')) {
-      numAvisos = 0;
-    }
-    timer = setInterval(function () {
-      //avisoInactividad(resIntentName);
-    }, timeControlNoRespuestaIntencion);
-  };
-
   const futuroPreguntaLugar = fulfillmentText => {
     let resumen =
       'Hemos dado un salto temporal de ' +
@@ -292,7 +270,6 @@ export default function Chat() {
           )}
           <MessageForm
             onMessageSend={handleNewMessage}
-            onUserKeyPress={handleKeyPress}
             placeholder={placeholder}
           />
           {/* <div className="p-6"></div> */}

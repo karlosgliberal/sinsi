@@ -24,6 +24,7 @@ const P5Wrapper = p5Wrapper();
 let contPreguntas = 0;
 let timer;
 let preguntaFuturo = false;
+let preguntaFuturoEscena = false;
 let reaccionFuturo = false;
 let preguntaChachara = false;
 let numAvisos = 0;
@@ -143,6 +144,7 @@ export default function Chat() {
   const initEscena = async (fulfillmentText, intention) => {
     await wait(2000);
     getIntention('futuroPreguntaEscena');
+    preguntaFuturoEscena = true;
   };
 
   const actionIntention = (fulfillmentText, intention) => {
@@ -163,6 +165,14 @@ export default function Chat() {
   };
 
   const getIntention = async intention => {
+    if (preguntaFuturoEscena) {
+      preguntaFuturoEscena = false;
+      return addMessage(
+        'Sinsi',
+        'Vale te lo has currado',
+        'futuroReaccionEscena'
+      );
+    }
     await wait(500);
     const res = await getIntentionFromDialogflow(intention);
     let resIntentName = res.data.intent.displayName;
@@ -251,8 +261,8 @@ export default function Chat() {
     if (!futurologistName.name) {
       getIntention(`sinsiSinNombre`);
     } else {
-      // getIntention('azul');
-      getIntention(`sinsiIntroNombre ${futurologistName.name}`);
+      getIntention('azul');
+      // getIntention(`sinsiIntroNombre ${futurologistName.name}`);
     }
     return () => window.removeEventListener('resize', handleWindowResize);
   }, []);

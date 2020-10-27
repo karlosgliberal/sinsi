@@ -111,6 +111,8 @@ export default function Chat() {
   const isItemReaccion = intention => {
     if (itemsReaccionFuturo.includes(intention)) {
       preguntaFuturo = true;
+      let intentionToRemove = itemsReaccionFuturo[intention];
+      let item = itemsReaccionFuturo.splice(intentionToRemove, 1);
     }
   };
 
@@ -119,7 +121,7 @@ export default function Chat() {
     let item = itemsPreguntaFuturo.splice(firstItem, 1);
     if (itemsPreguntaFuturo.length == 0) {
     }
-    setBotonActivate(firstItem);
+    //setBotonActivate(firstItem);
     preguntaFuturo = false;
     return item;
   };
@@ -150,9 +152,8 @@ export default function Chat() {
   };
 
   const getIntention = async intention => {
+    await wait(500);
     const res = await getIntentionFromDialogflow(intention);
-
-    await wait(300);
     let resIntentName = res.data.intent.displayName;
     let fallback = res.data.intent.isFallback;
     let fulfillmentText = res.data.fulfillmentText;
@@ -167,17 +168,16 @@ export default function Chat() {
       getIntention(intentionInSentece);
     }
     if (preguntaChachara) {
-      // await wait(20000);
       clearTimeout(timer);
       timer = setTimeout(getIntention, 1000, escogerPreguntaCharla());
     }
 
     isItemReaccion(resIntentName);
     if (preguntaFuturo) {
-      await wait(300);
-      getIntention(escogerPreguntaCharla());
-      // clearTimeout(timer);
-      // timer = setTimeout(getIntention, 1000, escogerPreguntaFuturo());
+      clearTimeout(timer);
+      timer = setTimeout(getIntention, 500, escogerPreguntaFuturo());
+      await wait(2000);
+      setTimeout(setBotonActivate, 2000, 'futuroPreguntaSaltoTemporal');
     }
     actionIntention(fulfillmentText, resIntentName);
     setPlaceholder('Escribe tu mensaje...');
@@ -236,7 +236,8 @@ export default function Chat() {
     if (!futurologistName.name) {
       getIntention(`sinsiSinNombre`);
     } else {
-      getIntention(`sinsiIntroNombre ${futurologistName.name}`);
+      getIntention('azul');
+      //getIntention(`sinsiIntroNombre ${futurologistName.name}`);
     }
     return () => window.removeEventListener('resize', handleWindowResize);
   }, []);

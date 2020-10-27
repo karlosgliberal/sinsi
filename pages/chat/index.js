@@ -236,8 +236,8 @@ export default function Chat() {
     if (!futurologistName.name) {
       getIntention(`sinsiSinNombre`);
     } else {
-      getIntention('azul');
-      //getIntention(`sinsiIntroNombre ${futurologistName.name}`);
+      //getIntention('azul');
+      getIntention(`sinsiIntroNombre ${futurologistName.name}`);
     }
     return () => window.removeEventListener('resize', handleWindowResize);
   }, []);

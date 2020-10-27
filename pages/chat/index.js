@@ -175,9 +175,10 @@ export default function Chat() {
     isItemReaccion(resIntentName);
     if (preguntaFuturo) {
       clearTimeout(timer);
-      timer = setTimeout(getIntention, 500, escogerPreguntaFuturo());
+      let preguntaFuturo = escogerPreguntaFuturo();
+      timer = setTimeout(getIntention, 500, preguntaFuturo);
       await wait(2000);
-      setTimeout(setBotonActivate, 2000, 'futuroPreguntaSaltoTemporal');
+      setTimeout(setBotonActivate, 2000, preguntaFuturo);
     }
     actionIntention(fulfillmentText, resIntentName);
     setPlaceholder('Escribe tu mensaje...');
@@ -236,8 +237,8 @@ export default function Chat() {
     if (!futurologistName.name) {
       getIntention(`sinsiSinNombre`);
     } else {
-      //getIntention('azul');
-      getIntention(`sinsiIntroNombre ${futurologistName.name}`);
+      getIntention('azul');
+      // getIntention(`sinsiIntroNombre ${futurologistName.name}`);
     }
     return () => window.removeEventListener('resize', handleWindowResize);
   }, []);

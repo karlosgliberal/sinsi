@@ -35,6 +35,7 @@ export default function Chat() {
   const [lastIntention, setLastIntention] = useState('');
   const [colorSelect, setColorSelect] = useState('defaut');
   const [botonActivated, setBotonActivate] = useState('hidden');
+  // const [preguntasFuturosItems setPreguntasFuturosItems] = useState([]);
   const futurologistName = router.query;
   const [placeholder, setPlaceholder] = useState('Escribe tu mensaje...');
 
@@ -87,7 +88,8 @@ export default function Chat() {
   };
 
   const preguntaColor = fulfillmentText => {
-    setBotonActivate('color');
+    let getPreguntasColor = sinsiText['color'].preguntas;
+    setBotonActivate(getPreguntasColor);
     setPlaceholder('Selecciona una opción');
     return fulfillmentText;
   };
@@ -125,31 +127,9 @@ export default function Chat() {
   const initChachara = (fulfillmentText, intention) => {
     addMessage(
       'Sinsi',
-      `Hagamos un resumen de lo que has escrito:<br> 
-       Hemos dado un salto temporal de __${localStorage.getItem(
-         'futuroPreguntaSaltoTemporal'
-       )}__ 
-      tras  __${localStorage.getItem(
-        'futuroPreguntaDesencadenante'
-      )} __,  __${localStorage.getItem('futuroPreguntaPoblacion')}__
-      están viviendo un futuro  __${localStorage.getItem(
-        'futuroPreguntaTipoFuturo'
-      )}__, 
-      donde, en el área  __${localStorage.getItem(
-        'futuroPreguntaSector'
-      )}__, el tema mas comentado será,  __${localStorage.getItem(
-        'futuroPreguntaTema'
-      )}__,
-      y te imaginas que esta en  __${localStorage.getItem(
-        'futuroPreguntaLugar'
-      )}__`,
+      'Démonos un tiempo de chachara. El tiempo avanzara de acuerdo la calidad de la conversación: *si es estimulante corre lentamente.*',
       intention
     );
-    // addMessage(
-    //   'Sinsi',
-    //   'Démonos un tiempo de chachara. El tiempo avanzara de acuerdo la calidad de la conversación: *si es estimulante corre lentamente.*',
-    //   intention
-    // );
     getIntention(escogerPreguntaCharla());
     preguntaChachara = true;
   };
@@ -158,6 +138,34 @@ export default function Chat() {
     await wait(2000);
     getIntention('futuroPreguntaEscena');
     preguntaFuturoEscena = true;
+  };
+
+  const initReaccionEscena = () => {
+    localStorage.setItem('futuroPreguntaEscena', intention);
+    preguntaFuturoEscena = false;
+    return addMessage(
+      'Sinsi',
+      `Hagamos un resumen de lo que has escrito:<br> 
+        Hemos dado un salto temporal de __${localStorage.getItem(
+          'futuroPreguntaSaltoTemporal'
+        )}__ 
+       tras  __${localStorage.getItem(
+         'futuroPreguntaDesencadenante'
+       )} __,  __${localStorage.getItem('futuroPreguntaPoblacion')}__
+       están viviendo un futuro  __${localStorage.getItem(
+         'futuroPreguntaTipoFuturo'
+       )}__, 
+       donde, en el área  __${localStorage.getItem(
+         'futuroPreguntaSector'
+       )}__, el tema mas comentado será,  __${localStorage.getItem(
+        'futuroPreguntaTema'
+      )}__,
+       y te imaginas que esta en  __${localStorage.getItem(
+         'futuroPreguntaLugar'
+       )}__<b>
+       Asi es como crees que será el día en ese lugar elegido:<br>
+       __${localStorage.getItem('futuroPreguntaEscena')}__`
+    );
   };
 
   const actionIntention = (fulfillmentText, intention) => {
@@ -177,51 +185,9 @@ export default function Chat() {
     }
   };
 
-  const futuroPreguntaLugar = fulfillmentText => {
-    let resumen =
-      'Hemos dado un salto temporal de ' +
-      localStorage.getItem('futuroReaccionSaltoTemporal') +
-      '. Tras ' +
-      localStorage.getItem('futuroReaccionDesencadenante') +
-      ', ' +
-      localStorage.getItem('futuroReaccionPoblacion') +
-      ' están viviendo un futuro ' +
-      localStorage.getItem('futuroReaccionTipoFuturo') +
-      ', donde, en el área ' +
-      localStorage.getItem('futuroReaccionSector') +
-      ', el tema más comentado será ' +
-      localStorage.getItem('futuroReaccionTema') +
-      '.';
-
-    let res = fulfillmentText.replace('%futuroPreguntaLugar%', resumen);
-
-    return res;
-  };
-
   const getIntention = async intention => {
     if (preguntaFuturoEscena) {
-      preguntaFuturoEscena = false;
-      return addMessage(
-        'Sinsi',
-        `Hagamos un __resumen__ de lo que has escrito:<br> 
-         Hemos dado un salto temporal de __${localStorage.getItem(
-           'futuroPreguntaSaltoTemporal'
-         )}__ 
-        Tras ${localStorage.getItem(
-          'futuroPreguntaDesencadenante'
-        )}, ${localStorage.getItem('futuroPreguntaPoblacion')}
-        están viviendo un futuro ${localStorage.getItem(
-          'futuroPreguntaTipoFuturo'
-        )}, 
-        donde, en el área ${localStorage.getItem(
-          'futuroPreguntaSector'
-        )}, el tema mas comentado será, ${localStorage.getItem(
-          'futuroPreguntaTema'
-        )},
-        y te imaginas que el lugar donde estas es ${localStorage.getItem(
-          'futuroPreguntaLugar'
-        )}`
-      );
+      initReaccionEscena();
     }
     await wait(500);
     const res = await getIntentionFromDialogflow(intention);
@@ -252,7 +218,12 @@ export default function Chat() {
       let preguntaFuturo = escogerPreguntaFuturo();
       timer = setTimeout(getIntention, 500, preguntaFuturo);
       await wait(2000);
-      setTimeout(setBotonActivate, 2000, preguntaFuturo);
+      let preguntaFuturoArray = sinsiText[preguntaFuturo].preguntas;
+      const shuffled = preguntaFuturoArray.sort(() => 0.5 - Math.random());
+      let selected = shuffled.slice(0, 5);
+      console.log(preguntaFuturoArray);
+      console.log(selected);
+      setTimeout(setBotonActivate, 2000, selected);
     }
     actionIntention(fulfillmentText, resIntentName);
     setPlaceholder('Escribe tu mensaje...');
@@ -268,8 +239,8 @@ export default function Chat() {
     if (!futurologistName.name) {
       getIntention(`sinsiSinNombre`);
     } else {
-      getIntention('azul');
-      // getIntention(`sinsiIntroNombre ${futurologistName.name}`);
+      // getIntention('azul');
+      getIntention(`sinsiIntroNombre ${futurologistName.name}`);
     }
     return () => window.removeEventListener('resize', handleWindowResize);
   }, []);
@@ -294,7 +265,8 @@ export default function Chat() {
           {botonActivated != 'hidden' && (
             <ButtonList
               onButtonClick={handleButtoClick}
-              buttons={sinsiText[botonActivated].preguntas}
+              buttons={botonActivated}
+              // buttons={sinsiText[botonActivated].preguntas}
             />
           )}
           <MessageForm

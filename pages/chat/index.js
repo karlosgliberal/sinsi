@@ -125,9 +125,31 @@ export default function Chat() {
   const initChachara = (fulfillmentText, intention) => {
     addMessage(
       'Sinsi',
-      'Démonos un tiempo de chachara. El tiempo avanzara de acuerdo la calidad de la conversación: *si es estimulante corre lentamente.*',
+      `Hagamos un resumen de lo que has escrito:<br> 
+       Hemos dado un salto temporal de __${localStorage.getItem(
+         'futuroPreguntaSaltoTemporal'
+       )}__ 
+      tras  __${localStorage.getItem(
+        'futuroPreguntaDesencadenante'
+      )} __,  __${localStorage.getItem('futuroPreguntaPoblacion')}__
+      están viviendo un futuro  __${localStorage.getItem(
+        'futuroPreguntaTipoFuturo'
+      )}__, 
+      donde, en el área  __${localStorage.getItem(
+        'futuroPreguntaSector'
+      )}__, el tema mas comentado será,  __${localStorage.getItem(
+        'futuroPreguntaTema'
+      )}__,
+      y te imaginas que esta en  __${localStorage.getItem(
+        'futuroPreguntaLugar'
+      )}__`,
       intention
     );
+    // addMessage(
+    //   'Sinsi',
+    //   'Démonos un tiempo de chachara. El tiempo avanzara de acuerdo la calidad de la conversación: *si es estimulante corre lentamente.*',
+    //   intention
+    // );
     getIntention(escogerPreguntaCharla());
     preguntaChachara = true;
   };
@@ -155,13 +177,50 @@ export default function Chat() {
     }
   };
 
+  const futuroPreguntaLugar = fulfillmentText => {
+    let resumen =
+      'Hemos dado un salto temporal de ' +
+      localStorage.getItem('futuroReaccionSaltoTemporal') +
+      '. Tras ' +
+      localStorage.getItem('futuroReaccionDesencadenante') +
+      ', ' +
+      localStorage.getItem('futuroReaccionPoblacion') +
+      ' están viviendo un futuro ' +
+      localStorage.getItem('futuroReaccionTipoFuturo') +
+      ', donde, en el área ' +
+      localStorage.getItem('futuroReaccionSector') +
+      ', el tema más comentado será ' +
+      localStorage.getItem('futuroReaccionTema') +
+      '.';
+
+    let res = fulfillmentText.replace('%futuroPreguntaLugar%', resumen);
+
+    return res;
+  };
+
   const getIntention = async intention => {
     if (preguntaFuturoEscena) {
       preguntaFuturoEscena = false;
       return addMessage(
         'Sinsi',
-        'Vale te lo has currado',
-        'futuroReaccionEscena'
+        `Hagamos un __resumen__ de lo que has escrito:<br> 
+         Hemos dado un salto temporal de __${localStorage.getItem(
+           'futuroPreguntaSaltoTemporal'
+         )}__ 
+        Tras ${localStorage.getItem(
+          'futuroPreguntaDesencadenante'
+        )}, ${localStorage.getItem('futuroPreguntaPoblacion')}
+        están viviendo un futuro ${localStorage.getItem(
+          'futuroPreguntaTipoFuturo'
+        )}, 
+        donde, en el área ${localStorage.getItem(
+          'futuroPreguntaSector'
+        )}, el tema mas comentado será, ${localStorage.getItem(
+          'futuroPreguntaTema'
+        )},
+        y te imaginas que el lugar donde estas es ${localStorage.getItem(
+          'futuroPreguntaLugar'
+        )}`
       );
     }
     await wait(500);
@@ -199,27 +258,6 @@ export default function Chat() {
     setPlaceholder('Escribe tu mensaje...');
   };
 
-  const futuroPreguntaLugar = fulfillmentText => {
-    let resumen =
-      'Hemos dado un salto temporal de ' +
-      localStorage.getItem('futuroReaccionSaltoTemporal') +
-      '. Tras ' +
-      localStorage.getItem('futuroReaccionDesencadenante') +
-      ', ' +
-      localStorage.getItem('futuroReaccionPoblacion') +
-      ' están viviendo un futuro ' +
-      localStorage.getItem('futuroReaccionTipoFuturo') +
-      ', donde, en el área ' +
-      localStorage.getItem('futuroReaccionSector') +
-      ', el tema más comentado será ' +
-      localStorage.getItem('futuroReaccionTema') +
-      '.';
-
-    let res = fulfillmentText.replace('%futuroPreguntaLugar%', resumen);
-
-    return res;
-  };
-
   const handleWindowResize = () => {
     setColorSelect('default');
     setWidthCanvasWrapper(ref.current ? ref.current.offsetWidth : 588);
@@ -230,8 +268,8 @@ export default function Chat() {
     if (!futurologistName.name) {
       getIntention(`sinsiSinNombre`);
     } else {
-      // getIntention('azul');
-      getIntention(`sinsiIntroNombre ${futurologistName.name}`);
+      getIntention('azul');
+      // getIntention(`sinsiIntroNombre ${futurologistName.name}`);
     }
     return () => window.removeEventListener('resize', handleWindowResize);
   }, []);

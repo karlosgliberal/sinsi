@@ -25,7 +25,7 @@ let preguntaChachara = false;
 
 export default function Chat() {
   const timeGameOver = 4000;
-  let timeOutEntradaPart = 200;
+  let timeOutEntradaPart = 3000;
 
   const router = useRouter();
   const ref = useRef(null);
@@ -66,6 +66,7 @@ export default function Chat() {
     if (!informeFinal) {
       handleNewMessage(value);
     } else {
+      localStorage.setItem('futuroPreguntaEscena', value);
       savAndMoraleja();
     }
   };
@@ -118,7 +119,7 @@ export default function Chat() {
     return item;
   };
 
-  const initChachara = (fulfillmentText, intention) => {
+  const initChachara = intention => {
     addMessage(
       'Sinsi',
       'Démonos un tiempo de chachara. El tiempo avanzara de acuerdo la calidad de la conversación: *si es estimulante corre lentamente.*',
@@ -128,7 +129,7 @@ export default function Chat() {
     preguntaChachara = true;
   };
 
-  const initReaccionLugar = async (fulfillmentText, intention) => {
+  const initReaccionLugar = async () => {
     await wait(1000);
     addMessage(
       'Sinsi',
@@ -155,7 +156,6 @@ export default function Chat() {
   };
 
   const initReaccionEscena = intention => {
-    localStorage.setItem('futuroPreguntaEscena', intention);
     preguntaFuturoEscena = false;
     informeFinal = true;
     return;
@@ -211,9 +211,7 @@ export default function Chat() {
     };
     await wait(200);
     const res = addSinsiResponseFirestore(datosFutuos);
-    return setTimeout(() => {
-      Router.push('/moraleja');
-    }, timeGameOver);
+    Router.push('/moraleja');
   };
 
   const actionIntention = (fulfillmentText, intention) => {
@@ -240,9 +238,8 @@ export default function Chat() {
     if (preguntaFuturoEscena) {
       initReaccionEscena(intention);
     }
-    await wait(500);
     const res = await getIntentionFromDialogflow(intention);
-    if (typeof res.data.intent.displayName === 'undefined') {
+    if (typeof res.data.intent.displayName == 'undefined') {
       addMessage('Sinsi', 'Algo salio mal');
     }
     let resIntentName = res.data.intent.displayName;
@@ -259,6 +256,7 @@ export default function Chat() {
       getIntention(intentionInSentece);
     }
     if (preguntaChachara) {
+      await wait(20000);
       clearTimeout(timer);
       timer = setTimeout(getIntention, 1000, escogerPreguntaCharla());
     }
@@ -276,8 +274,6 @@ export default function Chat() {
       let preguntaFuturoArray = sinsiText[preguntaFuturo].preguntas;
       const shuffled = preguntaFuturoArray.sort(() => 0.5 - Math.random());
       let selected = shuffled.slice(0, 5);
-      console.log(preguntaFuturoArray);
-      console.log(selected);
       setTimeout(setBotonActivate, 2000, selected);
     }
     actionIntention(fulfillmentText, resIntentName);

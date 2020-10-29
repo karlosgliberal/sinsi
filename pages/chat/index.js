@@ -237,12 +237,7 @@ export default function Chat() {
       let preguntaFuturo = escogerPreguntaFuturo();
       timer = setTimeout(getIntention, 500, preguntaFuturo);
       await wait(2000);
-      let preguntaFuturoArray = sinsiText[preguntaFuturo].preguntas;
-      const shuffled = preguntaFuturoArray.sort(() => 0.5 - Math.random());
-      let selected = shuffled.slice(0, 5);
-      console.log(preguntaFuturoArray);
-      console.log(selected);
-      setTimeout(setBotonActivate, 2000, selected);
+      setTimeout(setBotonActivate, 2000, 'futuroPreguntaSaltoTemporal');
     }
     actionIntention(fulfillmentText, resIntentName);
     setPlaceholder('Escribe tu mensaje...');
@@ -258,8 +253,7 @@ export default function Chat() {
     if (!futurologistName.name) {
       getIntention(`sinsiSinNombre`);
     } else {
-      localStorage.setItem('estadisticaNombre', futurologistName.name);
-      // getIntention('azul');
+      //getIntention('azul');
       getIntention(`sinsiIntroNombre ${futurologistName.name}`);
     }
     return () => window.removeEventListener('resize', handleWindowResize);
@@ -268,7 +262,7 @@ export default function Chat() {
   return (
     <div className="bg-sinsiblue w-screen h-screen flex justify-center">
       <div
-        className="w-screen lg:w-1/2 border border-gray-700 flex flex-col justify-between bg-dots"
+        className="w-screen lg:w-1/2 border border-gray-700 flex flex-col justify-between bg-dots m-4"
         ref={ref}
       >
         <P5Wrapper

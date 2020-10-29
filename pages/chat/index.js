@@ -70,7 +70,7 @@ export default function Chat() {
     getIntention(text);
   };
 
-  const handleKeyPress = () => {};
+  const handleKeyPress = () => { };
 
   const splitIntention = fulfillmentText => {
     let parts = fulfillmentText.split('#');
@@ -152,7 +152,6 @@ export default function Chat() {
   const initReaccionEscena = intention => {
     localStorage.setItem('futuroPreguntaEscena', intention);
     preguntaFuturoEscena = false;
-<<<<<<< HEAD
     return addMessage(
       'Sinsi',
       `Hagamos un resumen de lo que has escrito:<br> 
@@ -176,9 +175,6 @@ export default function Chat() {
        Asi es como crees que será el día en ese lugar elegido:<br>
        __${localStorage.getItem('futuroPreguntaEscena')}__`
     );
-=======
-    return;
->>>>>>> d0844e9c934d16cc4a437f44b8c6c6a141f676f1
   };
 
   const actionIntention = (fulfillmentText, intention) => {
@@ -232,16 +228,7 @@ export default function Chat() {
       let preguntaFuturo = escogerPreguntaFuturo();
       timer = setTimeout(getIntention, 500, preguntaFuturo);
       await wait(2000);
-<<<<<<< HEAD
       setTimeout(setBotonActivate, 2000, 'futuroPreguntaSaltoTemporal');
-=======
-      let preguntaFuturoArray = sinsiText[preguntaFuturo].preguntas;
-      const shuffled = preguntaFuturoArray.sort(() => 0.5 - Math.random());
-      let selected = shuffled.slice(0, 5);
-      console.log(preguntaFuturoArray);
-      console.log(selected);
-      setTimeout(setBotonActivate, 2000, selected);
->>>>>>> d0844e9c934d16cc4a437f44b8c6c6a141f676f1
     }
     actionIntention(fulfillmentText, resIntentName);
     setPlaceholder('Escribe tu mensaje...');
@@ -257,12 +244,7 @@ export default function Chat() {
     if (!futurologistName.name) {
       getIntention(`sinsiSinNombre`);
     } else {
-<<<<<<< HEAD
       //getIntention('azul');
-=======
-      localStorage.setItem('estadisticaNombre', futurologistName.name);
-      // getIntention('azul');
->>>>>>> d0844e9c934d16cc4a437f44b8c6c6a141f676f1
       getIntention(`sinsiIntroNombre ${futurologistName.name}`);
     }
     return () => window.removeEventListener('resize', handleWindowResize);

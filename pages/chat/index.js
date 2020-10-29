@@ -20,6 +20,7 @@ const P5Wrapper = p5Wrapper();
 let timer;
 let preguntaFuturo = false;
 let preguntaFuturoEscena = false;
+let informeFinal = false;
 let preguntaChachara = false;
 
 export default function Chat() {
@@ -70,7 +71,7 @@ export default function Chat() {
     getIntention(text);
   };
 
-  const handleKeyPress = () => { };
+  const handleKeyPress = () => {};
 
   const splitIntention = fulfillmentText => {
     let parts = fulfillmentText.split('#');
@@ -152,28 +153,33 @@ export default function Chat() {
   const initReaccionEscena = intention => {
     localStorage.setItem('futuroPreguntaEscena', intention);
     preguntaFuturoEscena = false;
-    return addMessage(
+    informeFinal = true;
+    return;
+  };
+
+  const initInformeFinal = () => {
+    addMessage(
       'Sinsi',
-      `Hagamos un resumen de lo que has escrito:<br> 
-        Hemos dado un salto temporal de __${localStorage.getItem(
+      `Sorprendente reflexión. ¿Cómo de acertada ha sido tu predicción? Te lo digo en un momento. 
+      Pero antes, un resumen de tu predicción en reconocimiento del esfuerzo:<br>
+
+      Futurólogo: __${localStorage.getItem('estadisticaNombre')}__ <br>
+      Salto temporal: __${localStorage.getItem(
         'futuroPreguntaSaltoTemporal'
-      )}__ 
-       tras  __${localStorage.getItem(
+      )}__<br>
+      Desencadenante: __${localStorage.getItem(
         'futuroPreguntaDesencadenante'
-      )} __,  __${localStorage.getItem('futuroPreguntaPoblacion')}__
-       están viviendo un futuro  __${localStorage.getItem(
+      )}__<br>
+      Tipo de futuro: __${localStorage.getItem(
         'futuroPreguntaTipoFuturo'
-      )}__, 
-       donde, en el área  __${localStorage.getItem(
-        'futuroPreguntaSector'
-      )}__, el tema mas comentado será,  __${localStorage.getItem(
-        'futuroPreguntaTema'
-      )}__,
-       y te imaginas que esta en  __${localStorage.getItem(
-        'futuroPreguntaLugar'
-      )}__<b>
-       Asi es como crees que será el día en ese lugar elegido:<br>
-       __${localStorage.getItem('futuroPreguntaEscena')}__`
+      )}__<br>
+      Población más afectada: __${localStorage.getItem(
+        'futuroPreguntaPoblacion'
+      )}__<br><br>
+      Área más afectada: __${localStorage.getItem('futuroPreguntaSector')}__<br>
+      Trending topic: __${localStorage.getItem('futuroPreguntaTema')}__<br>
+      Un día en ese futuro: __${localStorage.getItem('estadisticaNombre')}__<br>
+      `
     );
   };
 
@@ -195,6 +201,9 @@ export default function Chat() {
   };
 
   const getIntention = async intention => {
+    if (informeFinal) {
+      initInformeFinal();
+    }
     if (preguntaFuturoEscena) {
       initReaccionEscena(intention);
     }
@@ -228,7 +237,12 @@ export default function Chat() {
       let preguntaFuturo = escogerPreguntaFuturo();
       timer = setTimeout(getIntention, 500, preguntaFuturo);
       await wait(2000);
-      setTimeout(setBotonActivate, 2000, 'futuroPreguntaSaltoTemporal');
+      let preguntaFuturoArray = sinsiText[preguntaFuturo].preguntas;
+      const shuffled = preguntaFuturoArray.sort(() => 0.5 - Math.random());
+      let selected = shuffled.slice(0, 5);
+      console.log(preguntaFuturoArray);
+      console.log(selected);
+      setTimeout(setBotonActivate, 2000, selected);
     }
     actionIntention(fulfillmentText, resIntentName);
     setPlaceholder('Escribe tu mensaje...');
@@ -244,7 +258,8 @@ export default function Chat() {
     if (!futurologistName.name) {
       getIntention(`sinsiSinNombre`);
     } else {
-      //getIntention('azul');
+      localStorage.setItem('estadisticaNombre', futurologistName.name);
+      // getIntention('azul');
       getIntention(`sinsiIntroNombre ${futurologistName.name}`);
     }
     return () => window.removeEventListener('resize', handleWindowResize);
@@ -253,7 +268,7 @@ export default function Chat() {
   return (
     <div className="bg-sinsiblue w-screen h-screen flex justify-center">
       <div
-        className="w-screen lg:w-1/2 border border-gray-700 flex flex-col justify-between bg-dots m-4"
+        className="w-screen lg:w-1/2 border border-gray-700 flex flex-col justify-between bg-dots"
         ref={ref}
       >
         <P5Wrapper
@@ -271,7 +286,7 @@ export default function Chat() {
             <ButtonList
               onButtonClick={handleButtoClick}
               buttons={botonActivated}
-            // buttons={sinsiText[botonActivated].preguntas}
+              // buttons={sinsiText[botonActivated].preguntas}
             />
           )}
           <MessageForm

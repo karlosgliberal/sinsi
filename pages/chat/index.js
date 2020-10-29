@@ -124,37 +124,35 @@ export default function Chat() {
     preguntaChachara = true;
   };
 
-  const initEscena = async (fulfillmentText, intention) => {
+  const initReaccionLugar = async (fulfillmentText, intention) => {
     await wait(1000);
     addMessage(
       'Sinsi',
-      `Hagamos un resumen de lo que has escrito:<br> 
-        Hemos dado un salto temporal de __${localStorage.getItem(
-          'futuroPreguntaSaltoTemporal'
-        )}__ 
-       tras  __${localStorage.getItem(
-         'futuroPreguntaDesencadenante'
-       )} __,  __${localStorage.getItem('futuroPreguntaPoblacion')}__
-       están viviendo un futuro  __${localStorage.getItem(
-         'futuroPreguntaTipoFuturo'
-       )}__, 
-       donde, en el área  __${localStorage.getItem(
-         'futuroPreguntaSector'
-       )}__, el tema mas comentado será,  __${localStorage.getItem(
+      `Recopilemos. Hemos dado un salto temporal de __${localStorage.getItem(
+        'futuroPreguntaSaltoTemporal'
+      )}__. Tras __${localStorage.getItem(
+        'futuroPreguntaDesencadenante'
+      )} __, __${localStorage.getItem(
+        'futuroPreguntaPoblacion'
+      )}__ están viviendo un futuro __${localStorage.getItem(
+        'futuroPreguntaTipoFuturo'
+      )}__, donde, en el área __${localStorage.getItem(
+        'futuroPreguntaSector'
+      )}__, el tema más comentado será __${localStorage.getItem(
         'futuroPreguntaTema'
-      )}__,
-       y te imaginas que esta en  __${localStorage.getItem(
-         'futuroPreguntaLugar'
-       )}__`
+      )}__. Ahora mismo te encuentras en un lugar relacionado con Biko. En concreto en __${localStorage.getItem(
+        'futuroPreguntaLugar'
+      )}__.`
     );
     await wait(2000);
     getIntention('futuroPreguntaEscena');
     preguntaFuturoEscena = true;
   };
 
-  const initReaccionEscena = () => {
+  const initReaccionEscena = intention => {
     localStorage.setItem('futuroPreguntaEscena', intention);
     preguntaFuturoEscena = false;
+    return;
   };
 
   const actionIntention = (fulfillmentText, intention) => {
@@ -168,7 +166,7 @@ export default function Chat() {
       case 'estadisticaReaccionColor':
         return initChachara(fulfillmentText, intention);
       case 'futuroReaccionLugar':
-        return initEscena(fulfillmentText, intention);
+        return initReaccionLugar(fulfillmentText, intention);
       default:
         console.log('default');
     }
@@ -176,7 +174,7 @@ export default function Chat() {
 
   const getIntention = async intention => {
     if (preguntaFuturoEscena) {
-      initReaccionEscena();
+      initReaccionEscena(intention);
     }
     await wait(500);
     const res = await getIntentionFromDialogflow(intention);

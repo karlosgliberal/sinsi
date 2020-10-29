@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import Router from 'next/router'
+import Router from 'next/router';
 import React, { useEffect, useRef } from 'react';
 
-export default () => {
+export default function inedx() {
   const [name, setName] = useState('');
 
   const textInput = useRef(null);
@@ -15,18 +15,18 @@ export default () => {
     setName(event.target.value);
   };
 
-  const handleKeyDown = (event) => {
+  const handleKeyDown = event => {
     if (event.key === 'Enter') {
       handleOnClick();
     }
-  }
+  };
 
   const handleOnClick = () => {
-    const { pathname } = Router
+    const { pathname } = Router;
     if (pathname == '/') {
       Router.push({ pathname: '/chat', query: { name: name } });
     }
-  }
+  };
 
   return (
     <div className="bg-sinsiblue w-screen h-screen flex justify-center">
@@ -64,12 +64,17 @@ export default () => {
               </div>
             </div>
             <div className="flex flex-row justify-around px-4 mt-10 ">
-              <button className="transition duration-500 ease-in-out py-3 w-full lg:w-5/6 text-center mb-3 text-white border border-white hover:border-sinsipurple font-sinsimono animate-pulse hover:animate-none" onClick={handleOnClick} type="button">Empezar</button>
+              <button
+                className="transition duration-500 ease-in-out py-3 w-full lg:w-5/6 text-center mb-3 text-white border border-white hover:border-sinsipurple font-sinsimono animate-pulse hover:animate-none"
+                onClick={handleOnClick}
+                type="button"
+              >
+                Empezar
+              </button>
             </div>
-
           </div>
         </div>
       </div>
     </div>
   );
-};
+}

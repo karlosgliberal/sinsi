@@ -4,6 +4,10 @@ export const sinsiText = {
       'Vamos con una pregunta más "personal". ¿Con cuál de estos colores te identificas más?',
     preguntas: ['rosa', 'azul', 'morado'],
   },
+  acertado: {
+    text: '',
+    preguntas: ['Ok. Dime si he acertado'],
+  },
   futuroPreguntaSaltoTemporal: {
     text:
       'Una cosa. Para que me sitúe. Cuando piensas en el futuro, ¿de qué salto en el tiempo estamos hablando? \n Date prisa en decidirlo o elegiré yo cómo de lejos vamos a viajar',

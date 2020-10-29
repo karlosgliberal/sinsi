@@ -63,7 +63,11 @@ export default function Chat() {
     setColorSelect(value);
     setBotonActivate('hidden');
     localStorage.setItem(lastIntention, value);
-    handleNewMessage(value);
+    if (!informeFinal) {
+      handleNewMessage(value);
+    } else {
+      savAndMoraleja();
+    }
   };
 
   const handleNewMessage = text => {
@@ -110,11 +114,6 @@ export default function Chat() {
   const escogerPreguntaFuturo = () => {
     let firstItem = itemsPreguntaFuturo[0];
     let item = itemsPreguntaFuturo.splice(firstItem, 1);
-    if (itemsPreguntaFuturo.length == 0) {
-      let futureTrip = localStorage.getItem('futureTrip');
-      let data = { text: futureTrip };
-      const res = addSinsiResponseFirestore(data);
-    }
     preguntaFuturo = false;
     return item;
   };
@@ -162,13 +161,13 @@ export default function Chat() {
     return;
   };
 
-  const initInformeFinal = () => {
+  const initInformeFinal = async () => {
     addMessage(
       'Sinsi',
-      `Sorprendente reflexión. ¿Cómo de acertada ha sido tu predicción? Te lo digo en un momento. 
-      Pero antes, un resumen de tu predicción en reconocimiento del esfuerzo:<br>
-
-      Futurólogo: __${localStorage.getItem('estadisticaNombre')}__ <br>
+      `Sorprendente reflexión. ¿Cómo de acertada ha sido tu predicción?<br>
+      Te lo digo en un momento.<br>
+      Pero antes, un resumen de tu predicción en reconocimiento del esfuerzo:<br><br>
+      Futurólogo: __${localStorage.getItem('estadisticaNombre')}__<br>
       Salto temporal: __${localStorage.getItem(
         'futuroPreguntaSaltoTemporal'
       )}__<br>
@@ -180,12 +179,41 @@ export default function Chat() {
       )}__<br>
       Población más afectada: __${localStorage.getItem(
         'futuroPreguntaPoblacion'
-      )}__<br><br>
-      Área más afectada: __${localStorage.getItem('futuroPreguntaSector')}__<br>
+      )}__<br>
+      Aréa más afectada: __${localStorage.getItem('futuroPreguntaSector')}__<br>
       Trending topic: __${localStorage.getItem('futuroPreguntaTema')}__<br>
-      Un día en ese futuro: __${localStorage.getItem('estadisticaNombre')}__<br>
+      Un día en ese futuro:<br> ${localStorage.getItem(
+        'futuroPreguntaEscena'
+      )}<br>
       `
     );
+    await wait(2000);
+    setBotonActivate(sinsiText['acertado'].preguntas);
+  };
+
+  const savAndMoraleja = async () => {
+    let futureTrip = localStorage.getItem('futureTrip');
+
+    let datosFutuos = {
+      text: {
+        dato: {
+          futurologo: localStorage.getItem('estadisticaNombre'),
+          saltoTemporal: localStorage.getItem('futuroPreguntaSaltoTemporal'),
+          desencadenante: localStorage.getItem('futuroPreguntaDesencadenante'),
+          tipoFuturo: localStorage.getItem('futuroPreguntaTipoFuturo'),
+          poblacionAfectada: localStorage.getItem('futuroPreguntaPoblacion'),
+          areaAfecta: localStorage.getItem('futuroPreguntaSector'),
+          trendingTopic: localStorage.getItem('futuroPreguntaTema'),
+          elFuturo: localStorage.getItem('futuroPreguntaEscena'),
+        },
+        trip: futureTrip,
+      },
+    };
+    await wait(200);
+    const res = addSinsiResponseFirestore(datosFutuos);
+    return setTimeout(() => {
+      Router.push('/moraleja');
+    }, timeGameOver);
   };
 
   const actionIntention = (fulfillmentText, intention) => {
@@ -214,6 +242,9 @@ export default function Chat() {
     }
     await wait(500);
     const res = await getIntentionFromDialogflow(intention);
+    if (typeof res.data.intent.displayName === 'undefined') {
+      addMessage('Sinsi', 'Algo salio mal');
+    }
     let resIntentName = res.data.intent.displayName;
     let fallback = res.data.intent.isFallback;
     let fulfillmentText = res.data.fulfillmentText;

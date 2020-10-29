@@ -4,6 +4,7 @@ import MessageList from '../../componets/MessageList';
 import MessageForm from '../../componets/MessageForm';
 import ButtonList from '../../componets/ButtonList';
 import { getIntentionFromDialogflow } from '../../core/services/dialogflowResponse';
+import { addSinsiResponseFirestore } from '../../core/services/addSinsiResponse';
 import {
   sinsiText,
   itemsChachara,
@@ -18,28 +19,13 @@ import { lineas } from '../../sketches/lineas';
 import Router from 'next/router';
 
 const P5Wrapper = p5Wrapper();
-
-//Revisar (no funciona si están dentro de la función chat)
-let contPreguntas = 0;
 let timer;
 let preguntaFuturo = false;
-let reaccionFuturo = false;
+let preguntaFuturoEscena = false;
 let preguntaChachara = false;
-let numAvisos = 0;
-let nextIntention;
-let wait = false;
-let usuarioProvocado = false;
-let lanzarPregunta = false;
-let ultimaPreguntaLanzada = '';
-let timerActivo = true;
 
 export default function Chat() {
-  //valoresde tiempo
-  const timeEntreInteciones = 1000;
-  const timeControlTecleando = 1200;
-  const timeControlNoRespuestaIntencion = 20000;
   const timeGameOver = 4000;
-  let timeOutEntradaSinsi = 2000;
   let timeOutEntradaPart = 200;
 
   const router = useRouter();
@@ -49,8 +35,8 @@ export default function Chat() {
   const [lastIntention, setLastIntention] = useState('');
   const [colorSelect, setColorSelect] = useState('defaut');
   const [botonActivated, setBotonActivate] = useState('hidden');
+  // const [preguntasFuturosItems setPreguntasFuturosItems] = useState([]);
   const futurologistName = router.query;
-  const [countPreguntasFrecuntes, setCountPreguntasFrecuntes] = useState(0);
   const [placeholder, setPlaceholder] = useState('Escribe tu mensaje...');
 
   const wait = async ms => {
@@ -86,18 +72,28 @@ export default function Chat() {
     getIntention(text);
   };
 
+  const handleKeyPress = () => {
+    // if (timerActivo) {
+    //   clearTimeout(timer);
+    //   numAvisos = 0;
+    //   timer = setInterval(function () {
+    //     //avisoInactividad('');
+    //   }, timeControlTecleando);
+    // }
+  };
+
   const splitIntention = fulfillmentText => {
     let parts = fulfillmentText.split('#');
     return parts;
   };
 
   const preguntaColor = fulfillmentText => {
-    setBotonActivate('color');
+    let getPreguntasColor = sinsiText['color'].preguntas;
+    setBotonActivate(getPreguntasColor);
     setPlaceholder('Selecciona una opción');
     return fulfillmentText;
   };
 
-  //Escogemos pregunta aleatoria de charla y la eliminamos para no repetirla
   const escogerPreguntaCharla = () => {
     let random = Math.floor(Math.random() * itemsChachara.length);
     let item = itemsChachara.splice(random, 1);
@@ -120,8 +116,10 @@ export default function Chat() {
     let firstItem = itemsPreguntaFuturo[0];
     let item = itemsPreguntaFuturo.splice(firstItem, 1);
     if (itemsPreguntaFuturo.length == 0) {
+      let futureTrip = localStorage.getItem('futureTrip');
+      let data = { text: futureTrip };
+      const res = addSinsiResponseFirestore(data);
     }
-    //setBotonActivate(firstItem);
     preguntaFuturo = false;
     return item;
   };
@@ -136,6 +134,40 @@ export default function Chat() {
     preguntaChachara = true;
   };
 
+  const initEscena = async (fulfillmentText, intention) => {
+    await wait(2000);
+    getIntention('futuroPreguntaEscena');
+    preguntaFuturoEscena = true;
+  };
+
+  const initReaccionEscena = () => {
+    localStorage.setItem('futuroPreguntaEscena', intention);
+    preguntaFuturoEscena = false;
+    return addMessage(
+      'Sinsi',
+      `Hagamos un resumen de lo que has escrito:<br> 
+        Hemos dado un salto temporal de __${localStorage.getItem(
+          'futuroPreguntaSaltoTemporal'
+        )}__ 
+       tras  __${localStorage.getItem(
+         'futuroPreguntaDesencadenante'
+       )} __,  __${localStorage.getItem('futuroPreguntaPoblacion')}__
+       están viviendo un futuro  __${localStorage.getItem(
+         'futuroPreguntaTipoFuturo'
+       )}__, 
+       donde, en el área  __${localStorage.getItem(
+         'futuroPreguntaSector'
+       )}__, el tema mas comentado será,  __${localStorage.getItem(
+        'futuroPreguntaTema'
+      )}__,
+       y te imaginas que esta en  __${localStorage.getItem(
+         'futuroPreguntaLugar'
+       )}__<b>
+       Asi es como crees que será el día en ese lugar elegido:<br>
+       __${localStorage.getItem('futuroPreguntaEscena')}__`
+    );
+  };
+
   const actionIntention = (fulfillmentText, intention) => {
     switch (intention) {
       case 'sinsiGameOver':
@@ -146,12 +178,17 @@ export default function Chat() {
         return preguntaColor(fulfillmentText, intention);
       case 'estadisticaReaccionColor':
         return initChachara(fulfillmentText, intention);
+      case 'futuroReaccionLugar':
+        return initEscena(fulfillmentText, intention);
       default:
         console.log('default');
     }
   };
 
   const getIntention = async intention => {
+    if (preguntaFuturoEscena) {
+      initReaccionEscena();
+    }
     await wait(500);
     const res = await getIntentionFromDialogflow(intention);
     let resIntentName = res.data.intent.displayName;
@@ -173,57 +210,26 @@ export default function Chat() {
     }
 
     isItemReaccion(resIntentName);
+    if (itemsPreguntaFuturo.length == 0) {
+      preguntaFuturo = false;
+    }
     if (preguntaFuturo) {
       clearTimeout(timer);
       timer = setTimeout(getIntention, 500, escogerPreguntaFuturo());
       await wait(2000);
+<<<<<<< HEAD
       setTimeout(setBotonActivate, 2000, 'futuroPreguntaSaltoTemporal');
+=======
+      let preguntaFuturoArray = sinsiText[preguntaFuturo].preguntas;
+      const shuffled = preguntaFuturoArray.sort(() => 0.5 - Math.random());
+      let selected = shuffled.slice(0, 5);
+      console.log(preguntaFuturoArray);
+      console.log(selected);
+      setTimeout(setBotonActivate, 2000, selected);
+>>>>>>> 2fea1b22de829b0c287f48426b67570a6228636d
     }
     actionIntention(fulfillmentText, resIntentName);
     setPlaceholder('Escribe tu mensaje...');
-  };
-
-  //Controla si el usuario sigue teclando
-  const handleKeyPress = () => {
-    // if (timerActivo) {
-    //   clearTimeout(timer);
-    //   numAvisos = 0;
-    //   timer = setInterval(function () {
-    //     //avisoInactividad('');
-    //   }, timeControlTecleando);
-    // }
-  };
-
-  //Controla si el usuario no responde al lanzar la intención
-  const controlInactividad = resIntentName => {
-    clearTimeout(timer);
-    if (resIntentName.indexOf('corteTiempo')) {
-      numAvisos = 0;
-    }
-    timer = setInterval(function () {
-      //avisoInactividad(resIntentName);
-    }, timeControlNoRespuestaIntencion);
-  };
-
-  const futuroPreguntaLugar = fulfillmentText => {
-    let resumen =
-      'Hemos dado un salto temporal de ' +
-      localStorage.getItem('futuroReaccionSaltoTemporal') +
-      '. Tras ' +
-      localStorage.getItem('futuroReaccionDesencadenante') +
-      ', ' +
-      localStorage.getItem('futuroReaccionPoblacion') +
-      ' están viviendo un futuro ' +
-      localStorage.getItem('futuroReaccionTipoFuturo') +
-      ', donde, en el área ' +
-      localStorage.getItem('futuroReaccionSector') +
-      ', el tema más comentado será ' +
-      localStorage.getItem('futuroReaccionTema') +
-      '.';
-
-    let res = fulfillmentText.replace('%futuroPreguntaLugar%', resumen);
-
-    return res;
   };
 
   const handleWindowResize = () => {
@@ -236,7 +242,11 @@ export default function Chat() {
     if (!futurologistName.name) {
       getIntention(`sinsiSinNombre`);
     } else {
+<<<<<<< HEAD
       //getIntention('azul');
+=======
+      // getIntention('azul');
+>>>>>>> 2fea1b22de829b0c287f48426b67570a6228636d
       getIntention(`sinsiIntroNombre ${futurologistName.name}`);
     }
     return () => window.removeEventListener('resize', handleWindowResize);
@@ -262,7 +272,8 @@ export default function Chat() {
           {botonActivated != 'hidden' && (
             <ButtonList
               onButtonClick={handleButtoClick}
-              buttons={sinsiText[botonActivated].preguntas}
+              buttons={botonActivated}
+              // buttons={sinsiText[botonActivated].preguntas}
             />
           )}
           <MessageForm

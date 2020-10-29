@@ -167,6 +167,8 @@ em:after {
 
 strong {
   @apply font-bold;
+  @apply bg-sinsipurple;
+  @apply text-white;
 }
 
 .strong-purple strong {

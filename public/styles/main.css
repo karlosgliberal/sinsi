@@ -173,13 +173,13 @@ strong {
 }
 
 .siri-talk {
-    box-shadow: -13px 41px 9px -33px rgba(156, 8, 156, 0.3);
+    /* box-shadow: -13px 41px 9px -33px rgba(156, 8, 156, 0.3); */
     margin-right: 130px;
     padding: 5px 15px 5px 15px;
     line-height: 25px;
     background-color: rgb(12 41 60 / 15%);
     font-size: 14px;
-    position: relative;
+  
 }
 
 .user-talk {

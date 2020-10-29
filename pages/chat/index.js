@@ -20,6 +20,7 @@ const P5Wrapper = p5Wrapper();
 let timer;
 let preguntaFuturo = false;
 let preguntaFuturoEscena = false;
+let informeFinal = false;
 let preguntaChachara = false;
 
 export default function Chat() {
@@ -152,7 +153,34 @@ export default function Chat() {
   const initReaccionEscena = intention => {
     localStorage.setItem('futuroPreguntaEscena', intention);
     preguntaFuturoEscena = false;
+    informeFinal = true;
     return;
+  };
+
+  const initInformeFinal = () => {
+    addMessage(
+      'Sinsi',
+      `Sorprendente reflexión. ¿Cómo de acertada ha sido tu predicción? Te lo digo en un momento. 
+      Pero antes, un resumen de tu predicción en reconocimiento del esfuerzo:<br>
+
+      Futurólogo: __${localStorage.getItem('estadisticaNombre')}__ <br>
+      Salto temporal: __${localStorage.getItem(
+        'futuroPreguntaSaltoTemporal'
+      )}__<br>
+      Desencadenante: __${localStorage.getItem(
+        'futuroPreguntaDesencadenante'
+      )}__<br>
+      Tipo de futuro: __${localStorage.getItem(
+        'futuroPreguntaTipoFuturo'
+      )}__<br>
+      Población más afectada: __${localStorage.getItem(
+        'futuroPreguntaPoblacion'
+      )}__<br><br>
+      Área más afectada: __${localStorage.getItem('futuroPreguntaSector')}__<br>
+      Trending topic: __${localStorage.getItem('futuroPreguntaTema')}__<br>
+      Un día en ese futuro: __${localStorage.getItem('estadisticaNombre')}__<br>
+      `
+    );
   };
 
   const actionIntention = (fulfillmentText, intention) => {
@@ -173,6 +201,9 @@ export default function Chat() {
   };
 
   const getIntention = async intention => {
+    if (informeFinal) {
+      initInformeFinal();
+    }
     if (preguntaFuturoEscena) {
       initReaccionEscena(intention);
     }

@@ -10,8 +10,6 @@ import {
   itemsChachara,
   itemsPreguntaFuturo,
   itemsReaccionFuturo,
-  itemsEstadistica,
-  itemsReaccion,
 } from '../../core/sinsiText';
 
 import p5Wrapper from '../../componets/P5Wrapper';
@@ -72,15 +70,7 @@ export default function Chat() {
     getIntention(text);
   };
 
-  const handleKeyPress = () => {
-    // if (timerActivo) {
-    //   clearTimeout(timer);
-    //   numAvisos = 0;
-    //   timer = setInterval(function () {
-    //     //avisoInactividad('');
-    //   }, timeControlTecleando);
-    // }
-  };
+  const handleKeyPress = () => {};
 
   const splitIntention = fulfillmentText => {
     let parts = fulfillmentText.split('#');
@@ -134,15 +124,35 @@ export default function Chat() {
     preguntaChachara = true;
   };
 
-  const initEscena = async (fulfillmentText, intention) => {
+  const initReaccionLugar = async (fulfillmentText, intention) => {
+    await wait(1000);
+    addMessage(
+      'Sinsi',
+      `Recopilemos. Hemos dado un salto temporal de __${localStorage.getItem(
+        'futuroPreguntaSaltoTemporal'
+      )}__. Tras __${localStorage.getItem(
+        'futuroPreguntaDesencadenante'
+      )} __, __${localStorage.getItem(
+        'futuroPreguntaPoblacion'
+      )}__ están viviendo un futuro __${localStorage.getItem(
+        'futuroPreguntaTipoFuturo'
+      )}__, donde, en el área __${localStorage.getItem(
+        'futuroPreguntaSector'
+      )}__, el tema más comentado será __${localStorage.getItem(
+        'futuroPreguntaTema'
+      )}__. Ahora mismo te encuentras en un lugar relacionado con Biko. En concreto en __${localStorage.getItem(
+        'futuroPreguntaLugar'
+      )}__.`
+    );
     await wait(2000);
     getIntention('futuroPreguntaEscena');
     preguntaFuturoEscena = true;
   };
 
-  const initReaccionEscena = () => {
+  const initReaccionEscena = intention => {
     localStorage.setItem('futuroPreguntaEscena', intention);
     preguntaFuturoEscena = false;
+<<<<<<< HEAD
     return addMessage(
       'Sinsi',
       `Hagamos un resumen de lo que has escrito:<br> 
@@ -166,6 +176,9 @@ export default function Chat() {
        Asi es como crees que será el día en ese lugar elegido:<br>
        __${localStorage.getItem('futuroPreguntaEscena')}__`
     );
+=======
+    return;
+>>>>>>> d0844e9c934d16cc4a437f44b8c6c6a141f676f1
   };
 
   const actionIntention = (fulfillmentText, intention) => {
@@ -179,7 +192,7 @@ export default function Chat() {
       case 'estadisticaReaccionColor':
         return initChachara(fulfillmentText, intention);
       case 'futuroReaccionLugar':
-        return initEscena(fulfillmentText, intention);
+        return initReaccionLugar(fulfillmentText, intention);
       default:
         console.log('default');
     }
@@ -187,7 +200,7 @@ export default function Chat() {
 
   const getIntention = async intention => {
     if (preguntaFuturoEscena) {
-      initReaccionEscena();
+      initReaccionEscena(intention);
     }
     await wait(500);
     const res = await getIntentionFromDialogflow(intention);
@@ -213,11 +226,22 @@ export default function Chat() {
     if (itemsPreguntaFuturo.length == 0) {
       preguntaFuturo = false;
     }
+
     if (preguntaFuturo) {
       clearTimeout(timer);
-      timer = setTimeout(getIntention, 500, escogerPreguntaFuturo());
+      let preguntaFuturo = escogerPreguntaFuturo();
+      timer = setTimeout(getIntention, 500, preguntaFuturo);
       await wait(2000);
+<<<<<<< HEAD
       setTimeout(setBotonActivate, 2000, 'futuroPreguntaSaltoTemporal');
+=======
+      let preguntaFuturoArray = sinsiText[preguntaFuturo].preguntas;
+      const shuffled = preguntaFuturoArray.sort(() => 0.5 - Math.random());
+      let selected = shuffled.slice(0, 5);
+      console.log(preguntaFuturoArray);
+      console.log(selected);
+      setTimeout(setBotonActivate, 2000, selected);
+>>>>>>> d0844e9c934d16cc4a437f44b8c6c6a141f676f1
     }
     actionIntention(fulfillmentText, resIntentName);
     setPlaceholder('Escribe tu mensaje...');
@@ -233,7 +257,12 @@ export default function Chat() {
     if (!futurologistName.name) {
       getIntention(`sinsiSinNombre`);
     } else {
+<<<<<<< HEAD
       //getIntention('azul');
+=======
+      localStorage.setItem('estadisticaNombre', futurologistName.name);
+      // getIntention('azul');
+>>>>>>> d0844e9c934d16cc4a437f44b8c6c6a141f676f1
       getIntention(`sinsiIntroNombre ${futurologistName.name}`);
     }
     return () => window.removeEventListener('resize', handleWindowResize);

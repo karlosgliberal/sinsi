@@ -205,15 +205,9 @@ export default function Chat() {
 
     if (preguntaFuturo) {
       clearTimeout(timer);
-      let preguntaFuturo = escogerPreguntaFuturo();
-      timer = setTimeout(getIntention, 500, preguntaFuturo);
+      timer = setTimeout(getIntention, 500, escogerPreguntaFuturo());
       await wait(2000);
-      let preguntaFuturoArray = sinsiText[preguntaFuturo].preguntas;
-      const shuffled = preguntaFuturoArray.sort(() => 0.5 - Math.random());
-      let selected = shuffled.slice(0, 5);
-      console.log(preguntaFuturoArray);
-      console.log(selected);
-      setTimeout(setBotonActivate, 2000, selected);
+      setTimeout(setBotonActivate, 2000, 'futuroPreguntaSaltoTemporal');
     }
     actionIntention(fulfillmentText, resIntentName);
     setPlaceholder('Escribe tu mensaje...');
@@ -230,7 +224,7 @@ export default function Chat() {
       getIntention(`sinsiSinNombre`);
     } else {
       localStorage.setItem('estadisticaNombre', futurologistName.name);
-      // getIntention('azul');
+      //getIntention('azul');
       getIntention(`sinsiIntroNombre ${futurologistName.name}`);
     }
     return () => window.removeEventListener('resize', handleWindowResize);

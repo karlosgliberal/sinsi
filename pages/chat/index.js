@@ -147,22 +147,22 @@ export default function Chat() {
       'Sinsi',
       `Hagamos un resumen de lo que has escrito:<br> 
         Hemos dado un salto temporal de __${localStorage.getItem(
-          'futuroPreguntaSaltoTemporal'
-        )}__ 
+        'futuroPreguntaSaltoTemporal'
+      )}__ 
        tras  __${localStorage.getItem(
-         'futuroPreguntaDesencadenante'
-       )} __,  __${localStorage.getItem('futuroPreguntaPoblacion')}__
+        'futuroPreguntaDesencadenante'
+      )} __,  __${localStorage.getItem('futuroPreguntaPoblacion')}__
        están viviendo un futuro  __${localStorage.getItem(
-         'futuroPreguntaTipoFuturo'
-       )}__, 
+        'futuroPreguntaTipoFuturo'
+      )}__, 
        donde, en el área  __${localStorage.getItem(
-         'futuroPreguntaSector'
-       )}__, el tema mas comentado será,  __${localStorage.getItem(
+        'futuroPreguntaSector'
+      )}__, el tema mas comentado será,  __${localStorage.getItem(
         'futuroPreguntaTema'
       )}__,
        y te imaginas que esta en  __${localStorage.getItem(
-         'futuroPreguntaLugar'
-       )}__<b>
+        'futuroPreguntaLugar'
+      )}__<b>
        Asi es como crees que será el día en ese lugar elegido:<br>
        __${localStorage.getItem('futuroPreguntaEscena')}__`
     );
@@ -217,16 +217,7 @@ export default function Chat() {
       clearTimeout(timer);
       timer = setTimeout(getIntention, 500, escogerPreguntaFuturo());
       await wait(2000);
-<<<<<<< HEAD
       setTimeout(setBotonActivate, 2000, 'futuroPreguntaSaltoTemporal');
-=======
-      let preguntaFuturoArray = sinsiText[preguntaFuturo].preguntas;
-      const shuffled = preguntaFuturoArray.sort(() => 0.5 - Math.random());
-      let selected = shuffled.slice(0, 5);
-      console.log(preguntaFuturoArray);
-      console.log(selected);
-      setTimeout(setBotonActivate, 2000, selected);
->>>>>>> 2fea1b22de829b0c287f48426b67570a6228636d
     }
     actionIntention(fulfillmentText, resIntentName);
     setPlaceholder('Escribe tu mensaje...');
@@ -242,11 +233,7 @@ export default function Chat() {
     if (!futurologistName.name) {
       getIntention(`sinsiSinNombre`);
     } else {
-<<<<<<< HEAD
       //getIntention('azul');
-=======
-      // getIntention('azul');
->>>>>>> 2fea1b22de829b0c287f48426b67570a6228636d
       getIntention(`sinsiIntroNombre ${futurologistName.name}`);
     }
     return () => window.removeEventListener('resize', handleWindowResize);
@@ -255,7 +242,7 @@ export default function Chat() {
   return (
     <div className="bg-sinsiblue w-screen h-screen flex justify-center">
       <div
-        className="w-screen lg:w-1/2 border border-gray-700 flex flex-col justify-between bg-dots"
+        className="w-screen lg:w-1/2 border border-gray-700 flex flex-col justify-between bg-dots m-4"
         ref={ref}
       >
         <P5Wrapper
@@ -273,7 +260,7 @@ export default function Chat() {
             <ButtonList
               onButtonClick={handleButtoClick}
               buttons={botonActivated}
-              // buttons={sinsiText[botonActivated].preguntas}
+            // buttons={sinsiText[botonActivated].preguntas}
             />
           )}
           <MessageForm

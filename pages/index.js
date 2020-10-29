@@ -22,15 +22,15 @@ export default () => {
   }
 
   const handleOnClick = () => {
-    const {pathname} = Router
-    if(pathname == '/' ){
+    const { pathname } = Router
+    if (pathname == '/') {
       Router.push({ pathname: '/chat', query: { name: name } });
     }
   }
 
   return (
     <div className="bg-sinsiblue w-screen h-screen flex justify-center">
-      <div className="w-screen lg:w-1/2 border border-gray-700 flex flex-col justify-around">
+      <div className="w-screen lg:w-1/2 border border-gray-700 flex flex-col justify-around m-5">
         <div className="text-right pt-1 pr-4">
           <a
             className="text-gray-700 text-sm hover:text-sinsipurple transition duration-500"

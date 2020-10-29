@@ -68,7 +68,11 @@ export default function Chat() {
 
   const handleNewMessage = text => {
     addMessage('Me', text);
-    getIntention(text);
+    if (!informeFinal) {
+      getIntention(text);
+    } else {
+      initInformeFinal();
+    }
   };
 
   const handleKeyPress = () => {};
@@ -148,6 +152,7 @@ export default function Chat() {
     await wait(2000);
     getIntention('futuroPreguntaEscena');
     preguntaFuturoEscena = true;
+    informeFinal = true;
   };
 
   const initReaccionEscena = intention => {

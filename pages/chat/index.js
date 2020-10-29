@@ -125,15 +125,8 @@ export default function Chat() {
   };
 
   const initEscena = async (fulfillmentText, intention) => {
-    await wait(2000);
-    getIntention('futuroPreguntaEscena');
-    preguntaFuturoEscena = true;
-  };
-
-  const initReaccionEscena = () => {
-    localStorage.setItem('futuroPreguntaEscena', intention);
-    preguntaFuturoEscena = false;
-    return addMessage(
+    await wait(1000);
+    addMessage(
       'Sinsi',
       `Hagamos un resumen de lo que has escrito:<br> 
         Hemos dado un salto temporal de __${localStorage.getItem(
@@ -152,10 +145,16 @@ export default function Chat() {
       )}__,
        y te imaginas que esta en  __${localStorage.getItem(
          'futuroPreguntaLugar'
-       )}__<b>
-       Asi es como crees que será el día en ese lugar elegido:<br>
-       __${localStorage.getItem('futuroPreguntaEscena')}__`
+       )}__`
     );
+    await wait(2000);
+    getIntention('futuroPreguntaEscena');
+    preguntaFuturoEscena = true;
+  };
+
+  const initReaccionEscena = () => {
+    localStorage.setItem('futuroPreguntaEscena', intention);
+    preguntaFuturoEscena = false;
   };
 
   const actionIntention = (fulfillmentText, intention) => {
@@ -203,6 +202,7 @@ export default function Chat() {
     if (itemsPreguntaFuturo.length == 0) {
       preguntaFuturo = false;
     }
+
     if (preguntaFuturo) {
       clearTimeout(timer);
       let preguntaFuturo = escogerPreguntaFuturo();
@@ -229,6 +229,7 @@ export default function Chat() {
     if (!futurologistName.name) {
       getIntention(`sinsiSinNombre`);
     } else {
+      localStorage.setItem('estadisticaNombre', futurologistName.name);
       // getIntention('azul');
       getIntention(`sinsiIntroNombre ${futurologistName.name}`);
     }

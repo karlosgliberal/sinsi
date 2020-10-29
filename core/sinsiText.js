@@ -123,18 +123,15 @@ export const sinsiText = {
 
 export const tiposIntention = ['intro', 'estadistica', 'chachara', 'futuro'];
 
-export const itemsChachara = ['preguntaHobbies'];
-// export const itemsChachara = [
-//   'preguntaHobbies',
-//   'preguntaOdias',
-//   'preguntaIntimidad1',
-//   'preguntaIntimidad2', //Que me preguntarias
-//   // 'preguntaIntimidad3',
-//   // 'preguntaIntimidad4', //recuerdo valioso
-//   'preguntaIntimidad5',
-//   'preguntaIntimidad6',
-//   // 'preguntaIntimidad7', //educación
-// ];
+// export const itemsChachara = ['preguntaHobbies'];
+export const itemsChachara = [
+  'preguntaHobbies',
+  'preguntaOdias',
+  'preguntaIntimidad1',
+  'preguntaIntimidad2', //Que me preguntarias
+  'preguntaIntimidad5',
+  'preguntaIntimidad6',
+];
 export const itemsPreguntaFuturo = [
   'futuroPreguntaSaltoTemporal',
   'futuroPreguntaDesencadenante',

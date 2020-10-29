@@ -10,8 +10,6 @@ import {
   itemsChachara,
   itemsPreguntaFuturo,
   itemsReaccionFuturo,
-  itemsEstadistica,
-  itemsReaccion,
 } from '../../core/sinsiText';
 
 import p5Wrapper from '../../componets/P5Wrapper';
@@ -72,15 +70,7 @@ export default function Chat() {
     getIntention(text);
   };
 
-  const handleKeyPress = () => {
-    // if (timerActivo) {
-    //   clearTimeout(timer);
-    //   numAvisos = 0;
-    //   timer = setInterval(function () {
-    //     //avisoInactividad('');
-    //   }, timeControlTecleando);
-    // }
-  };
+  const handleKeyPress = () => {};
 
   const splitIntention = fulfillmentText => {
     let parts = fulfillmentText.split('#');

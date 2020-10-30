@@ -260,7 +260,7 @@ export default function Chat() {
       getIntention(intentionInSentece);
     }
     if (preguntaChachara) {
-      await wait(1000);
+      await wait(60000);
       clearTimeout(timer);
       timer = setTimeout(getIntention, 1000, escogerPreguntaCharla());
     }

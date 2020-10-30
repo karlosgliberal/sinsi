@@ -22,6 +22,7 @@ let preguntaFuturo = false;
 let preguntaFuturoEscena = false;
 let informeFinal = false;
 let preguntaChachara = false;
+let mensajeChachara = false;
 
 export default function Chat() {
   const timeGameOver = 4000;
@@ -45,7 +46,12 @@ export default function Chat() {
 
   const addMessage = (author, body, intent, time) => {
     let dateMessage = new Date().getTime();
-    setPlaceholder('Sinsi esta escribiendo...');
+    if (mensajeChachara) {
+      setPlaceholder('Escribe tu mensaje...');
+    } else {
+      setPlaceholder('Sinsi esta escribiendo...');
+    }
+
     setMenssageList(menssagesLista => [
       ...menssagesLista,
       {
@@ -128,6 +134,7 @@ export default function Chat() {
     );
     getIntention(escogerPreguntaCharla());
     preguntaChachara = true;
+    mensajeChachara = true;
   };
 
   const initReaccionLugar = async () => {
@@ -270,6 +277,7 @@ export default function Chat() {
     }
 
     if (preguntaFuturo) {
+      mensajeChachara = false;
       clearTimeout(timer);
       let preguntaFuturo = escogerPreguntaFuturo();
       timer = setTimeout(getIntention, 500, preguntaFuturo);

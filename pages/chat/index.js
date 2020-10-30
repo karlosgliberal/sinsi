@@ -66,7 +66,6 @@ export default function Chat() {
     if (!informeFinal) {
       handleNewMessage(value);
     } else {
-      localStorage.setItem('futuroPreguntaEscena', value);
       savAndMoraleja();
     }
   };
@@ -76,6 +75,9 @@ export default function Chat() {
     if (!informeFinal) {
       getIntention(text);
     } else {
+      if (localStorage.getItem('futuroPreguntaEscena') === null) {
+        localStorage.setItem('futuroPreguntaEscena', text);
+      }
       initInformeFinal();
     }
   };
@@ -209,9 +211,10 @@ export default function Chat() {
         trip: futureTrip,
       },
     };
-    await wait(200);
     const res = addSinsiResponseFirestore(datosFutuos);
-    Router.push('/moraleja');
+    return setTimeout(() => {
+      Router.push('/moraleja');
+    }, timeGameOver);
   };
 
   const actionIntention = (fulfillmentText, intention) => {
@@ -256,7 +259,7 @@ export default function Chat() {
       getIntention(intentionInSentece);
     }
     if (preguntaChachara) {
-      await wait(20000);
+      await wait(1000);
       clearTimeout(timer);
       timer = setTimeout(getIntention, 1000, escogerPreguntaCharla());
     }
@@ -290,6 +293,7 @@ export default function Chat() {
     if (!futurologistName.name) {
       getIntention(`sinsiSinNombre`);
     } else {
+      localStorage.clear();
       localStorage.setItem('estadisticaNombre', futurologistName.name);
       // getIntention('azul');
       getIntention(`sinsiIntroNombre ${futurologistName.name}`);

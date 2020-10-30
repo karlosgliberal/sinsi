@@ -18,6 +18,7 @@ import Router from 'next/router';
 
 const P5Wrapper = p5Wrapper();
 let timer;
+let timerFuturos;
 let preguntaFuturo = false;
 let preguntaFuturoEscena = false;
 let informeFinal = false;
@@ -46,11 +47,7 @@ export default function Chat() {
 
   const addMessage = (author, body, intent, time) => {
     let dateMessage = new Date().getTime();
-    if (mensajeChachara) {
-      setPlaceholder('Escribe tu mensaje...');
-    } else {
-      setPlaceholder('Sinsi esta escribiendo...');
-    }
+    setPlaceholder('Sinsi esta escribiendo...');
 
     setMenssageList(menssagesLista => [
       ...menssagesLista,
@@ -266,9 +263,10 @@ export default function Chat() {
       getIntention(intentionInSentece);
     }
     if (preguntaChachara) {
-      await wait(60000);
+      await wait(500);
       clearTimeout(timer);
       timer = setTimeout(getIntention, 1000, escogerPreguntaCharla());
+      preguntaChachara = false;
     }
 
     isItemReaccion(resIntentName);
@@ -280,7 +278,7 @@ export default function Chat() {
       mensajeChachara = false;
       clearTimeout(timer);
       let preguntaFuturo = escogerPreguntaFuturo();
-      timer = setTimeout(getIntention, 500, preguntaFuturo);
+      timer = setTimeout(getIntention, 2000, preguntaFuturo);
       await wait(2000);
       let preguntaFuturoArray = sinsiText[preguntaFuturo].preguntas;
       const shuffled = preguntaFuturoArray.sort(() => 0.5 - Math.random());

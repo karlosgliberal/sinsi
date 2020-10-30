@@ -34,7 +34,6 @@ export default function Chat() {
   const [lastIntention, setLastIntention] = useState('');
   const [colorSelect, setColorSelect] = useState('defaut');
   const [botonActivated, setBotonActivate] = useState('hidden');
-  // const [preguntasFuturosItems setPreguntasFuturosItems] = useState([]);
   const futurologistName = router.query;
   const [placeholder, setPlaceholder] = useState('Escribe tu mensaje...');
 

@@ -190,10 +190,6 @@ export default function Chat() {
       `
     );
     await wait(2000);
-    setBotonActivate(sinsiText['acertado'].preguntas);
-  };
-
-  const savAndMoraleja = async () => {
     let futureTrip = localStorage.getItem('futureTrip');
 
     let datosFutuos = {
@@ -212,6 +208,11 @@ export default function Chat() {
       },
     };
     const res = addSinsiResponseFirestore(datosFutuos);
+    await wait(500);
+    setBotonActivate(sinsiText['acertado'].preguntas);
+  };
+
+  const savAndMoraleja = async () => {
     return setTimeout(() => {
       Router.push('/moraleja');
     }, timeGameOver);
